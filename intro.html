@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction of project and historical context &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="From source to dynamic network model" href="network-model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="network-model.html">From source to dynamic network model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating-data-model.html">Creating the data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="investigating-growth.html">Investigating growth in the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferential-attachement.html">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/intro.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction of project and historical context</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-study-transportation">Why study transportation?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-berlin-for-a-case-study">Why Berlin for a case study?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#historical-background-to-berlin-s-public-transportation-system">Historical background to Berlin’s public transportation system</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-na">Introduction to NA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-dynamic-network-analysis">Introduction to dynamic network analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#na-in-history">NA in history</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction-of-project-and-historical-context">
+<h1>Introduction of project and historical context<a class="headerlink" href="#introduction-of-project-and-historical-context" title="Link to this heading">#</a></h1>
+<p>Digital History has for quite some time been exploring how ever-increasing computational power can advance the field of historical research. The benefits seem obvious. We are now able to process massive and growing amounts of data; in one moment, we can collect, analyse and visualise information that would have taken hours, days, weeks and months of archival work before the advent of the computer. However, despite the apparent possibilities, there remains a significant amount of work ahead. We must critically reflect on the new methods available to us from the perspective of historians. From this reflection, we develop our own digital data and create and amend computational methods.</p>
+<p>The goal of historical research remains the same. We aim to understand historical processes and developments to explain the factors that have led us to the present. To do this we use historical sources to reconstruct the past. The insights we gather from our interpretation of this reconstructed past is always a subjective interpretation, but we aim to explain and justify this interpretation to give it a measure of validity.</p>
+<p>While the hard sciences concentrate on observing phenomena in controlled environments, we as a humanities discipline seek to understand the past and plausibly interpret it.<a class="footnote-reference brackets" href="#id38" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Now that we are able to capture more historical information and analyse it as data, the possibility arises for computational tools to bridge the gap between the hard sciences and the humanities. This possibility is intriguing, but it must be tested.</p>
+<p>While we develop computational tools to fit our needs, one of the biggest wealth of resources lies in the interdisciplinary application of existing theories, methods and tools in other domains, including those of the hard sciences. Historians must consider and explore, which new theories and methods we are to use, what are their potential rewards, and what are the pitfalls? As we look to other disciplines and their use of computational theories and methods we must test and explore what the transfer of external domain knowledge to our historical research might lead to. While our insights into the past will always be just one perspective, perhaps the benefit of computational power for historians is the fact that we can take and repurpose theories and methods of other domains to aid our work of source gathering, source criticism and source interpretation.</p>
+<p>The purpose of this work is to investigate how network analysis (NA) methods, specifically those focussing on modelling and analysing change in evolving networks, can be used to describe the historical development of Berlin’s public transportation system during the Cold War. We seek to better understand the extent to which various NA theories and methods can be used in historical study. Throughout we aim to make clear the assumptions behind the theories and methods of NA, so that we can properly interpret the possibilities as well as the limitations and difficulties of the approaches. Although we will only be testing a limited subset of methods and metrics, the project will uncover recurring difficulties of working with historic data which transcend the methods tested in this work. The intent is to help advance historical research in the areas where it is needed most. We want to find the difficulties, make clear the limitations and thereby further the understanding of what is possible and what is required when working with historical sources and research questions.</p>
+<p>This work is structured into three parts. The first part briefly introduces both the historical context that will be explored, namely Berlin’s public transportation system during the Cold War, as well as the principles of NA. Once these have been introduced, the second part will detail the process of information collection and datafication which led to the creation of the network model of Berlin’s transportation system in the period under consideration (system in this work will be used to refer to the actual historical object under investigation, while network will be used to refer to the abstraction of this historical object into a mathematical graph format). Following, the source and data model criticism, part 3, will explore some of the methods and metrics available through NA that allow us to understand change in our modelled evolving network. In part 3, we will start with simple metrics used towards the goal of describing how the network grew during the period under consideration. We will then reflect on the insights and limitations of these metrics to form our understanding of the public transportation system. Subsequently, we will propose and explore more specific historical research questions founded in the conventional Berlin public transportation historiography. We will explore these hypotheses by using NA methods from other domains, thereby gaining insights that may aid our understanding of these questions. We will then conclude with a summary of the difficulties involved in the process of modelling and analysing the network and an evaluation of the perspective that our analysis is able to bring to our understanding of the public transportation system.</p>
+<section id="why-study-transportation">
+<h2>Why study transportation?<a class="headerlink" href="#why-study-transportation" title="Link to this heading">#</a></h2>
+<p>Transportation plays a fundamental role in the production and maintenance of social, political and cultural spaces. Transportation being the movement of people, goods and ideas is an elementary piece of what allows communities to form.<a class="footnote-reference brackets" href="#id39" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> With the advent of the industrial age and its new transportation technologies, the changes in mobility have had immense effects on the development of human history.<a class="footnote-reference brackets" href="#id40" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> These changes have stimulated the historical geographic perspective since the late 1800s.<a class="footnote-reference brackets" href="#id41" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> However, there is still a lot of research to be done.<a class="footnote-reference brackets" href="#id42" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> The history of transport and mobility is a developing multi-disciplinary field.<a class="footnote-reference brackets" href="#id43" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> In this context, this novel exploration of dynamic network analysis’ potential is well suited to develop the methodological toolbox of this field.</p>
+<p>There has been a decoupling of distance and time. New forms of transportation and communication have redefined our understanding of space and its impact on our lives. This is true for public transportation systems as well as for national and international systems, as it redefines the spaces we inhabit. Many authors have argued that as our perception of geographical distance shrinks, old structures such as the concept of classical statehood erode and new rooms of greater cohesion with their own centres are created.<a class="footnote-reference brackets" href="#id44" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a> But what happens when there is a regression in this dynamic? This was the case in Cold War Berlin, when a public transportation system, granting city-wide mobility to millions, was split. One city, separated into two distinct ideological, social and political systems, defined to no small extent by their own separate transportation systems.</p>
+<p>One way we can contextualise and understand the breakdown of mobility and its effects is by measuring it. Using NA, this project seeks to define the scope of change to Berlin’s public transportation system and thereby to better understand what changed. We are contextualising the insights gained into a broader historical perspective of contrasting political systems, to an extent defined by contrasting public transportation policy. We are thus attempting to play our role in filling a void in transportation history which focuses primarily on national and automobile transportation systems.<a class="footnote-reference brackets" href="#id45" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p>
+</section>
+<section id="why-berlin-for-a-case-study">
+<h2>Why Berlin for a case study?<a class="headerlink" href="#why-berlin-for-a-case-study" title="Link to this heading">#</a></h2>
+<p>The current literature on Berlin’s public transport system is varied in its perspectives and sources used. However, the use of computational methods for analysis has so far not been developed from a historical perspective. On the other hand, there is a growing strand of NA which deals with public transportation systems modelled as networks that are then subject to analysis. Berlin has featured in some of these comparative works that focus on investigating appropriate methods to model public transport networks and their shared characteristics.<a class="footnote-reference brackets" href="#id46" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a> This work, however, is a novel exploration of how NA can be used to understand and explain Berlin’s public transportation system evolution. We are thereby filling the void in the cross-section between conventional Berlin historiography and NA with an exploration of how NA can be used to describe the characteristics and changes of Berlin’s public transportation system in the period under observation.</p>
+<p>There are a few key benefits to this cross-section that make both the NA approach and Berlin as a case study appropriate. Firstly, the transboundary perspective allows for a comparison of the changes, contextualised within the conflict of western liberal capitalist and eastern socialist administrations. Secondly, there is a considerable amount of existing literature that discusses the mobility in Berlin during this period, although not from a network perspective and with a focus mainly on automobility and the S-Bahn, which provides a useful backdrop to test historical research questions that exist in this literature. Thirdly, the unique social and political situation that Berlin found itself in made the city a laboratory environment where problems of mobility and innovative concepts were tested and discussed. This context of comparison and change is important to an exploration of dynamic network analysis methodologies because it establishes known factors that we should be able to observe in our modelled network. Finally, studying a public transportation system is a sound endeavour because it is comparatively close to a closed world.<a class="footnote-reference brackets" href="#id47" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a> This has the benefit that compared to works that model just one element of a transportation system, we are capturing a nearly complete set of options available to people. Before investigating the system’s evolution from a NA perspective, we must have a foundational understanding of the context that we are investigating.</p>
+</section>
+<section id="historical-background-to-berlin-s-public-transportation-system">
+<h2>Historical background to Berlin’s public transportation system<a class="headerlink" href="#historical-background-to-berlin-s-public-transportation-system" title="Link to this heading">#</a></h2>
+<p>The administrative and territorial framework for the public transportation system we are studying was established in 1920 with the creation of Greater-Berlin.<a class="footnote-reference brackets" href="#id48" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a> This creation of a unitary city led to the establishment of a unitary company that organised the public transportation in the city. The Berliner Verkehrs-Aktiengesellschaft (BVG) was founded in 1928, when the patchwork of companies that had provided public transportation services were unified. The BVG (today Berliner Verkehrsbetriebe) is still the administrative and operational organisation directing Berlin’s public transportation system to this day. Parts of the system had developed even earlier. For example, the S-Bahn radial ring around the city was established in the late 19^th^ Century in order to connect terminal stations in Berlin with the wider rail network of the country. The U-Bahn system was also being expanded slowly. What we know today as the tram was also a factor, since the turn of the century it had been converted from horse carriage routes into a dense network of electric tramways.<a class="footnote-reference brackets" href="#id49" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></a> These are the foundations of the system we will be studying during our period of observation, starting at the major turning point for this system, the Second World War.</p>
+<p>The Second World War had a devastating impact on the city and its transportation system. In May 1945, the Soviet administration estimated that there were 80 million cubic meters of “Schutt” (rubble) in the city. Bridges, tunnels, streets and canals had mostly been destroyed and so had most of the trains, buses and trams.<a class="footnote-reference brackets" href="#id50" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></a> It was Soviet General Nikolai Bersarin who first ordered that the BVG start its work again.<a class="footnote-reference brackets" href="#id51" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></a> There were huge challenges that needed to be overcome. First, the tracks had to be made clear of rubble, electricity lines had to be repaired and vehicles secured. Bits and pieces of the system that had existed before the war were being put back together.<a class="footnote-reference brackets" href="#id52" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></a> Slowly, a patchwork of transportation services was being converted into a working system again.</p>
+<p>This time period laid the foundations for the institutional split of the transportation system. In July 1945, the United States and the United Kingdom took up control of their sectors, as France did a month later. It was during this period that a critical decision was made to keep the former “Reichsbahn”, which controlled the railway system including the S-Bahn system, as a unified entity that was to operate outside of sector borders.<a class="footnote-reference brackets" href="#id53" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></a> Prior to the war, there had been a unified system but now the political divisions were being mapped onto the infrastructure systems of the city. In November 1948, the city administrations were finally split. There were now two governing bureaucracies and two councils for transportation. Within the BVG, the political and ideological differences came to the fore and eventually disunity forced the split of the BVG.<a class="footnote-reference brackets" href="#id54" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>17<span class="fn-bracket">]</span></a> The split became official on 1. August 1949 and subsequently, two separate institutions were responsible for separate parts of the public transportation system, although at the time this was only on a mobility level, while still operating as a unitary, interconnected system.</p>
+<p>With the split of Berlin as well as the BVG into separate administrative zones, two differing visions for the future of Berlin’s public transportation system were put into place. Early in the 1950s, the system was still in complete disarray, leading to a “crisis of public transport”. Data collected in the 1950s which indicates that Berlin lagged on urban networks and passengers of public transport compared to other German and European cities.<a class="footnote-reference brackets" href="#id55" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>18<span class="fn-bracket">]</span></a> Both sides of the city tackled this issue with different means, both out of ideological reasoning and practical realities.</p>
+<p>In West Berlin, city planners and transportation officials expected that the need for transportation would increase exponentially. For these reasons it would be necessary to create a ‘autogerechte Stadt’ (car-friendly city), which meant investing in freeways within the city that would easily and readily connect the city for cars.<a class="footnote-reference brackets" href="#id56" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>19<span class="fn-bracket">]</span></a> To follow this goal, the tram system was to be removed and replaced by more buses and the U-Bahn. Buses were thought to be quicker, more manoeuvrable and also considered to be able to transport more people.<a class="footnote-reference brackets" href="#id57" id="id20" role="doc-noteref"><span class="fn-bracket">[</span>20<span class="fn-bracket">]</span></a> Section 3.1 will investigate how the replacement of the tram in West Berlin with buses affected the geographic distribution and capacity of the system. In actuality, both East and West moved towards favouring car-friendly transportation policy in favour of the tram. However, while in West Berlin this was carried out to the fullest and the tram was replaced completely by October 1967, in the East the tram had a resurgence in the 1970s.<a class="footnote-reference brackets" href="#id58" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>21<span class="fn-bracket">]</span></a> This had mostly practical reasons as the expansion of East Berlin’s U-Bahn system was halted due to costs and the tram was relied on again to make up for this.<a class="footnote-reference brackets" href="#id59" id="id22" role="doc-noteref"><span class="fn-bracket">[</span>22<span class="fn-bracket">]</span></a> The history of Berlin public transport policy has been much researched and cannot be summarised here in full but suffice it to say that the public transportation system in Berlin developed rapidly during the period under observation. At times both sides of the split city developed in opposition to one another and at other times following the same objectives and pathways. It will be this difference and similarity in change which will also be a key part of the object of study using NA.</p>
+</section>
+<section id="introduction-to-na">
+<h2>Introduction to NA<a class="headerlink" href="#introduction-to-na" title="Link to this heading">#</a></h2>
+<p>A short introduction to NA will aid our understanding of the potential and limitations of our project. NA is a means of modelling complex systems as graphs. It leverages graph theory, a branch of pure mathematics, in which graphs are constructed out of at least two sets,<a class="footnote-reference brackets" href="#id60" id="id23" role="doc-noteref"><span class="fn-bracket">[</span>23<span class="fn-bracket">]</span></a> one ‘vertex set’ (here, the more common humanities term ‘node’ will be used) and one ‘edge set’. These sets are lists of unique nodes and edges respectively. A node set N might be N={X, Y, Z} while an edge set E might be E = . An edge like {X, Y} here models that nodes X and Y are connected to one another.<a class="footnote-reference brackets" href="#id61" id="id24" role="doc-noteref"><span class="fn-bracket">[</span>24<span class="fn-bracket">]</span></a> The modelling can and will get more complex in this work but the basic elements of nodes and edges underpinning NA remain. The aim of using NA in this context is to model the relational characteristics of the system we are investigating, i.e. the interconnected nature of stations connected by services that form a public transportation system. By modelling this system and constructing a network, we are able to ascertain mathematical structural characteristics of the network that should inform our understanding of the real-world system underlying it.</p>
+<p>In history, NA has been used for at least two decades, now forming part of the core curriculum of any digital humanities programme. In this context, an adaptation of the social network analysis (SNA) branch of NA is most commonly used, which is derived from sociology and focuses on modelling the relationship between actors in different forms.<a class="footnote-reference brackets" href="#id62" id="id25" role="doc-noteref"><span class="fn-bracket">[</span>25<span class="fn-bracket">]</span></a> SNA is by far the most common NA approach in the historical field. This is partly due to the SNA having developed many of the theories and methods now used in all forms of NA, such as cliques and community analysis. The other key reason for SNA being synonymous with all NA in historical research is that our focus as historians is so often on human relationships, lending itself to sociological analysis.</p>
+<p>In this work however, we will try to broaden the horizon of methodological approaches available to us beyond SNA to bring in domain knowledge from other fields and learn how these might be adapted to investigating change in historical networks. Particularly we turn to the work of physicists for theories and metrics that aim to describe dynamics in NA.<a class="footnote-reference brackets" href="#id63" id="id26" role="doc-noteref"><span class="fn-bracket">[</span>26<span class="fn-bracket">]</span></a> We will turn therefore to approaches developed in the wider interdisciplinary field of NA, which is concerned with modelling and understanding complex systems in various domains.</p>
+</section>
+<section id="introduction-to-dynamic-network-analysis">
+<h2>Introduction to dynamic network analysis<a class="headerlink" href="#introduction-to-dynamic-network-analysis" title="Link to this heading">#</a></h2>
+<p>We now move to introduce the more specialised field of dynamic network analysis (DNA), which attempts to model the dynamic behaviour of networks in their various forms. It will first be necessary to delineate what we understand with DNA in this project, and then some of the modelling techniques available to us will be presented.</p>
+<p>In this work, we will be focusing exclusively on evolving networks, which are different from temporal networks that are also modelled in DNA. Temporal networks are focused on modelling the temporality, often of interactions (relationships) within the network. An example would be studies, which model temporal transportation networks, for example by incorporating transfer times to compute shortest paths in a network during different times of the day.<a class="footnote-reference brackets" href="#id64" id="id27" role="doc-noteref"><span class="fn-bracket">[</span>27<span class="fn-bracket">]</span></a> This work however, because of its focus on understanding change in the public transportation system, will be modelling the evolution of the public transportation system, not its temporality. The study of evolving networks lends itself more naturally to existing historical research.</p>
+<p>Evolving NA has been around since the turn of the century. First, papers looked at the way in which real world networks grow, searching for similarities or rules that can explain why new nodes and edges are being added to networks at certain places. The first questions being asked using this model were for example: Are new nodes more likely to attach to existing nodes that have many or fewer edges, are there commonalities amongst different network types and their distribution of edges and nodes and are there ways of explaining why some nodes are more popular (new edges are more likely to join with them) than other nodes?<a class="footnote-reference brackets" href="#id65" id="id28" role="doc-noteref"><span class="fn-bracket">[</span>28<span class="fn-bracket">]</span></a> These questions will be explored for our network in section 3.2.</p>
+<p>Since then, there has been development in the field to the extent that we now have a variety of models to capture evolving networks. Firstly however, we will introduce some of the key concepts shared by these models. Evolving networks can be divided into two categories: slowly evolving networks and streaming networks. Streaming networks are created by transient interactions, they are normally represented as graph streams which use real-time analytical methods<a class="footnote-reference brackets" href="#id66" id="id29" role="doc-noteref"><span class="fn-bracket">[</span>29<span class="fn-bracket">]</span></a>, for example network traffic monitoring where devices connected to a wireless network are being continuously monitored, creating a continuously evolving graph. These types of graphs require higher computational efficiency to analyse and so this field of DNA is often where incremental algorithms for analysis are developed.</p>
+<p>Slowly evolving networks are ones that can be modelled using a series of static snapshots of a graph at particular points in time. In this conception, G(t) is our graph at a particular point in time t, with its sets N and E being time-dependent. A slowly evolving graph can be modelled as a series of snapshots of our graph G at different points in time t. This is also called a time-varying graph (TVG), the dimension of time is added through the representation of the series of graphs.<a class="footnote-reference brackets" href="#id67" id="id30" role="doc-noteref"><span class="fn-bracket">[</span>30<span class="fn-bracket">]</span></a> Between these snapshots of G, nodes and edges can disappear, or new ones can be added. This is the type of network we will be dealing with as it is an ideal fit with the type of sources we have available, which describe the public transportation system at a specific point in time. There are other means of modelling slowly evolving graphs, but these are less suitable fits to the type of graph we are studying and the information we have available from the sources.<a class="footnote-reference brackets" href="#id68" id="id31" role="doc-noteref"><span class="fn-bracket">[</span>31<span class="fn-bracket">]</span></a> For example, as will be discussed later, our data stems from yearly timetables, which are themselves just snapshots of the public transportation system. This snapshot analysis works well in contrast to other types of dynamic modelling that may incorporate overlap. While snapshots may be a fairly rudimentary means of modelling graph evolution, there are benefits that derive from the comparatively low level of abstraction. This allows us to analyse our model in a way that is close conceptually to the system that we are investigating. We can trace the dynamics of change: how systems grew, shrank, or split into distinct clusters over time. This field is called analytical evolution analysis. In this field, we seek to directly quantify and understand the changes that have occurred in the underlying network.<a class="footnote-reference brackets" href="#id69" id="id32" role="doc-noteref"><span class="fn-bracket">[</span>32<span class="fn-bracket">]</span></a></p>
+</section>
+<section id="na-in-history">
+<h2>NA in history<a class="headerlink" href="#na-in-history" title="Link to this heading">#</a></h2>
+<p>While NA is now a core part of any digital humanities curriculum and has developed into a key theoretical and methodological tool for historians as well, the extent of the theories and methods available to us, especially regarding dynamic networks, has not been readily explored. The Journal of Historical Network Research, which was established in 2017, is the primary area of publication for historians who engage with NA in their work. In this space, as mentioned previously, SNA is particularly highlighted as the source of methodologies and tools.<a class="footnote-reference brackets" href="#id70" id="id33" role="doc-noteref"><span class="fn-bracket">[</span>33<span class="fn-bracket">]</span></a> But this focus on SNA leaves out approaches developed in other domains of NA research that may be beneficial. In our work we want to turn to a broader range of theories and methods, beyond SNA. The goal is to test if methods developed in both SNA and in other research domains, evaluating if they are also applicable to our historical network research.</p>
+<p>DNA has begun to be featured more prominently in historical research. One can point particularly to the call from Claire Lemercier to start “taking time seriously” in historical networks from 2015.<a class="footnote-reference brackets" href="#id71" id="id34" role="doc-noteref"><span class="fn-bracket">[</span>34<span class="fn-bracket">]</span></a> We now are slowly seeing more works that utilise DNA in historical research, for example the work of Petz et al. who investigate the evolution of communities in social networks.<a class="footnote-reference brackets" href="#id72" id="id35" role="doc-noteref"><span class="fn-bracket">[</span>35<span class="fn-bracket">]</span></a> There is also the work of Louis Bissieres, who explicitly follows the call to action by Lemercier and endeavours to understand node evolution in American merchant networks.<a class="footnote-reference brackets" href="#id73" id="id36" role="doc-noteref"><span class="fn-bracket">[</span>36<span class="fn-bracket">]</span></a> We are seeing a trend that highlights the evolutionary nature of the historical networks we investigate, although a clear majority of the historical network research being published today still investigates only static networks.</p>
+<p>There are some works that have looked at the evolution of historical transportation networks, such as the paper by Pablo-Martí et al. investigating the evolution of the road network in Bourbon Spain.<a class="footnote-reference brackets" href="#id74" id="id37" role="doc-noteref"><span class="fn-bracket">[</span>37<span class="fn-bracket">]</span></a> In this work the incorporation of maps as a source adds a Geographic Information System (GIS) feature to the project, as will be the case in our project. This paper sets out to model the network based on a series of limited historical maps, and then seeks to investigate if DNA can answer historical research questions. There has clearly been development in the field of historical DNA, even with technological networks being modelled, however, we are still at the very beginning of this exploration. This thesis contributes to this emerging field by applying DNA techniques, so that we are able to capture the changes in Berlin’s evolving public transportation system.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id38" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Torsten Hiltmann, Hermeneutik in Zeiten der KI: Large Language Models als hermeneutische Instrumente in den Geschichtswissenschaften, in: Schreiber, Gerhard, Ohly, Lukas, (eds.), KI: Text: Diskurse über KI-Textgeneratoren, 2024, pg. 203.</p>
+</aside>
+<aside class="footnote brackets" id="id39" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Karl Schlögel, Europa in Bewegung – Die Transformation Europas und die Transformation des europäischen Verkehrsraumes, in: Roth, Ralf, Schlögel, Karl (eds.), Neue Wege in ein neues Europa, Frankfurt am Main 2009, pg. 34.</p>
+</aside>
+<aside class="footnote brackets" id="id40" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Ralf Roth, Allgemeine Überlegung zum Verhältnis von Verkehr und Geschichte, in: Roth, Ralf, Schlögel, Karl (eds.), Neue Wege in ein neues Europa, Frankfurt am Main 2009, pg. 48. Ralf Roth describes this as a dynamic process of change characterised by a series of transportation revolutions.</p>
+</aside>
+<aside class="footnote brackets" id="id41" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>See authors like Friedrich Ratzel, Paul Vidal de la Blache, Fernand Braudel, Halford J. Mackinder and Frederick Jackson Turner, Schlögel, Europa in Bewegung pg. 32.</p>
+</aside>
+<aside class="footnote brackets" id="id42" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Ralf Roth argues that the role of transportation and communication have so far only played a limited role in historical scholarship. Ralf Roth, pg. 56.</p>
+</aside>
+<aside class="footnote brackets" id="id43" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
+<p>Hans-Liudger Dienel and Colin Divall, Changing Histories of Transport and Mobility in Europe, in: Roth, Ralf, Schlögel, Karl (eds.), Neue Wege in ein neues Europa, Frankfurt am Main 2009, pg. 65.</p>
+</aside>
+<aside class="footnote brackets" id="id44" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
+<p>Karl Schlögel, pg. 34 linking to discussion around the “disappearance of space” that began in the 19^th^ Century, pg. 63.</p>
+</aside>
+<aside class="footnote brackets" id="id45" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">8</a><span class="fn-bracket">]</span></span>
+<p>Ralf Roth, pg. 58-59.</p>
+</aside>
+<aside class="footnote brackets" id="id46" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">9</a><span class="fn-bracket">]</span></span>
+<p>Camille Roth, Soong Moon Kang, Michael Batty, Marc Barthelemy, A long-time limit for world subway networks in: Journal of The Royal Society Interface 9, no. 75, 2012, pg. 2540-2550. and Von Ferber et al., Public transport networks: empirical analysis and modelling, 2009 also published a comparative analysis of public transport networks that included Berlin.</p>
+</aside>
+<aside class="footnote brackets" id="id47" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">10</a><span class="fn-bracket">]</span></span>
+<p>The closed-world assumption first developed from a database query background describes the assumption that an available database is complete, i.e. it has all the options available, see: Christian Strasser, G. Aldo Antonelli, “Non-monotonic Logic”, The Stanford Encyclopedia of Philosophy (Summer 2024 Edition), Edward N. Zalta &amp; Uri Nodelman (eds.), <a class="reference external" href="https://plato.stanford.edu/archives/sum2024/entries/logic-nonmonotonic/">https://plato.stanford.edu/archives/sum2024/entries/logic-nonmonotonic/</a>, 29 April 2024.</p>
+</aside>
+<aside class="footnote brackets" id="id48" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">11</a><span class="fn-bracket">]</span></span>
+<p>Harald Bodenschatz, Groß-Berliner Verkehrsfragen, in: Bodenschatz, Harald, Polinna, Cordelia (eds.), Verkehrsfrage und Stadtentwicklung, Berlin 2018, pg. 18.</p>
+</aside>
+<aside class="footnote brackets" id="id49" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">12</a><span class="fn-bracket">]</span></span>
+<p>Thomas Fabian, Evolution of The Berlin Urban Railway Network, in: Japan Railway &amp; Transport Review 25, 2000, pg. 20-22.</p>
+</aside>
+<aside class="footnote brackets" id="id50" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">13</a><span class="fn-bracket">]</span></span>
+<p>Christian Dirks, Christian Mentel, Endstation: Mauer Die Berliner Verkehrsbetriebe in Ost und West 1945-1989, Halle 2017. pg. 11-12.</p>
+</aside>
+<aside class="footnote brackets" id="id51" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">14</a><span class="fn-bracket">]</span></span>
+<p>Befehl Nr. 1 des sowjetischen Stadtkommandanten Generaloberst Bersarin, 28. April 1945, in: Berlin. Quellen und Dokumente 1945-1915, hrsg. Im Auftrage des Senats von Berlin, bearb. Durch Hans J. Reichardt, Hanns U. Treutler und Albrecht Lampe, Berlin 1964, pg. 208.</p>
+</aside>
+<aside class="footnote brackets" id="id52" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">15</a><span class="fn-bracket">]</span></span>
+<p>Christian Dirks, Christian Mentel, pg.16-19.</p>
+</aside>
+<aside class="footnote brackets" id="id53" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">16</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg. 23.</p>
+</aside>
+<aside class="footnote brackets" id="id54" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">17</a><span class="fn-bracket">]</span></span>
+<p>There were fights between opposing unions with the BVG, culminating with the board of the Betriebsrat of the BVG removing BVG Personaldirektor and SED member Wilhelm Knapp, see: Christian Dirks, Christian Mentel, pg.30.</p>
+</aside>
+<aside class="footnote brackets" id="id55" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">18</a><span class="fn-bracket">]</span></span>
+<p>Christoph Bernhardt, The making of the “Stadtautobahn” in Berlin after World War Two: a socio-histoire of power about urban automobile infrastructure, in: <em>The Journal of Transport History</em>, <em>41</em>(3), 2020, pg. 310.</p>
+</aside>
+<aside class="footnote brackets" id="id56" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">19</a><span class="fn-bracket">]</span></span>
+<p>Christian Dirks, Christian Mentel, pg. 45</p>
+</aside>
+<aside class="footnote brackets" id="id57" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">20</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg. 47.</p>
+</aside>
+<aside class="footnote brackets" id="id58" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id21">21</a><span class="fn-bracket">]</span></span>
+<p>Berliner Verkehrs-Betriebe (BVG), 50 Jahre BVG: ein Rückblick auf ein Stück Berliner Verkehrsgeschichte, Berlin 1979, pg. 35.</p>
+</aside>
+<aside class="footnote brackets" id="id59" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id22">22</a><span class="fn-bracket">]</span></span>
+<p>Christian Dirks, Christian Mentel, pg. 70.</p>
+</aside>
+<aside class="footnote brackets" id="id60" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id23">23</a><span class="fn-bracket">]</span></span>
+<p>Set here refers a collection of things, in this case nodes and edges.</p>
+</aside>
+<aside class="footnote brackets" id="id61" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id24">24</a><span class="fn-bracket">]</span></span>
+<p>Richard Trudeau, Introduction to Graph Theory. Courier Corporation, North Chelmsford, 2013, pg. 19-20.</p>
+</aside>
+<aside class="footnote brackets" id="id62" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id25">25</a><span class="fn-bracket">]</span></span>
+<p>Robert Gramsch-Stehfest, Netzwerkanalyse als digitale Methode in der Geschichtswissenschaft, in: Antenhofer, Christina, Kühberger, Christoph, Strohmeyer, Arno (eds.), Digital Humanities in den Geschichtswissenschaften, Wien 2023, pg. 317-318.</p>
+</aside>
+<aside class="footnote brackets" id="id63" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id26">26</a><span class="fn-bracket">]</span></span>
+<p>Much of the work being done on dynamic network analysis is founded in physics and computer science implementation. These are then tested and borrowed for more domain specific investigations, see: Taking time seriously, pg. 184.</p>
+</aside>
+<aside class="footnote brackets" id="id64" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id27">27</a><span class="fn-bracket">]</span></span>
+<p>See: Oriol Lordan, Jose Sallan, Dynamic measures for transportation networks, in: PLoS ONE 15, 2020, pg. 1-12.</p>
+</aside>
+<aside class="footnote brackets" id="id65" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id28">28</a><span class="fn-bracket">]</span></span>
+<p>Shazia Tabassum, Fabiola Pereira, Sofia Fernandes, João Gama, Social network analysis: An overview, in: WIREs Data Mining Knowledge Discovery 8, 2018, pg. 17-18.</p>
+</aside>
+<aside class="footnote brackets" id="id66" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id29">29</a><span class="fn-bracket">]</span></span>
+<p>Charu Aggarwal, Karthik Subbian, Evolutionary Network Analysis: A Survey, in: ACM Computing Surveys 47, 2014, pg. 2.</p>
+</aside>
+<aside class="footnote brackets" id="id67" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id30">30</a><span class="fn-bracket">]</span></span>
+<p>A. Casteigts et al., N, Time-varying graphs and dynamic networks, in: International Journal of Parallel, Emergent and Distributed Systems, 27(5), 2012, pg. 392.</p>
+</aside>
+<aside class="footnote brackets" id="id68" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id31">31</a><span class="fn-bracket">]</span></span>
+<p>See: Mário Cordeiro, Rui P. Sarmento, Pave Bradzil, João Gama, Evolving Networks and Social Network Analysis Methods and Techniques, in: Višňovský, Ján, Radošinská, Jana (eds.), Social Media and Journalism – Trends, Connections, Implications, 2018, pg. 107 for more types of models for slowly evolving graphs.</p>
+</aside>
+<aside class="footnote brackets" id="id69" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id32">32</a><span class="fn-bracket">]</span></span>
+<p>Charu Aggarwal, Karthik Subbian, pg. 2.</p>
+</aside>
+<aside class="footnote brackets" id="id70" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id33">33</a><span class="fn-bracket">]</span></span>
+<p>Historical Network Research, Journal of Historical Network Research, <a class="reference external" href="https://historicalnetworkresearch.org/jhnr/">https://historicalnetworkresearch.org/jhnr/</a>, 01 April 2024.</p>
+</aside>
+<aside class="footnote brackets" id="id71" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id34">34</a><span class="fn-bracket">]</span></span>
+<p>Claire Lemercier, “Taking time seriously. How do we deal with change in historical networks?” in: Knoten und Kanten III. Soziale Netzwerkanalyse in Geschichts- und Politik-forschung ed. Markus Gamper, Linda Reschke and Marten Düring (Bielefeld: Transcript Verlag, 2015), 183 – 211.</p>
+</aside>
+<aside class="footnote brackets" id="id72" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id35">35</a><span class="fn-bracket">]</span></span>
+<p>Cindarella Petz, Raji Ghawi, Jürgen Pfeffer, Tracking the Evolution of Communities in a Social Network of Intellectual Influences, in: Journal of Historical Network Research. Luxembourg, 7(1), pp. 114–154.</p>
+</aside>
+<aside class="footnote brackets" id="id73" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id36">36</a><span class="fn-bracket">]</span></span>
+<p>Louis Bissieres, “Taking time seriously”: An empirical approach to an American merchant network at the end of the 18th century, in: Journal of Historical Network Research. Luxembourg, 8(1), pp. 56–90.</p>
+</aside>
+<aside class="footnote brackets" id="id74" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id37">37</a><span class="fn-bracket">]</span></span>
+<p>Federico Pablo-Martí, Ángel Alañón-Pardo, Angel Sánchez, Complex networks to understand the past: the case of roads in Bourbon Spain in: Cliometrica 15, 2021, pg. 477–534.</p>
+</aside>
+</aside>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="network-model.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">From source to dynamic network model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-study-transportation">Why study transportation?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-berlin-for-a-case-study">Why Berlin for a case study?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#historical-background-to-berlin-s-public-transportation-system">Historical background to Berlin’s public transportation system</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-na">Introduction to NA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-dynamic-network-analysis">Introduction to dynamic network analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#na-in-history">NA in history</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1201 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>init metadata &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'BMC_PPI_L3N-main/src/notebook/Figure - GOSemSim';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="../../../_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../intro.html">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../network-model.html">From source to dynamic network model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating-data-model.html">Creating the data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../investigating-growth.html">Investigating growth in the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../preferential-attachement.html">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FBMC_PPI_L3N-main/src/notebook/Figure - GOSemSim.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/BMC_PPI_L3N-main/src/notebook/Figure - GOSemSim.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>init metadata</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">init metadata</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parse-predicted-ppis-gosemsim-scores">parse predicted PPIs &amp; GOSemSim scores</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-gosemsim-scores-of-ppis-into-df">Get GOSemSim scores of PPIs into df</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-data-for-plotting">Get data for plotting</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-figure">Create figure</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gridspec">gridspec</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#p-val">p-val</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">json</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mean_confidence_interval</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.99</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">se</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">confidence</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1">#return m, m-h, m+h</span>
+    <span class="k">return</span> <span class="n">h</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="init-metadata">
+<h1>init metadata<a class="headerlink" href="#init-metadata" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:olive&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L3E_f1Alt&quot;</span><span class="p">:</span> <span class="s2">&quot;navy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L3E_f2Alt&quot;</span><span class="p">:</span> <span class="s2">&quot;gold&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L3&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CN&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:green&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CRA&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:red&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CH2&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:brown&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Sim&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:purple&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rand&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:grey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;countP4&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span>
+<span class="p">}</span>
+
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;countP4&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E_f1Alt&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E_f2Alt&quot;</span><span class="p">]</span>
+<span class="n">methods_map</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;rand&quot;</span><span class="p">,</span> <span class="s2">&quot;countP4&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E_f1Alt&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E_f2Alt&quot;</span><span class="p">]</span>
+<span class="n">abbrev_map</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;rand&quot;</span><span class="p">,</span> <span class="s2">&quot;no.</span><span class="se">\n</span><span class="s2"> of $P_</span><span class="si">{4}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="s2">&quot;L3N&#39;</span><span class="se">\n</span><span class="s2">($f_</span><span class="si">{1}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3N&#39;</span><span class="se">\n</span><span class="s2">($f_</span><span class="si">{2}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3N</span><span class="se">\n</span><span class="s2">($f_</span><span class="si">{1}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3N</span><span class="se">\n</span><span class="s2">($f_</span><span class="si">{2}</span><span class="s2">$)&quot;</span><span class="p">]</span>
+<span class="n">label_map</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;rand&quot;</span><span class="p">,</span> <span class="s2">&quot;no. of $P_</span><span class="si">{4}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="s2">&quot;L3N&#39;($f_</span><span class="si">{1}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3N&#39;($f_</span><span class="si">{2}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3N($f_</span><span class="si">{1}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3N($f_</span><span class="si">{2}</span><span class="s2">$)&quot;</span><span class="p">]</span>
+
+<span class="n">methods_names</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="n">methods_map</span><span class="p">))</span>
+<span class="n">abbrevs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">methods_map</span><span class="p">,</span> <span class="n">abbrev_map</span><span class="p">))</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">methods_map</span><span class="p">,</span> <span class="n">label_map</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parse-predicted-ppis-gosemsim-scores">
+<h1>parse predicted PPIs &amp; GOSemSim scores<a class="headerlink" href="#parse-predicted-ppis-gosemsim-scores" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># parse ppi of different predictor &amp; ds into one data structure</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">]</span>
+<span class="n">ds_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+
+<span class="n">topPPIs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">topPPIs</span><span class="p">[</span><span class="n">randSz</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">ds_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">randSz</span> <span class="o">==</span> <span class="mi">50</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./linkPred_out_reduced/</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">_topPPI.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">ds</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./linkPred_out_reduced/</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">_randSz</span><span class="si">{}</span><span class="s2">_topPPI.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">randSz</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">tmpPPIs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+                <span class="n">topPPIs</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="n">ds</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmpPPIs</span><span class="p">)):</span>
+                    <span class="n">topPPIs</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="n">ds</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tmpPPIs</span><span class="p">[</span><span class="n">trial</span><span class="p">]])</span>
+            
+<span class="c1"># structure: topPPIs = {&#39;commonNeighbor&#39;: [&#39;bioGRID&#39;: [[ppi1, ppi2], ...], ...], ...}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">topPPIs</span><span class="p">[</span><span class="mi">50</span><span class="p">][</span><span class="s1">&#39;commonNeighbor&#39;</span><span class="p">][</span><span class="s1">&#39;bioGRID&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;DHH1\tCCR4&#39;, &#39;DHH1\tNAB2&#39;, &#39;DHH1\tMPT5&#39;, &#39;DHH1\tSSB2&#39;, &#39;DHH1\tPUF3&#39;, &#39;MPT5\tCCR4&#39;, &#39;PUF3\tCCR4&#39;, &#39;ISW1\tCCR4&#39;, &#39;DHH1\tISW1&#39;, &#39;SSB2\tNAB2&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GO_PPIMap</span><span class="p">,</span> <span class="n">GO_scoreMap</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="n">fNames</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out&quot;</span><span class="p">):</span> <span class="n">fNames</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; _&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">fNames</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;human&#39;</span> <span class="ow">in</span> <span class="n">file</span> <span class="ow">or</span> <span class="s1">&#39;HuRI&#39;</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span> <span class="k">continue</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out/</span><span class="si">{}</span><span class="s2"> _PPI.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">readPPIs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="n">GO_PPIMap</span> <span class="o">+=</span> <span class="n">readPPIs</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out/</span><span class="si">{}</span><span class="s2"> _GOSemSim.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">readScores</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="n">GO_scoreMap</span> <span class="o">+=</span> <span class="n">readScores</span>
+        
+<span class="n">GOSemSimMap</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">GO_PPIMap</span><span class="p">)):</span> <span class="n">GOSemSimMap</span><span class="p">[</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">GO_PPIMap</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="n">GO_scoreMap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">GOSemSimMap</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">GOSemSimMap</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="get-gosemsim-scores-of-ppis-into-df">
+<h1>Get GOSemSim scores of PPIs into df<a class="headerlink" href="#get-gosemsim-scores-of-ppis-into-df" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># construct df for plotting</span>
+<span class="n">df_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="n">ds_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">ds_names</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">topPPIs</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="n">ds</span><span class="p">])):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">topPPIs</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">trial</span><span class="p">])):</span>
+                    <span class="n">df_dict</span><span class="p">[</span><span class="s1">&#39;randSz&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">randSz</span><span class="p">)</span>
+                    <span class="n">df_dict</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+                    <span class="n">df_dict</span><span class="p">[</span><span class="s1">&#39;trial&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+                    <span class="n">df_dict</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">GOSemSimMap</span><span class="p">[</span><span class="n">topPPIs</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">trial</span><span class="p">][</span><span class="n">i</span><span class="p">]])</span>
+                    <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;predictor&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">])</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_dict</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>randSz</th>
+      <th>ds</th>
+      <th>trial</th>
+      <th>rank</th>
+      <th>score</th>
+      <th>predictor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.158</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.644</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.567</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0.429</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0.641</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>26947915</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>1687</td>
+      <td>0.252</td>
+      <td>rand</td>
+    </tr>
+    <tr>
+      <th>26947916</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>1688</td>
+      <td>0.100</td>
+      <td>rand</td>
+    </tr>
+    <tr>
+      <th>26947917</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>1689</td>
+      <td>0.203</td>
+      <td>rand</td>
+    </tr>
+    <tr>
+      <th>26947918</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>1690</td>
+      <td>0.060</td>
+      <td>rand</td>
+    </tr>
+    <tr>
+      <th>26947919</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>1691</td>
+      <td>0.273</td>
+      <td>rand</td>
+    </tr>
+  </tbody>
+</table>
+<p>26947920 rows × 6 columns</p>
+</div></div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="get-data-for-plotting">
+<h1>Get data for plotting<a class="headerlink" href="#get-data-for-plotting" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get top 10% score group by method &amp; ds, avg across trial, ignore NaN</span>
+
+<span class="c1">#topTenPPIs = df[df[&#39;rank&#39;] &lt; int(np.max(df[&#39;rank&#39;])*0.1)].copy()</span>
+
+<span class="n">topTenPPIs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">topTenPPIs</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">topTenPPIs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>randSz</th>
+      <th>ds</th>
+      <th>trial</th>
+      <th>score</th>
+      <th>predictor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>0.158</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>0.644</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>0.567</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>0.429</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>50</td>
+      <td>bioGRID</td>
+      <td>0</td>
+      <td>0.641</td>
+      <td>CN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>26947915</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>0.252</td>
+      <td>rand</td>
+    </tr>
+    <tr>
+      <th>26947916</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>0.100</td>
+      <td>rand</td>
+    </tr>
+    <tr>
+      <th>26947917</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>0.203</td>
+      <td>rand</td>
+    </tr>
+    <tr>
+      <th>26947918</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>0.060</td>
+      <td>rand</td>
+    </tr>
+    <tr>
+      <th>26947919</th>
+      <td>90</td>
+      <td>MINT</td>
+      <td>9</td>
+      <td>0.273</td>
+      <td>rand</td>
+    </tr>
+  </tbody>
+</table>
+<p>26947920 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create dict of sorted mean GOSemSim scores &amp; conf interval</span>
+<span class="n">meanScore_dict</span><span class="p">,</span> <span class="n">std_dict</span><span class="p">,</span> <span class="n">score_dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">],</span> <span class="n">std_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">],</span> <span class="n">score_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">),</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">),</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">topTenPPIs</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">]):</span>
+        <span class="c1"># get mean GOSemSim &amp; conf Int for each predictor</span>
+        <span class="k">for</span> <span class="n">predictor</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">topTenPPIs</span><span class="p">[(</span><span class="n">topTenPPIs</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ds</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">topTenPPIs</span><span class="p">[</span><span class="s1">&#39;randSz&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">randSz</span><span class="p">)][</span><span class="s1">&#39;predictor&#39;</span><span class="p">]):</span>
+            <span class="n">tmpMean</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+                <span class="n">curScores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">topTenPPIs</span><span class="p">[(</span><span class="n">topTenPPIs</span><span class="p">[</span><span class="s1">&#39;randSz&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">randSz</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">topTenPPIs</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ds</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">topTenPPIs</span><span class="p">[</span><span class="s1">&#39;predictor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">predictor</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">topTenPPIs</span><span class="p">[</span><span class="s1">&#39;trial&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">trial</span><span class="p">)][</span><span class="s1">&#39;score&#39;</span><span class="p">])</span>
+                <span class="n">curScores</span> <span class="o">=</span> <span class="n">curScores</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">curScores</span><span class="p">)]</span>
+                <span class="n">tmpMean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">curScores</span><span class="p">))</span>
+            <span class="n">score_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">predictor</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpMean</span>
+            <span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">predictor</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tmpMean</span><span class="p">)</span>
+            <span class="n">std_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">predictor</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">tmpMean</span><span class="p">)</span>
+        <span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">tmp</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">predictor</span> <span class="ow">in</span> <span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">]:</span> <span class="n">tmp</span><span class="p">[</span><span class="n">predictor</span><span class="p">]</span> <span class="o">=</span> <span class="n">std_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">predictor</span><span class="p">]</span>
+        <span class="n">std_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+    
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out/score_dict.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">score_dict</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out/meanScore_dict.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">meanScore_dict</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out/std_dict.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">std_dict</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="n">meanScore_dict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">std_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{50: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f1&#39;: 0.3940309211627616, &#39;L3E1_f2&#39;: 0.3896972158320652, &#39;CH2&#39;: 0.37732208278206325, &#39;L3&#39;: 0.37535242873070335, &#39;CN&#39;: 0.37011901640550526, &#39;Sim&#39;: 0.3652444996286086, &#39;CRA&#39;: 0.26331303482227886, &#39;rand&#39;: 0.2598856121022108}, &#39;bioGRID&#39;: {&#39;CRA&#39;: 0.36283736808210737, &#39;CN&#39;: 0.3581096223672454, &#39;L3E1_f1&#39;: 0.30571319301253075, &#39;L3E1_f2&#39;: 0.30324070777222484, &#39;L3&#39;: 0.29270235915825354, &#39;CH2&#39;: 0.29056165881608675, &#39;rand&#39;: 0.2574337942999446, &#39;Sim&#39;: 0.25511304099205023}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.48121832684217003, &#39;L3E1_f1&#39;: 0.4789385192543336, &#39;CN&#39;: 0.4781333043543018, &#39;L3E1_f2&#39;: 0.47544982362243127, &#39;L3&#39;: 0.46847167978421433, &#39;Sim&#39;: 0.46785415085073867, &#39;CH2&#39;: 0.45947497391119124, &#39;rand&#39;: 0.24327012863040803}}), 60: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f2&#39;: 0.4229714581350815, &#39;L3E1_f1&#39;: 0.4084875178357582, &#39;CH2&#39;: 0.39919089013283177, &#39;L3&#39;: 0.38427742755836247, &#39;CN&#39;: 0.3812822755380093, &#39;CRA&#39;: 0.3805571071550447, &#39;Sim&#39;: 0.37738046998101693, &#39;rand&#39;: 0.258792370765399}, &#39;bioGRID&#39;: {&#39;CRA&#39;: 0.3783937218771038, &#39;CN&#39;: 0.37643715842211156, &#39;L3E1_f1&#39;: 0.3051868642532265, &#39;L3E1_f2&#39;: 0.3010596722441833, &#39;L3&#39;: 0.29299366715896025, &#39;CH2&#39;: 0.2881200389205497, &#39;rand&#39;: 0.2589608731680719, &#39;Sim&#39;: 0.25022203242606367}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.4894860608366008, &#39;L3E1_f2&#39;: 0.4843145616892245, &#39;CN&#39;: 0.4842003880465032, &#39;L3E1_f1&#39;: 0.4830948065464094, &#39;L3&#39;: 0.4738275790634162, &#39;Sim&#39;: 0.4733284916729385, &#39;CH2&#39;: 0.4684104645429314, &#39;rand&#39;: 0.24435628601634676}}), 70: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f2&#39;: 0.42419611077496605, &#39;L3E1_f1&#39;: 0.4225509021565908, &#39;CRA&#39;: 0.41387041087190213, &#39;CH2&#39;: 0.40853527966969577, &#39;CN&#39;: 0.40164497421932166, &#39;L3&#39;: 0.38685085973152733, &#39;Sim&#39;: 0.38532598856434236, &#39;rand&#39;: 0.2576967240933881}, &#39;bioGRID&#39;: {&#39;CRA&#39;: 0.38547928350149013, &#39;CN&#39;: 0.384691258490656, &#39;L3E1_f1&#39;: 0.3031336058237022, &#39;L3E1_f2&#39;: 0.30145148639801994, &#39;L3&#39;: 0.29320634546646607, &#39;CH2&#39;: 0.29278025232135585, &#39;rand&#39;: 0.2587596242661324, &#39;Sim&#39;: 0.2456675898109247}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.49495037877567816, &#39;L3E1_f2&#39;: 0.4918482324283319, &#39;CN&#39;: 0.49006440790166844, &#39;L3E1_f1&#39;: 0.4891084143102245, &#39;L3&#39;: 0.4828185825685476, &#39;Sim&#39;: 0.4826560702076799, &#39;CH2&#39;: 0.4768217487201823, &#39;rand&#39;: 0.2452710955069855}}), 80: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f2&#39;: 0.45561135173483425, &#39;CRA&#39;: 0.4445525014537906, &#39;L3E1_f1&#39;: 0.4356182812448268, &#39;CH2&#39;: 0.4161088771276016, &#39;CN&#39;: 0.4037183072674565, &#39;Sim&#39;: 0.39484172735670786, &#39;L3&#39;: 0.3904694941999182, &#39;rand&#39;: 0.25764698691952514}, &#39;bioGRID&#39;: {&#39;CN&#39;: 0.3929137645916004, &#39;CRA&#39;: 0.3924015857416394, &#39;L3E1_f2&#39;: 0.31204662990018406, &#39;CH2&#39;: 0.30297224917642185, &#39;L3E1_f1&#39;: 0.3015986001727697, &#39;L3&#39;: 0.2940186900421759, &#39;rand&#39;: 0.2585154581023477, &#39;Sim&#39;: 0.23932738158057654}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.5016962075436336, &#39;Sim&#39;: 0.4981842113943202, &#39;L3E1_f1&#39;: 0.4981180602624127, &#39;CN&#39;: 0.49714723317043985, &#39;L3E1_f2&#39;: 0.49572057103116157, &#39;L3&#39;: 0.4939467364721947, &#39;CH2&#39;: 0.48041707113376564, &#39;rand&#39;: 0.24775369418524748}}), 90: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f2&#39;: 0.47295095228780754, &#39;CRA&#39;: 0.46001084980243423, &#39;L3E1_f1&#39;: 0.4411780073479, &#39;CH2&#39;: 0.4089954962198723, &#39;CN&#39;: 0.4015191859553197, &#39;Sim&#39;: 0.3995736759722456, &#39;L3&#39;: 0.38987467343110477, &#39;rand&#39;: 0.25675567165796487}, &#39;bioGRID&#39;: {&#39;CRA&#39;: 0.39308336166259633, &#39;CN&#39;: 0.3877545270004299, &#39;L3E1_f2&#39;: 0.30891576890151595, &#39;L3E1_f1&#39;: 0.29972886191643777, &#39;CH2&#39;: 0.29778291158068904, &#39;L3&#39;: 0.2969772911129455, &#39;rand&#39;: 0.2580996074369128, &#39;Sim&#39;: 0.23087450469875104}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.5254214291122457, &#39;CN&#39;: 0.5181179889727497, &#39;L3E1_f1&#39;: 0.5145850184006691, &#39;Sim&#39;: 0.509250049601773, &#39;L3&#39;: 0.5088759384242152, &#39;CH2&#39;: 0.5075417377643886, &#39;L3E1_f2&#39;: 0.5028461366224453, &#39;rand&#39;: 0.24747711933791178}})}
+
+{50: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f1&#39;: 0.003940856658510213, &#39;L3E1_f2&#39;: 0.003796025091765462, &#39;CH2&#39;: 0.003921172118459572, &#39;L3&#39;: 0.004282071880646153, &#39;CN&#39;: 0.0066677082776810965, &#39;Sim&#39;: 0.0036714803063968935, &#39;CRA&#39;: 0.01697367243640567, &#39;rand&#39;: 0.002594747184553087}, &#39;bioGRID&#39;: {&#39;CRA&#39;: 0.001889879071621039, &#39;CN&#39;: 0.0033422766661264994, &#39;L3E1_f1&#39;: 0.0011389021990217691, &#39;L3E1_f2&#39;: 0.0017987963032854814, &#39;L3&#39;: 0.0009689474487067645, &#39;CH2&#39;: 0.0013732601690717601, &#39;rand&#39;: 0.0012342901957510077, &#39;Sim&#39;: 0.0015404528650093995}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.0015691602807271423, &#39;L3E1_f1&#39;: 0.0010682041080045486, &#39;CN&#39;: 0.0010695354745761715, &#39;L3E1_f2&#39;: 0.0016784804116254561, &#39;L3&#39;: 0.0010093711368909257, &#39;Sim&#39;: 0.0011509938653165841, &#39;CH2&#39;: 0.001988583971956256, &#39;rand&#39;: 0.0010995367231802957}}), 60: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f2&#39;: 0.0063184984769433785, &#39;L3E1_f1&#39;: 0.0034386554695344167, &#39;CH2&#39;: 0.005982830001769873, &#39;L3&#39;: 0.0026248605955047745, &#39;CN&#39;: 0.005851747370502768, &#39;CRA&#39;: 0.011797612769087312, &#39;Sim&#39;: 0.005422506855890266, &#39;rand&#39;: 0.0036979353144743743}, &#39;bioGRID&#39;: {&#39;CRA&#39;: 0.0016917605238631732, &#39;CN&#39;: 0.001661661272653697, &#39;L3E1_f1&#39;: 0.001577470670841851, &#39;L3E1_f2&#39;: 0.002414962158522957, &#39;L3&#39;: 0.0009340439155340472, &#39;CH2&#39;: 0.0021656515898661223, &#39;rand&#39;: 0.0014506688616417308, &#39;Sim&#39;: 0.0011994241003579062}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.0015553969102867606, &#39;L3E1_f2&#39;: 0.0018551770796992753, &#39;CN&#39;: 0.0017668309558745055, &#39;L3E1_f1&#39;: 0.0007116094392058123, &#39;L3&#39;: 0.0008842971129044969, &#39;Sim&#39;: 0.0009831053450782051, &#39;CH2&#39;: 0.0029052242481090664, &#39;rand&#39;: 0.0017145479790946652}}), 70: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f2&#39;: 0.005247050470047812, &#39;L3E1_f1&#39;: 0.0023321929840587337, &#39;CRA&#39;: 0.0041869120956950145, &#39;CH2&#39;: 0.005128209614214021, &#39;CN&#39;: 0.008582939885935923, &#39;L3&#39;: 0.0032709531266335106, &#39;Sim&#39;: 0.005204928512981806, &#39;rand&#39;: 0.0031150518369491742}, &#39;bioGRID&#39;: {&#39;CRA&#39;: 0.001627565435547385, &#39;CN&#39;: 0.0022377910361634995, &#39;L3E1_f1&#39;: 0.0009888283134681325, &#39;L3E1_f2&#39;: 0.0021689958260054853, &#39;L3&#39;: 0.000878296679813956, &#39;CH2&#39;: 0.0012489850990549836, &#39;rand&#39;: 0.0023300306493426147, &#39;Sim&#39;: 0.000948142690897639}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.001845872750128658, &#39;L3E1_f2&#39;: 0.0031268470038697993, &#39;CN&#39;: 0.0019452356638117927, &#39;L3E1_f1&#39;: 0.0013774293642766818, &#39;L3&#39;: 0.0017444969656210995, &#39;Sim&#39;: 0.0015385306071209958, &#39;CH2&#39;: 0.003555064262216573, &#39;rand&#39;: 0.0010483024481636595}}), 80: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f2&#39;: 0.00791755004456879, &#39;CRA&#39;: 0.00607552134642875, &#39;L3E1_f1&#39;: 0.004395592768481324, &#39;CH2&#39;: 0.0071197378848594, &#39;CN&#39;: 0.006888967384955628, &#39;Sim&#39;: 0.003984158454883021, &#39;L3&#39;: 0.0038063731856676623, &#39;rand&#39;: 0.003160333030252797}, &#39;bioGRID&#39;: {&#39;CN&#39;: 0.0026319563069979288, &#39;CRA&#39;: 0.001699080842779512, &#39;L3E1_f2&#39;: 0.001936720614878572, &#39;CH2&#39;: 0.0023619975013591333, &#39;L3E1_f1&#39;: 0.0010599994599096618, &#39;L3&#39;: 0.0008620410391404494, &#39;rand&#39;: 0.001247599006740171, &#39;Sim&#39;: 0.0008099752049150423}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.003148346101449253, &#39;Sim&#39;: 0.002948832844874831, &#39;L3E1_f1&#39;: 0.002524755143448956, &#39;CN&#39;: 0.0021320091340237836, &#39;L3E1_f2&#39;: 0.004090086866253862, &#39;L3&#39;: 0.002812038607630985, &#39;CH2&#39;: 0.004313799141838729, &#39;rand&#39;: 0.001321379627494627}}), 90: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;MINT&#39;: {&#39;L3E1_f2&#39;: 0.01179749191153979, &#39;CRA&#39;: 0.005195142393056495, &#39;L3E1_f1&#39;: 0.0057672974519124886, &#39;CH2&#39;: 0.007070596893136339, &#39;CN&#39;: 0.005972134363357964, &#39;Sim&#39;: 0.006082034498379963, &#39;L3&#39;: 0.0051009944465674915, &#39;rand&#39;: 0.006172589414222134}, &#39;bioGRID&#39;: {&#39;CRA&#39;: 0.001592743631326929, &#39;CN&#39;: 0.0019753297002006323, &#39;L3E1_f2&#39;: 0.003193390710916164, &#39;L3E1_f1&#39;: 0.0015143400406958806, &#39;CH2&#39;: 0.0015231054086437708, &#39;L3&#39;: 0.0009253360441479952, &#39;rand&#39;: 0.0021917338056816737, &#39;Sim&#39;: 0.0009181279507476433}, &#39;STRING&#39;: {&#39;CRA&#39;: 0.003014171982994917, &#39;CN&#39;: 0.0026947050010934833, &#39;L3E1_f1&#39;: 0.0019023622032348173, &#39;Sim&#39;: 0.002153209564455851, &#39;L3&#39;: 0.002688760233952531, &#39;CH2&#39;: 0.004192690898366018, &#39;L3E1_f2&#39;: 0.004100384466874498, &#39;rand&#39;: 0.0021701435015868856}})}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">meanScore_dict</span><span class="p">,</span> <span class="n">std_dict</span><span class="p">,</span> <span class="n">score_dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out/score_dict.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">score_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out/meanScore_dict.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">meanScore_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./GOSemSim_out/std_dict.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">std_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="create-figure">
+<h1>Create figure<a class="headerlink" href="#create-figure" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># AUC of scatter plot</span>
+<span class="n">auc_map</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">dss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dss</span><span class="p">:</span>
+    <span class="n">auc_map</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;rand&quot;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">randSz</span><span class="o">/</span><span class="mi">100</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+            <span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="n">score_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+            <span class="n">auc_map</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">auc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+            
+<span class="n">sorted_mean_auc</span><span class="p">,</span> <span class="n">err_auc</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">auc_map</span><span class="p">:</span>
+    <span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">],</span> <span class="n">err_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">auc_map</span><span class="p">[</span><span class="n">ds</span><span class="p">]:</span>
+        <span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">auc_map</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">])</span>
+        <span class="n">err_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">auc_map</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">])</span>
+    <span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">sorted_mean_auc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;bioGRID&#39;: {&#39;Sim&#39;: 0.09782107766629654, &#39;rand&#39;: 0.10340026564049809, &#39;L3&#39;: 0.11750585278032019, &#39;CH2&#39;: 0.11780448256167153, &#39;L3E1_f1&#39;: 0.12126400977141827, &#39;L3E1_f2&#39;: 0.12206360268792578, &#39;CN&#39;: 0.15269742561882055, &#39;CRA&#39;: 0.15342349559925855}, &#39;STRING&#39;: {&#39;rand&#39;: 0.09827546996927397, &#39;CH2&#39;: 0.19091576402346694, &#39;L3&#39;: 0.19392667072083733, &#39;Sim&#39;: 0.19427208735011947, &#39;L3E1_f2&#39;: 0.19610313452711564, &#39;L3E1_f1&#39;: 0.1967083049946548, &#39;CN&#39;: 0.19695376757821376, &#39;CRA&#39;: 0.19894525251331205}, &#39;MINT&#39;: {&#39;rand&#39;: 0.10324567236584001, &#39;Sim&#39;: 0.1539957273702494, &#39;L3&#39;: 0.15442113325707124, &#39;CN&#39;: 0.15724646582052, &#39;CRA&#39;: 0.16006419617930942, &#39;CH2&#39;: 0.1616993836431097, &#39;L3E1_f1&#39;: 0.16842611654925066, &#39;L3E1_f2&#39;: 0.17341030047048184}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="gridspec">
+<h1>gridspec<a class="headerlink" href="#gridspec" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;legend&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Times New Roman&quot;</span>
+<span class="n">hatches</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">/&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">/&#39;</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">spec</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_gridspec</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="n">widths</span><span class="p">,</span> <span class="n">height_ratios</span><span class="o">=</span><span class="n">heights</span><span class="p">)</span>
+<span class="n">lineAxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="n">barAxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+
+
+<span class="c1"># lineAxes</span>
+<span class="n">dss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+<span class="n">dsNames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">lineAxes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;rand&quot;</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">([</span><span class="n">randSz</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)]</span>
+                    <span class="p">,</span> <span class="p">[</span><span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+                    <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+                    <span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">std_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+                    <span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="n">randSz</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)]</span>
+                    <span class="p">,</span> <span class="p">[</span><span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+                   <span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% o</span><span class="s2">f PPIs Removed&quot;</span><span class="p">)</span>
+    <span class="c1">#ax.ticklabel_format(style=&#39;sci&#39;, scilimits=(0,0), axis=&#39;y&#39;)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="n">randSz</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;a</span><span class="si">{}</span><span class="s2">) </span><span class="si">{}</span><span class="s2"> Yeast&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dsNames</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+    
+<span class="n">lineAxes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;GOSemSim Score&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># barAxes</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">barAxes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">5.5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">xtick</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rand&#39;</span><span class="p">,</span> <span class="s1">&#39;CRA&#39;</span><span class="p">,</span> <span class="s1">&#39;CN&#39;</span><span class="p">]]</span>
+    <span class="n">xtick</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rand&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">xtick</span> <span class="o">+</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;CRA&#39;</span><span class="p">,</span> <span class="s1">&#39;CN&#39;</span><span class="p">]]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="p">[</span><span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="p">[</span><span class="n">err_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">colors</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                       <span class="p">,</span> <span class="n">tick_label</span><span class="o">=</span><span class="p">[</span><span class="n">abbrevs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span> <span class="n">patch</span><span class="o">.</span><span class="n">set_hatch</span><span class="p">(</span><span class="n">hatches</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">barAxes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;AUC&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;./img_experiments/GOSemSimComplete_wRand.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/a3a509ccbbe4ffd5a7ffc94560639e8461666fc172f3c4368ba07eb17099d28e.png" src="../../../_images/a3a509ccbbe4ffd5a7ffc94560639e8461666fc172f3c4368ba07eb17099d28e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;legend&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Times New Roman&quot;</span>
+<span class="n">hatches</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">/&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">/&#39;</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">spec</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_gridspec</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="n">widths</span><span class="p">,</span> <span class="n">height_ratios</span><span class="o">=</span><span class="n">heights</span><span class="p">)</span>
+<span class="n">lineAxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="n">barAxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+
+
+<span class="c1"># lineAxes</span>
+<span class="n">dss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+<span class="n">dsNames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">lineAxes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">([</span><span class="n">randSz</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+                    <span class="p">,</span> <span class="p">[</span><span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+                    <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+                    <span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">std_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+                    <span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="n">randSz</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+                    <span class="p">,</span> <span class="p">[</span><span class="n">meanScore_dict</span><span class="p">[</span><span class="n">randSz</span><span class="p">][</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+                   <span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% o</span><span class="s2">f PPIs Sampled&quot;</span><span class="p">)</span>
+    <span class="c1">#ax.ticklabel_format(style=&#39;sci&#39;, scilimits=(0,0), axis=&#39;y&#39;)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="n">randSz</span> <span class="k">for</span> <span class="n">randSz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;a</span><span class="si">{}</span><span class="s2">) </span><span class="si">{}</span><span class="s2"> Yeast&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dsNames</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+    
+<span class="n">lineAxes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;GOSemSim Score&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># barAxes</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">barAxes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">5.5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">xtick</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rand&#39;</span><span class="p">,</span> <span class="s1">&#39;CRA&#39;</span><span class="p">,</span> <span class="s1">&#39;CN&#39;</span><span class="p">]]</span>
+    <span class="n">xtick</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rand&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">xtick</span> <span class="o">+</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;CRA&#39;</span><span class="p">,</span> <span class="s1">&#39;CN&#39;</span><span class="p">]]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="p">[</span><span class="n">sorted_mean_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="p">[</span><span class="n">err_auc</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">colors</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                       <span class="p">,</span> <span class="n">tick_label</span><span class="o">=</span><span class="p">[</span><span class="n">abbrevs</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span> <span class="n">patch</span><span class="o">.</span><span class="n">set_hatch</span><span class="p">(</span><span class="n">hatches</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">barAxes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;AUC&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;./img_experiments/GOSemSimComplete.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/e320978aba364fed5914ded06ffb5e088975051c0ed1a5c64776a78a5d7318e8.png" src="../../../_images/e320978aba364fed5914ded06ffb5e088975051c0ed1a5c64776a78a5d7318e8.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="p-val">
+<h1>p-val<a class="headerlink" href="#p-val" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># p val</span>
+<span class="c1"># sample to do: top L3 to rand</span>
+<span class="n">dss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+<span class="n">pairs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[[</span><span class="s1">&#39;L3E1_f2&#39;</span><span class="p">,</span> <span class="s1">&#39;L3E1_f1&#39;</span><span class="p">]]</span>
+    <span class="p">,</span> <span class="p">[[</span><span class="s1">&#39;L3E1_f1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3E1_f2&#39;</span><span class="p">]]</span>
+    <span class="p">,</span> <span class="p">[[</span><span class="s1">&#39;L3E1_f2&#39;</span><span class="p">,</span> <span class="s1">&#39;L3E1_f1&#39;</span><span class="p">]]</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+        <span class="n">pop1</span> <span class="o">=</span> <span class="n">auc_map</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">pop2</span> <span class="o">=</span> <span class="n">auc_map</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">pVal</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pVal</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bioGRID: L3E1_f2 L3E1_f1: 1.0849616747656459e-05
+STRING: L3E1_f1 L3E1_f2: 0.0028697758152711425
+MINT: L3E1_f2 L3E1_f1: 4.465207563190323e-08
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./BMC_PPI_L3N-main\src\notebook"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">init metadata</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parse-predicted-ppis-gosemsim-scores">parse predicted PPIs &amp; GOSemSim scores</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-gosemsim-scores-of-ppis-into-df">Get GOSemSim scores of PPIs into df</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-data-for-plotting">Get data for plotting</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-figure">Create figure</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gridspec">gridspec</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#p-val">p-val</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

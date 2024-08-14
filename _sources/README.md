@@ -1,0 +1,1 @@
+To install required dependencies run from folder: pip install -r requirements.txt

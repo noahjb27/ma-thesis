@@ -1,0 +1,54 @@
+Traceback (most recent call last):
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\nbclient\client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# human dataset: IM-24272, Lit-BM-13 (binary & complex), HI-II-14
+# DataFrame standard: {nodeA, nodeB, type, score}
+# randomly 50% of the dataset 10 times, save into json
+
+import_funcs = [IM24272.parse_IM24272(root="../"),
+                (Lit_BM_13.parse_Lit_BM_13(root="../"))[0],
+                (Lit_BM_13.parse_Lit_BM_13(root="../"))[1],
+                HI_II_14.parse_HI(root="../")]
+names = ['IM24272', "Lit_13_binary", "Lit_13_cplx", "HI_14"]
+
+for n in range(len(names)):
+    df = import_funcs[n]
+    ppi = [list(arr) for arr in np.asarray(df[['nodeA', 'nodeB']])]
+    sampledPPIs = [rn.sample(ppi, int(len(ppi)*0.5)) for i in range(10)]
+    with open("./sampled_datasets/{}_sampledPPIs.json".format(names[n]), "w") as f:
+        f.write(json.dumps(sampledPPIs))
+------------------
+
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mNameError[0m                                 Traceback (most recent call last)
+Cell [1;32mIn[3], line 5[0m
+[0;32m      1[0m [38;5;66;03m# human dataset: IM-24272, Lit-BM-13 (binary & complex), HI-II-14[39;00m
+[0;32m      2[0m [38;5;66;03m# DataFrame standard: {nodeA, nodeB, type, score}[39;00m
+[0;32m      3[0m [38;5;66;03m# randomly 50% of the dataset 10 times, save into json[39;00m
+[1;32m----> 5[0m import_funcs [38;5;241m=[39m [[43mIM24272[49m[38;5;241m.[39mparse_IM24272(root[38;5;241m=[39m[38;5;124m"[39m[38;5;124m../[39m[38;5;124m"[39m),
+[0;32m      6[0m                 (Lit_BM_13[38;5;241m.[39mparse_Lit_BM_13(root[38;5;241m=[39m[38;5;124m"[39m[38;5;124m../[39m[38;5;124m"[39m))[[38;5;241m0[39m],
+[0;32m      7[0m                 (Lit_BM_13[38;5;241m.[39mparse_Lit_BM_13(root[38;5;241m=[39m[38;5;124m"[39m[38;5;124m../[39m[38;5;124m"[39m))[[38;5;241m1[39m],
+[0;32m      8[0m                 HI_II_14[38;5;241m.[39mparse_HI(root[38;5;241m=[39m[38;5;124m"[39m[38;5;124m../[39m[38;5;124m"[39m)]
+[0;32m      9[0m names [38;5;241m=[39m [[38;5;124m'[39m[38;5;124mIM24272[39m[38;5;124m'[39m, [38;5;124m"[39m[38;5;124mLit_13_binary[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mLit_13_cplx[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mHI_14[39m[38;5;124m"[39m]
+[0;32m     11[0m [38;5;28;01mfor[39;00m n [38;5;129;01min[39;00m [38;5;28mrange[39m([38;5;28mlen[39m(names)):
+
+[1;31mNameError[0m: name 'IM24272' is not defined
+

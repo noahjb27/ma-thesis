@@ -1,0 +1,1161 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Investigating growth in the model &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'investigating-growth';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Preferential attachment" href="preferential-attachement.html" />
+    <link rel="prev" title="Creating the data model" href="creating-data-model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="network-model.html">From source to dynamic network model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating-data-model.html">Creating the data model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Investigating growth in the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferential-attachement.html">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Finvestigating-growth.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/investigating-growth.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Investigating growth in the model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-network-expansion-contraction">General network expansion/contraction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network-evolution-in-east-vs-west-berlin">Network evolution in East vs. West Berlin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taking-stock-of-initial-network-overview">Taking stock of initial network overview</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="investigating-growth-in-the-model">
+<h1>Investigating growth in the model<a class="headerlink" href="#investigating-growth-in-the-model" title="Link to this heading">#</a></h1>
+<p>To understand how Berlin’s public transport system evolved over time, we will use NA to track structural changes. The aim for this section is to explore specifically how public transportation in Berlin grew and/or contracted during the period. We want to be able to identify the major historical trends in the evolution of the network and illuminate the connection between historical events like the building of the Berlin Wall with the development of the public transport system. Throughout we will test the analytical potential of different NA methods and metrics for our use case.</p>
+<p>It is important to have a focus when using NA techniques because the array of possible tools and methodologies we have at our disposal is vast and needs to be constricted. Even with the focus purely on network growth and contraction we have access to many different theories, methods and metrics that will help us describe the data and provide a perspective on the evolution of the system.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loading necessary libraries, some must first be installed using pip</span>
+
+
+<span class="c1"># Data Handling </span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="c1"># Network Analysis</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+
+<span class="c1"># Data Visualization</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_graphml</span><span class="p">(</span><span class="s1">&#39;base-graph.graphml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creating network snapshots to better extrapolate datapoints at specific snapshots</span>
+<span class="n">snapshot_years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1946</span><span class="p">,</span> <span class="mi">1951</span><span class="p">,</span> <span class="mi">1956</span><span class="p">,</span> <span class="mi">1960</span><span class="p">,</span> <span class="mi">1961</span><span class="p">,</span> <span class="mi">1964</span><span class="p">,</span> <span class="mi">1967</span><span class="p">,</span> <span class="mi">1971</span><span class="p">,</span> <span class="mi">1976</span><span class="p">,</span> <span class="mi">1980</span><span class="p">,</span> <span class="mi">1982</span><span class="p">,</span> <span class="mi">1984</span><span class="p">,</span> <span class="mi">1989</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">create_subgraph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">target_year</span><span class="p">):</span>
+    <span class="n">subgraph_for_year</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_year</span><span class="p">)</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]:</span>
+            <span class="n">subgraph_for_year</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">node1</span> <span class="o">=</span> <span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">node2</span> <span class="o">=</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_year</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">subgraph_for_year</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">subgraph_for_year</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">node2</span><span class="p">):</span>
+                <span class="n">subgraph_for_year</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_type&#39;</span><span class="p">),</span> <span class="n">year</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;weight&quot;</span><span class="p">),</span> <span class="n">traverses</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;traverses&quot;</span><span class="p">])</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">subgraph_for_year</span><span class="p">)</span>
+
+<span class="n">snapshot_dict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Store subgraphs in a dictionary</span>
+
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">snapshot_years</span><span class="p">:</span>
+    <span class="n">subgraph</span> <span class="o">=</span> <span class="n">create_subgraph</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> 
+    <span class="n">snapshot_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;subgraph_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subgraph</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="general-network-expansion-contraction">
+<h2>General network expansion/contraction<a class="headerlink" href="#general-network-expansion-contraction" title="Link to this heading">#</a></h2>
+<p>As a starting point, we simply see how the number of nodes and edges have changed during the period under observation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">years</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">network_sizes</span> <span class="o">=</span> <span class="p">[]</span> 
+<span class="n">network_edges</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">number_of_lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">snapshot_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span>
+    <span class="n">network_sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())</span>
+    <span class="n">network_edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># Additional subplot for network sizes</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">network_sizes</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Network Nodes&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">network_edges</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Network Edges&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Network Growth&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chart 1: Number of Nodes and Edges over Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d9ccb047f6d2b6871581e0e7965c93c2f409e1376a2de35456b0899e06dba664.png" src="_images/d9ccb047f6d2b6871581e0e7965c93c2f409e1376a2de35456b0899e06dba664.png" />
+</div>
+</div>
+<p>The node and edge graphs run almost parallel to each other although the difference between the number of nodes and edges increases gradually. We see clearly a gradual growth over time with three marked periods of increase, these are 1946-1960, 1971-1976 and 1984-1989. From the historical literature we know that the network growth immediately following 1946 is a response to the reconstruction of the transportation system after the war.<a class="footnote-reference brackets" href="#id10" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>52<span class="fn-bracket">]</span></a> We know that the increase in the second period will, to a considerable degree, be caused by the sources from 1975 including all bus stations in a line, when they previously only had the most important ones. The third period of marked increase is harder to explain. One suggestion is that we determine how the number of lines changed during this period and the average number of stations per line so that we get a better insight into our node and edge changes. The line chart below sheds light on the factors behind these changes in network expansion.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">analyze_lines</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="n">all_lines</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  
+    <span class="k">for</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+        <span class="n">edge_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+        <span class="n">traverses</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;traverses&quot;</span><span class="p">)</span>
+
+        <span class="n">identifier</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="o">+</span><span class="n">edge_type</span><span class="o">+</span><span class="n">traverses</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">identifier</span><span class="p">:</span> 
+            <span class="n">all_lines</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>  
+
+    <span class="n">num_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_lines</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">num_lines</span><span class="p">,</span> <span class="n">all_lines</span>
+
+<span class="k">def</span> <span class="nf">calculate_average_nodes_per_line</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="n">line_node_counts</span> <span class="o">=</span> <span class="p">{}</span>  
+
+    <span class="k">for</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="n">label</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+        <span class="n">edge_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+        <span class="n">traverses</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;traverses&quot;</span><span class="p">)</span>
+
+        <span class="n">identifier</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="o">+</span><span class="n">edge_type</span><span class="o">+</span><span class="n">traverses</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">identifier</span><span class="p">:</span>
+            <span class="n">line_node_counts</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">line_node_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>  <span class="c1"># Count both edge nodes</span>
+
+    <span class="k">if</span> <span class="n">line_node_counts</span><span class="p">:</span>
+        <span class="n">average_nodes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">line_node_counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">line_node_counts</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">average_nodes</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">average_nodes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">average_nodes_data</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List to store average nodes per line</span>
+<span class="n">years</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">number_of_lines_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">new_lines_count</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Storage for new line counts</span>
+<span class="n">lost_lines_count</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Storage for lost line counts</span>
+<span class="n">all_lines</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialize to track lines across snapshots</span>
+
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">snapshot_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span>
+
+    <span class="n">num_lines</span><span class="p">,</span> <span class="n">current_lines</span> <span class="o">=</span> <span class="n">analyze_lines</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>  
+    <span class="n">number_of_lines_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_lines</span><span class="p">)</span> 
+
+    <span class="k">if</span> <span class="n">all_lines</span><span class="p">:</span>  
+        <span class="n">new_lines</span> <span class="o">=</span> <span class="n">current_lines</span> <span class="o">-</span> <span class="n">all_lines</span>  
+        <span class="n">lost_lines</span> <span class="o">=</span> <span class="n">all_lines</span> <span class="o">-</span> <span class="n">current_lines</span>  
+        <span class="n">new_lines_count</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_lines</span><span class="p">))</span>  <span class="c1"># Count of new lines</span>
+        <span class="n">lost_lines_count</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lost_lines</span><span class="p">))</span>  <span class="c1"># Count of lost lines </span>
+
+    <span class="n">all_lines</span> <span class="o">=</span> <span class="n">current_lines</span> 
+    <span class="n">average_nodes_per_line</span> <span class="o">=</span> <span class="n">calculate_average_nodes_per_line</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+    <span class="n">average_nodes_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">average_nodes_per_line</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Plot number of lines (you might want to adjust the axis or use twinx)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">number_of_lines_data</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Number of Lines&#39;</span><span class="p">)</span> 
+
+<span class="c1"># Plot average nodes per line </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">average_nodes_data</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Avg. Nodes per Line&#39;</span><span class="p">)</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Values&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chart 2: Evolution of Number of Lines and Average Nodes per Line&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0e91a341dca7555921aed1fc6aa2bd3cabf127e96d35cf284762a6aa1a8662fb.png" src="_images/0e91a341dca7555921aed1fc6aa2bd3cabf127e96d35cf284762a6aa1a8662fb.png" />
+</div>
+</div>
+<p>In our logarithmic results we see that the number of average nodes per line seems to have increased primarily in 1976. This supports our understanding of the sources in that it proves that the change in the way the sources recorded stations was that more, most likely already existing stations, were being added to already existing lines.</p>
+<p>We see the same increase in 1989 although to a lesser extent. Without further external information, we cannot be sure why this is the case. However, there are at least two possible explanations. Firstly, similar to the period 1971-1976, it may be that stations that were already being serviced were now being written into the Fahrplanbuch source or alternatively, it may be that services started making more stops during the period. We can investigate further by probing into how consistent the lines were throughout the period.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_lines_count</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Insert 0 at the beginning</span>
+<span class="n">lost_lines_count</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Plot new and lost lines</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">new_lines_count</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;New Lines&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">lost_lines_count</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lost Lines&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">number_of_lines_data</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Number of Lines&#39;</span><span class="p">)</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Values&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chart 3: Evolution of Lines Lost and Gained&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a63330013a825085c4d48ad19baf6381d66819cab17dbaddd29b1a17f060a122.png" src="_images/a63330013a825085c4d48ad19baf6381d66819cab17dbaddd29b1a17f060a122.png" />
+</div>
+</div>
+<p>In this line chart, we see the changes in lines, and explicitly the number of new lines and the number of lost lines between network snapshots. There are clearly a lot of changes being displayed, relative to the number of lines. The reason for this might be heavily impacted however by our model. Since we are relying on the semantic line name to measure change, we are susceptible to regard renaming of lines as establishing new lines. This is most likely the case, explaining why we have similar counts for new lines and lost lines for many of the snapshots. Particularly for 1976, we can expect that many of the lines were renamed between then and the previous snapshot.</p>
+<section id="network-evolution-in-east-vs-west-berlin">
+<h3>Network evolution in East vs. West Berlin<a class="headerlink" href="#network-evolution-in-east-vs-west-berlin" title="Link to this heading">#</a></h3>
+<p>Now let us see how the trend of network growth appears in East and West Berlin individually.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snapshot_count_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">snapshot_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">admin_side_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>  <span class="c1"># For counting lines within and between sectors</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="n">admin_side</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;east_west&quot;</span><span class="p">)</span>
+        <span class="n">admin_side_count</span><span class="p">[</span><span class="n">admin_side</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1"># count all the values and then display</span>
+
+    <span class="n">snapshot_count_dict</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">admin_side_count</span> 
+
+<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">snapshot_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>  <span class="c1"># Extract years</span>
+<span class="n">east_counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">count</span><span class="p">[</span><span class="s1">&#39;east&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">snapshot_count_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+<span class="n">west_counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">count</span><span class="p">[</span><span class="s1">&#39;west&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">snapshot_count_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">east_counts</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;East&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">west_counts</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;West&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of Nodes&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chart 4: Evolution of Nodes in East and West Berlin&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d76ae219d535bdc2b5125818e425581fe8ae7fdb58b5c7ecc6536c3221a8d181.png" src="_images/d76ae219d535bdc2b5125818e425581fe8ae7fdb58b5c7ecc6536c3221a8d181.png" />
+</div>
+</div>
+<p>While we can see the general trend of network expansion in both East and West Berlin, the exact figures are complex and highly dependent on the modelling of the network. The changes to the way the West Berlin Fahrplanbücher recorded stations in the mid-1970s clearly had a large impact on our model, and the changes from 1971-1976 must be perceived with this in mind. However, because we are able to distinguish between the trends for East and West Berlin, we do notice that starting in 1971, the number of nodes rose at a fairly steady rate. Looking at the data, we can identify three periods of change in East Berlin. The first period from 1946-1956, and to a degree until 1960 is characterised by network growth. This is clearly a product of post-war reconstruction. As the old transportation system is being rebuilt, we see a rapid rise in network growth. To an extent, this contradicts the literature on the period, which describes the rebuilding process to have been completed by the early 1950s.<a class="footnote-reference brackets" href="#id11" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>53<span class="fn-bracket">]</span></a> In our network, especially for West Berlin, we see network growth continue strongly until 1960. However, we also know that the decision to replace the tram system was made in Autumn 1953 and was completed in 1967.<a class="footnote-reference brackets" href="#id12" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>54<span class="fn-bracket">]</span></a> We know that the tram system was being replaced by bus services, which have more frequent stations.<a class="footnote-reference brackets" href="#id13" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>55<span class="fn-bracket">]</span></a> With this historical context, we might ask if the increase in stations in West Berlin during this period may be due to the removal of tram lines in favour of bus lines. To investigate this, we can look at the network evolution by transportation type.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_sector_subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">sector</span><span class="p">):</span>
+    <span class="n">sector_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;east_west&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">sector</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">sector_nodes</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">create_type_subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">line_type</span><span class="p">):</span>
+     <span class="n">type_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">line_type</span><span class="p">]</span>
+     <span class="k">return</span> <span class="n">graph</span><span class="o">.</span><span class="n">edge_subgraph</span><span class="p">(</span><span class="n">type_edges</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_node_type</span><span class="p">(</span><span class="n">node_data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">node_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>  
+
+<span class="k">def</span> <span class="nf">count_nodes_by_type</span><span class="p">(</span><span class="n">subgraph</span><span class="p">,</span> <span class="n">node_type</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">subgraph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">get_node_type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="n">node_type</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">count</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubahn_west</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sbahn_west</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">bus_west</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">tram_west</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">subgraphs_east</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">subgraphs_west</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">snapshot_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span>
+
+    <span class="n">east_subgraph</span> <span class="o">=</span> <span class="n">create_sector_subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s1">&#39;east&#39;</span><span class="p">)</span>
+    <span class="n">west_subgraph</span> <span class="o">=</span> <span class="n">create_sector_subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s1">&#39;west&#39;</span><span class="p">)</span>
+
+    <span class="n">subgraphs_east</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">east_subgraph</span>
+    <span class="n">subgraphs_west</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">west_subgraph</span>
+
+    <span class="n">ubahn_west</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count_nodes_by_type</span><span class="p">(</span><span class="n">west_subgraph</span><span class="p">,</span> <span class="s2">&quot;u-bahn&quot;</span><span class="p">))</span>
+    <span class="n">sbahn_west</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count_nodes_by_type</span><span class="p">(</span><span class="n">west_subgraph</span><span class="p">,</span> <span class="s2">&quot;s-bahn&quot;</span><span class="p">))</span>
+    <span class="n">bus_west</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count_nodes_by_type</span><span class="p">(</span><span class="n">west_subgraph</span><span class="p">,</span> <span class="s2">&quot;bus&quot;</span><span class="p">))</span>
+    <span class="n">tram_west</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count_nodes_by_type</span><span class="p">(</span><span class="n">west_subgraph</span><span class="p">,</span> <span class="s2">&quot;strassenbahn&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># X-axis (years)</span>
+<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">snapshot_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>  <span class="c1"># Assuming this is correct</span>
+
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>  <span class="c1"># Adjust figure size as needed</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">ubahn_west</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;U-Bahn West&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">sbahn_west</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;S-Bahn West&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">bus_west</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bus West&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">tram_west</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tram West&#39;</span><span class="p">)</span>
+
+<span class="c1"># Labels, title, legend</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Node Count&#39;</span><span class="p">)</span>  <span class="c1"># Adjust y-axis label as needed</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chart 5: Node Counts by Transportation Type West Berlin&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Grid and display</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/76364983495f618cc16ef14e66ec9e3b10404a9f7206be4902b534ee191ee307.png" src="_images/76364983495f618cc16ef14e66ec9e3b10404a9f7206be4902b534ee191ee307.png" />
+</div>
+</div>
+<p>It is evident that the growth of the bus system in West Berlin was rapid in the years 1956-1960. Although the tram system did contract during this period, it only started with a rapid contraction from 1960 onwards and decommissioning was complete by 1967. The data might then lead us to believe that the bus network was already being expanded rapidly in West Berlin before the decision to dispel with the tram system was made. This insight can help our understanding of the decision made to remove the tram system in the meeting of the supervisory board of the West-BVG in Autumn 1953. We could hypothesise that the expansion of the bus network was successfully progressing previous to this meeting and so this was seen as evidence that this approach would work.</p>
+<p>To fully capture the expansion of the transportation system though we should also investigate how the total capacity of the network evolved. We can do this using the previously calculated weight measures of edges of the network.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_total_strength</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Calculates the sum of all edge weights in a networkx graph&quot;&quot;&quot;</span>
+  <span class="n">total_weight</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">total_weight</span>
+
+<span class="c1"># Iterate through snapshots and store results</span>
+<span class="n">strength_over_time_total</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">strength_over_time_west</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">strength_over_time_east</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">snapshot_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">east_subgraph</span> <span class="o">=</span> <span class="n">create_sector_subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s1">&#39;east&#39;</span><span class="p">)</span>
+  <span class="n">west_subgraph</span> <span class="o">=</span> <span class="n">create_sector_subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s1">&#39;west&#39;</span><span class="p">)</span>
+
+  <span class="n">strength_over_time_total</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_total_strength</span><span class="p">(</span><span class="n">graph</span><span class="p">))</span>
+  <span class="n">strength_over_time_east</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_total_strength</span><span class="p">(</span><span class="n">east_subgraph</span><span class="p">))</span>
+  <span class="n">strength_over_time_west</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_total_strength</span><span class="p">(</span><span class="n">west_subgraph</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">strength_over_time_total</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Total&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">strength_over_time_east</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;East&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">strength_over_time_west</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;West&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Total Strength&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chart 6: Total Strength of Public Transportation Network Over Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e3a865c96594c71abc94cc2014a819e34bc4f39a7bc86a2e458669d865d68c0b.png" src="_images/e3a865c96594c71abc94cc2014a819e34bc4f39a7bc86a2e458669d865d68c0b.png" />
+</div>
+</div>
+<p>This chart shows us that West Berlin consistently had a transport network that could serve more people than East Berlins. This is unsurprising given that West Berlin consistently had a much higher population than East Berlin.<a class="footnote-reference brackets" href="#id14" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>56<span class="fn-bracket">]</span></a></p>
+<p>We now want to take a closer look at which transportation systems were contributing the most to the overall strength of the network. This should help inform our understanding of the importance of different transportation types to the network.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculates the sum of edge weights grouped by edge type.</span>
+<span class="k">def</span> <span class="nf">get_weights_by_type</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the sum of edge weights grouped by edge type&quot;&quot;&quot;</span>
+    <span class="n">weights_by_type</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">edge_type</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">edge_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">weights_by_type</span><span class="p">:</span>
+            <span class="n">weights_by_type</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">weights_by_type</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weight</span>
+    <span class="k">return</span> <span class="n">weights_by_type</span>
+
+<span class="k">def</span> <span class="nf">prepare_stacked_bar_data</span><span class="p">(</span><span class="n">snapshots</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">snapshots</span><span class="p">:</span>
+        <span class="n">weights_by_type</span> <span class="o">=</span> <span class="n">get_weights_by_type</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="n">snapshot_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:],</span> <span class="nb">list</span><span class="p">(</span><span class="n">weights_by_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">weights_by_type</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snapshot_data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assuming you have your snapshots ready </span>
+<span class="n">data_total</span> <span class="o">=</span> <span class="n">prepare_stacked_bar_data</span><span class="p">(</span><span class="n">snapshot_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="n">data_west</span> <span class="o">=</span> <span class="n">prepare_stacked_bar_data</span><span class="p">(</span><span class="n">subgraphs_west</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="n">data_east</span> <span class="o">=</span> <span class="n">prepare_stacked_bar_data</span><span class="p">(</span><span class="n">subgraphs_east</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+<span class="k">def</span> <span class="nf">flatten_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">new_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">transport_types</span><span class="p">,</span> <span class="n">weights</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">t_type</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">transport_types</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+            <span class="n">new_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;Year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span> <span class="s1">&#39;Transport Types&#39;</span><span class="p">:</span> <span class="n">t_type</span><span class="p">,</span> <span class="s1">&#39;Weights&#39;</span><span class="p">:</span> <span class="n">weight</span><span class="p">})</span> 
+    <span class="k">return</span> <span class="n">new_data</span>
+
+<span class="n">flattened_data</span> <span class="o">=</span> <span class="n">flatten_data</span><span class="p">(</span><span class="n">data_total</span><span class="p">)</span>  
+<span class="n">flattened_east</span> <span class="o">=</span> <span class="n">flatten_data</span><span class="p">(</span><span class="n">data_east</span><span class="p">)</span> 
+<span class="n">flattened_west</span> <span class="o">=</span> <span class="n">flatten_data</span><span class="p">(</span><span class="n">data_west</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter for the desired transport types</span>
+<span class="n">transport_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bus&#39;</span><span class="p">,</span> <span class="s1">&#39;s-bahn&#39;</span><span class="p">,</span> <span class="s1">&#39;u-bahn&#39;</span><span class="p">,</span> <span class="s1">&#39;strassenbahn&#39;</span><span class="p">]</span>
+
+<span class="n">df_west</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">flattened_west</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Transport Types&#39;</span><span class="p">,</span> <span class="s1">&#39;Weights&#39;</span><span class="p">])</span>
+<span class="n">df_west</span> <span class="o">=</span> <span class="n">df_west</span><span class="p">[</span><span class="n">df_west</span><span class="p">[</span><span class="s1">&#39;Transport Types&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">transport_types</span><span class="p">)]</span>  <span class="c1"># Filtering</span>
+<span class="n">df_west</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Transport Types&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">df_east</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">flattened_east</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Transport Types&#39;</span><span class="p">,</span> <span class="s1">&#39;Weights&#39;</span><span class="p">])</span>
+<span class="n">df_east</span> <span class="o">=</span> <span class="n">df_east</span><span class="p">[</span><span class="n">df_east</span><span class="p">[</span><span class="s1">&#39;Transport Types&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">transport_types</span><span class="p">)]</span>  <span class="c1"># Filtering</span>
+<span class="n">df_east</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Transport Types&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>  
+
+<span class="c1"># Plot East</span>
+<span class="n">df_east</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Transport Types&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Chart 7: East Berlin Transport Network strength&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>  <span class="c1"># Set the y-axis limits</span>
+
+<span class="c1"># Plot West</span>
+<span class="n">df_west</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Transport Types&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Chart 8: West Berlin Transport Network strength&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>  <span class="c1"># Set the y-axis limits</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/fde107b2ee9fe438b76d20b12a588ac564075d0f8927321284cf4e9ec307f7ab.png" src="_images/fde107b2ee9fe438b76d20b12a588ac564075d0f8927321284cf4e9ec307f7ab.png" />
+</div>
+</div>
+<p>First, let’s take a look at the stacked bar chart for West Berlin. We see that as the tram disappears in West Berlin, it is replaced by both bus and the U-Bahn in terms of network strength. This is verified by BVG sources which confirm that the plan was for the U-Bahn and bus systems to replace the tram.<a class="footnote-reference brackets" href="#id15" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>57<span class="fn-bracket">]</span></a> However, we also see that the network strength was not enhanced by the removal of the tram system but actually slightly decreased in West Berlin. Of course, perspective on the network needs to take into account two further historical processes, which had an effect on network strength at the time.</p>
+<p>Both East and West Berlin had had weakened networks during the 1960s compared to earlier periods. This shared characteristic leads us to assume that a common cause existed for contraction during the period. One could suppose that the building of the wall and the final cutting of transportation between the two systems had a negative effect on public transport strength at the time.</p>
+<p>We also have to consider that West Berlin was removing tram transportation primarily as part of the endeavour to make the city more car friendly. The plan to create inner-city highways was to be beneficial to the bus system, however, the main beneficiary was private automobile transportation in the city. This form of transportation, and to a lesser extent bicycle transportation exist in parallel to our network. When looking at public transportation, we must be aware that we are not getting a full picture of mobility.</p>
+<p>In addition, it is difficult to compare the absolute values of the strength of the two networks without looking at the populations that they had to serve. When looking at the strength per capita, we see that East Berlin’s public transportation system is consistently stronger than West Berlin’s, by a significant margin of up to a third. The results of this are not surprising when reflecting on the transportation policy and economic contexts of the two Germanies. We know that the development of public transportation systems is dictated by the political compromise achieved between different wants and needs. In the German Democratic Republic (DDR) public transportation played a very important role, with 75% of people being transported with public transportation in 1977.<a class="footnote-reference brackets" href="#id16" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>58<span class="fn-bracket">]</span></a> While this was in part in line with socialist ideology it was also due to the economic constraints on private automobility in the DDR. Production constraints and regulated pricing meant that although demand for cars was high, supply was slow and it could take more than a decade for a car to be delivered.<a class="footnote-reference brackets" href="#id17" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>59<span class="fn-bracket">]</span></a> In comparison, West Germany and West Berlin in particular, placed a much higher emphasis and had less constraints on personal automobile transportation.<a class="footnote-reference brackets" href="#id18" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>60<span class="fn-bracket">]</span></a></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Year</p></th>
+<th class="head"><p>West Berlin – Total population</p></th>
+<th class="head"><p>West Berlin - Network Strength</p></th>
+<th class="head"><p>West Berlin - Strength per capita (Scaled Strength by factor of 1000)</p></th>
+<th class="head"><p>East Berlin – Total population</p></th>
+<th class="head"><p>East Berlin - Network Strength</p></th>
+<th class="head"><p>East Berlin - Strength per capita (Scaled Strength by factor of 1000)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1946</p></td>
+<td><p>2012532</p></td>
+<td><p>143.49</p></td>
+<td><p>0.071297873</p></td>
+<td><p>1073799</p></td>
+<td><p>129.74</p></td>
+<td><p>0.120826459</p></td>
+</tr>
+<tr class="row-odd"><td><p>1951</p></td>
+<td><p>2172291</p></td>
+<td><p>183.87</p></td>
+<td><p>0.084643145</p></td>
+<td><p>1184000</p></td>
+<td><p>173.26</p></td>
+<td><p>0.146330245</p></td>
+</tr>
+<tr class="row-even"><td><p>1956</p></td>
+<td><p>2223777</p></td>
+<td><p>220.93</p></td>
+<td><p>0.099346884</p></td>
+<td><p>1121873</p></td>
+<td><p>194.62</p></td>
+<td><p>0.173480976</p></td>
+</tr>
+<tr class="row-odd"><td><p>1960</p></td>
+<td><p>2202241</p></td>
+<td><p>244.80</p></td>
+<td><p>0.111157703</p></td>
+<td><p>1071775</p></td>
+<td><p>199.55</p></td>
+<td><p>0.18618529</p></td>
+</tr>
+<tr class="row-even"><td><p>1961</p></td>
+<td><p>2197408</p></td>
+<td><p>238.56</p></td>
+<td><p>0.108562077</p></td>
+<td><p>1055283</p></td>
+<td><p>177.46</p></td>
+<td><p>0.168164352</p></td>
+</tr>
+<tr class="row-odd"><td><p>1964</p></td>
+<td><p>2200228</p></td>
+<td><p>244.16</p></td>
+<td><p>0.110971563</p></td>
+<td><p>1070731</p></td>
+<td><p>174.91</p></td>
+<td><p>0.163357752</p></td>
+</tr>
+<tr class="row-even"><td><p>1967</p></td>
+<td><p>2163306</p></td>
+<td><p>231.90</p></td>
+<td><p>0.107198175</p></td>
+<td><p>1082091</p></td>
+<td><p>184.69</p></td>
+<td><p>0.170677868</p></td>
+</tr>
+<tr class="row-odd"><td><p>1971</p></td>
+<td><p>2083987</p></td>
+<td><p>225.96</p></td>
+<td><p>0.108425436</p></td>
+<td><p>1087982</p></td>
+<td><p>180.34</p></td>
+<td><p>0.165754357</p></td>
+</tr>
+<tr class="row-even"><td><p>1976</p></td>
+<td><p>1950706</p></td>
+<td><p>310.10</p></td>
+<td><p>0.158967168</p></td>
+<td><p>1106267</p></td>
+<td><p>204.63</p></td>
+<td><p>0.184974622</p></td>
+</tr>
+<tr class="row-odd"><td><p>1980</p></td>
+<td><p>1896230</p></td>
+<td><p>253.30</p></td>
+<td><p>0.133583432</p></td>
+<td><p>1152529</p></td>
+<td><p>223.02</p></td>
+<td><p>0.193504495</p></td>
+</tr>
+<tr class="row-even"><td><p>1982</p></td>
+<td><p>1869582</p></td>
+<td><p>275.31</p></td>
+<td><p>0.147256923</p></td>
+<td><p>1173028</p></td>
+<td><p>237.37</p></td>
+<td><p>0.202353559</p></td>
+</tr>
+<tr class="row-odd"><td><p>1984</p></td>
+<td><p>1848585</p></td>
+<td><p>268.29</p></td>
+<td><p>0.145130823</p></td>
+<td><p>1196871</p></td>
+<td><p>239.00</p></td>
+<td><p>0.19968494</p></td>
+</tr>
+<tr class="row-even"><td><p>1989</p></td>
+<td><p>2130525</p></td>
+<td><p>363.27</p></td>
+<td><p>0.170508394</p></td>
+<td><p>1279212</p></td>
+<td><p>262.33</p></td>
+<td><p>0.205069895</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Table 2: Comparison East and West Berlin in terms of population and network strength</p>
+<p>Our findings can inform our understanding of this dichotomy because we have metrics that support the argument that East Berlin had a stronger public transportation system then West Berlin relative to population size. Of course, the numbers need to be contextualised, based on the limitations of the model that were discussed but they do lead to a strong conclusion about the comparative strengths of public transportation in the two Berlins.</p>
+</section>
+<section id="taking-stock-of-initial-network-overview">
+<h3>Taking stock of initial network overview<a class="headerlink" href="#taking-stock-of-initial-network-overview" title="Link to this heading">#</a></h3>
+<p>We now want to take stock of what we have learned about our networks and how they can inform our understanding of the period. Throughout all of our metrics we saw overlapping trends that point to the fact that the transportation system can be split into phases of growth and phases of stagnation or even decline. We clearly see that the period of the 1960s remained stagnant for the network. Both in terms of number of nodes and edges and the number of lines, neither East nor West Berlin experiences any increase in their network size. We even see a decrease in terms of node size and number of lines between 1960 and 1961. We have to remember though that this is merely one of many possible perspectives on growth. We could for example hypothesise that with stagnant network size during the 1960s, internal connectivity within East and West sub-networks may have increased to compensate for decreased interconnectivity. To investigate this, we could look at changes in network density and the evolution of the shortest average path of the network.</p>
+<p>This chapter’s analysis of the Berlin transportation network’s evolution between 1946 and 1989 highlights the intricate interaction between historical events, political ideologies, and urban planning decisions. We have investigated how the public transportation network we modelled grew and contracted in the period. Throughout, we have shown that there are many different metrics to analyse the network and they are all perspectives that should inform our understanding of how the system works. By comparing the metrics describing growth, we are now aware of a few overarching processes of change in the network. We have carried out the following in this chapter:</p>
+<p>Several key findings did emerge from our initial analysis. Firstly, the period immediately following World War II saw significant network expansion in both East and West Berlin as the cities rebuilt infrastructure. This reconstruction may have lasted longer than previously assumed in historical research, lasting right up until 1960. We also found diverging transportation policies. West Berlin’s shift towards car-centric infrastructure and the removal of the tram system contrasted sharply with East Berlin’s continued emphasis on a strong public transportation network. This is evident in the consistently strength per capita of East Berlin’s network. Finally, we also established that there are evident source biases. The inherent limitations in how stations were recorded over time, specifically the change in notation in West Berlin underscores the need for critical source evaluation in historical network modelling.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Saving part of graph for future use</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;subgraphs_east.npy&#39;</span><span class="p">,</span> <span class="n">subgraphs_east</span><span class="p">)</span> 
+
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;snapshot_dict.npy&#39;</span><span class="p">,</span> <span class="n">snapshot_dict</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">52</a><span class="fn-bracket">]</span></span>
+<p>Christian Dirks, Christian Mentel, pg. 22.</p>
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">53</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg. 46.</p>
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">54</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Reinhardt, Öffentlicher Personenverkehr in zwei deutschen Staaten, pg.696.</p>
+</aside>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">55</a><span class="fn-bracket">]</span></span>
+<p>J.W. Korte, Stadtverkehr: Gestern, heute und morgen, Berlin 1959, pg. 109.</p>
+</aside>
+<aside class="footnote brackets" id="id14" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">56</a><span class="fn-bracket">]</span></span>
+<p>Statistisches Landesamt Berlin, Statistisches Jahrbuch 1990, Berlin 1990, pg. 42.</p>
+</aside>
+<aside class="footnote brackets" id="id15" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">57</a><span class="fn-bracket">]</span></span>
+<p>Berliner Verkehrs-Betriebe, pg. 31.</p>
+</aside>
+<aside class="footnote brackets" id="id16" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">58</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Reinhardt, Öffentlicher Personenverkehr in zwei deutschen Staaten, pg. 676.</p>
+</aside>
+<aside class="footnote brackets" id="id17" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">59</a><span class="fn-bracket">]</span></span>
+<p>Mitteldeutscher Rundfunk, Autos in der DDR, <a class="reference external" href="https://www.mdr.de/geschichte/ddr/wirtschaft/verkehr/auto-industrie-wartezeit-trabi-100.html">https://www.mdr.de/geschichte/ddr/wirtschaft/verkehr/auto-industrie-wartezeit-trabi-100.html</a>, 18 April 2024.</p>
+</aside>
+<aside class="footnote brackets" id="id18" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">60</a><span class="fn-bracket">]</span></span>
+<p>Christoph Bernhardt, pg. 324.</p>
+</aside>
+</aside>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="creating-data-model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Creating the data model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="preferential-attachement.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Preferential attachment</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-network-expansion-contraction">General network expansion/contraction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network-evolution-in-east-vs-west-berlin">Network evolution in East vs. West Berlin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taking-stock-of-initial-network-overview">Taking stock of initial network overview</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

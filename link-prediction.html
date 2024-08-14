@@ -1,0 +1,901 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Link Prediction &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'link-prediction';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="network-model.html">From source to dynamic network model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating-data-model.html">Creating the data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="investigating-growth.html">Investigating growth in the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferential-attachement.html">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flink-prediction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/link-prediction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Link Prediction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-link-prediction">Introduction to Link Prediction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introducing-our-historical-research-question">Introducing our historical research question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#link-prediction-implementation">3.3.3 Link prediction implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l3-link-prediction">L3 link prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-for-success">Metrics for Success</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-results">Interpretation of results</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="link-prediction">
+<h1>Link Prediction<a class="headerlink" href="#link-prediction" title="Link to this heading">#</a></h1>
+<section id="introduction-to-link-prediction">
+<h2>Introduction to Link Prediction<a class="headerlink" href="#introduction-to-link-prediction" title="Link to this heading">#</a></h2>
+<p>We now turn to another fundamental aspect of NA, link prediction. Link prediction aims to estimate the likelihood of links existing between two nodes. In static NA it is used to find missing links in biological research such as protein-protein interactions (PPIs). In DNA, link prediction is used to assess the likelihood of future possible links. The goal is to uncover hidden connections or predict future interactions between members of a network.<a class="footnote-reference brackets" href="#id18" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>70<span class="fn-bracket">]</span></a> In a historical context, link prediction could help us identify probable missing connections based on incomplete sources or, in our dynamic growth focussed context, anticipate how the network might change in the future.</p>
+<p>There are many different methods used to create link predictions. They all share the common assumption that we can infer new interactions amongst members (nodes) of a network in a future state. To assess if two nodes are likely to be connected, a “proximity measure” is used to calculate the effective distance between nodes.<a class="footnote-reference brackets" href="#id19" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>71<span class="fn-bracket">]</span></a> These proximity measures range from similarity-based measures, which we will explore in this section, to network embedding and deep learning approaches.<a class="footnote-reference brackets" href="#id20" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>72<span class="fn-bracket">]</span></a></p>
+<p>Some of the most common link prediction methods are similarity-based, meaning that for each pair of nodes, a similarity score is calculated. The similarity score becomes the probability of a link future/missing link.<a class="footnote-reference brackets" href="#id21" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>73<span class="fn-bracket">]</span></a> There are a series of measures that can be used to calculated similarity, the most utilised is Common Neighbors (CN). CN is a simple metric that considers how many immediate neighbours a pair of nodes share. The likelihood of a link between these nodes increases with the with the number of common neighbours between them.<a class="footnote-reference brackets" href="#id22" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>74<span class="fn-bracket">]</span></a> CN and other similarity-based measurements are based on the idea of the Triadic Closure Principle (TCP). The assumption is that nodes that are indirectly connected are likely to be connected either in the future or in a current missing link. This idea is derived from social NA, the observation was that social networks with shared neighbours will often have a future link between them. For example, two people will have an increased likelihood of becoming friends the more shared friends they have between them. However, this TCP and its derivative measurements are often applied in other contexts such as PPIs, where the foundational assumptions do not hold true.<a class="footnote-reference brackets" href="#id23" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>75<span class="fn-bracket">]</span></a> It is important that we test these methods and reflect on their assumptions and how they translate in our own research contexts. In this section, we will test 3 different metrics used in link prediction and their ability to inform our historical research question. We will evaluate the requirements, possibilities and limitations of the approaches.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loading necessary libraries, some must first be installed using pip</span>
+
+<span class="c1"># System and File Management</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Data Handling </span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span> 
+
+<span class="c1"># Network Analysis</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+
+<span class="c1"># Data Visualization</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Data Loading and Connection</span>
+<span class="kn">import</span> <span class="nn">json</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="introducing-our-historical-research-question">
+<h2>Introducing our historical research question<a class="headerlink" href="#introducing-our-historical-research-question" title="Link to this heading">#</a></h2>
+<p>The historical background to our research question is the building of the Berlin Wall on 13 August 1961, separating the City of Berlin, which had been administratively divided since the end of World War II. Historical literature and sources seem to indicate that the construction of the Berlin wall was only a concretisation of a separation process that had started since the end of the war.<a class="footnote-reference brackets" href="#id24" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>76<span class="fn-bracket">]</span></a> There is a lot of historical evidence that backs this up. In September 1950, Friedrich Ebert, the mayor of East Berlin, instructed the BVG-East to rapidly deliver plans on how the eastern public transport system could be made independent of the BVG-West.<a class="footnote-reference brackets" href="#id25" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>77<span class="fn-bracket">]</span></a> There had been a strong political will to close the border, which had already culminated in the separation of tram transport lines in 1953. Passengers had to get off the tram and cross the border by foot before getting on the tram in the other section.<a class="footnote-reference brackets" href="#id26" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>78<span class="fn-bracket">]</span></a> East Berlin’s plans to circumvent West Berlin with the S-Bahn had already been finalised in September 1956, when the S-Bahn ring line around West-Berlin was finished.<a class="footnote-reference brackets" href="#id27" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>79<span class="fn-bracket">]</span></a> East Berlin was facing tremendous political pressure to close the border. During the decade before 1961, the DDR had lost around 20 percent of its population, with the amount of emigration increasing rapidly in the months before August 1961. <a class="footnote-reference brackets" href="#id28" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>80<span class="fn-bracket">]</span></a> Finally, on the night of 12 August 1961, the east-west border was officially closed. There had already been no bus or tram lines crossing and that night the U-Bahn and S-Bahn would also stop halting at stations on the other side of the border.</p>
+<p>Based on this historical context, we want to test the hypothesis that “the construction of the Berlin Wall in August 1961 did not alter the course of network growth at the time”. We will investigate this by comparing the accuracy of our link prediction metrics across three different sets of network snapshots (1956-1960, 1960-1964, 1980-1984). The gradual separation seen in the literature makes the Berlin transport network an interesting case study for link prediction. If the Berlin Wall was merely a formalisation of an existing trend, link prediction algorithms trained on pre-Wall data should still perform reasonably well in predicting the network’s evolution after the Wall’s construction.</p>
+<p>Link prediction is an ideal tool for investigating this hypothesis for several reasons. Firstly, link prediction algorithms focus on the underlying structure of the network and patterns of connectivity. This allows them to potentially identify ‘likely’ connections even if a dramatic external event, like the construction of the Berlin Wall, disrupts the network. Secondly, by comparing the accuracy of link prediction across time periods, we can assess whether the underlying network dynamics remained consistent despite the imposed division. If the hypothesis is correct, prediction accuracy shouldn’t decline significantly after the Wall was built. Finally, link prediction allows us to analyse changes independent of the historical sources, offering an alternative perspective to the developments at the time that can help inform our understanding of the trends in the transportation system.</p>
+</section>
+<section id="link-prediction-implementation">
+<h2>3.3.3 Link prediction implementation<a class="headerlink" href="#link-prediction-implementation" title="Link to this heading">#</a></h2>
+<p>To test the hypothesis, we employ link prediction techniques to predict future links across different time periods in the evolution of Berlin’s transportation network. Four sets of network snapshots (1956-1960, 1960-1964, 1967-1971 and 1980-1984) are analysed to assess if prediction accuracy changes significantly after the construction of the Berlin Wall. First, comparability between snapshots is ensured by creating subgraphs containing only nodes present in both the initial and subsequent snapshot of each set. Then, Common Neighbors, Preferential Attachment, and L3 link prediction algorithms are applied to the first snapshot in each set. The algorithms will generate ranked lists of the top predicted links. These predicted links are compared against the actual new edges that appear in the second snapshot. Evaluation metrics like accuracy, precision, and recall will determine the success rate of predictions, potentially revealing whether network growth dynamics remained consistent despite the political division imposed by the Wall.</p>
+<section id="l3-link-prediction">
+<h3>L3 link prediction<a class="headerlink" href="#l3-link-prediction" title="Link to this heading">#</a></h3>
+<p>Building on our understanding of preferential attachment and common neighbours which we will be testing, the third L3 is more complex both from a computational and theoretical perspective. L3 is derived directly from the bioinformatics domain, specifically to predict missing PPIs in static networks. It resulted from the lacking effectiveness and theoretical foundation of conventional similarity measures such as CN to be applied in this domain. L3 has been tested and has performed exceedingly well at predicting PPIs, compared to TCP metrics.<a class="footnote-reference brackets" href="#id29" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>81<span class="fn-bracket">]</span></a> The idea behind L3 is that two proteins that are linked not by direct common neighbours but by removed neighbours at a distance of two.<a class="footnote-reference brackets" href="#id30" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>82<span class="fn-bracket">]</span></a></p>
+<p>There is discussion in bioinformatics if L3 is a theoretically founded measure or rather one that is rather empirically successful.<a class="footnote-reference brackets" href="#id31" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>83<span class="fn-bracket">]</span></a> To further this discussion, we test of L3 on an entirely different network type with a novel dynamic future link-prediction approach. If L3 proves successful, the theoretical reasoning for its success would have to be ascertained independent of just protein networks. It might, for example, unpack a common characteristic of many real-world networks similar to preferential attachment characteristics which exist in many real-world networks.</p>
+<p>Our implementation of L3 is derived directly from the work of Yuen and Jansson, who have provided the python code implementation to calculate L3 scores for predicted links. We will be utilising an improved L3 method, known as ExactL3 which mitigates the disproportionate influence of high-degree nodes in our network and normalises the scoring.<a class="footnote-reference brackets" href="#id32" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>84<span class="fn-bracket">]</span></a> In keeping with the standard methodological approach in the literature, we have selected the 750 highest scoring L3 link predictions and are testing these.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load</span>
+<span class="n">snapshot_dict</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;snapshot_dict.npy&#39;</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="s1">&#39;TRUE&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+<span class="n">G_1956</span> <span class="o">=</span> <span class="n">snapshot_dict</span><span class="p">[</span><span class="s2">&quot;subgraph_1956&quot;</span><span class="p">]</span>
+<span class="n">G_1956</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;1956&quot;</span>  <span class="c1"># Set the name attribute </span>
+<span class="n">G_1960</span> <span class="o">=</span> <span class="n">snapshot_dict</span><span class="p">[</span><span class="s2">&quot;subgraph_1960&quot;</span><span class="p">]</span>
+<span class="n">G_1960</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;1960&quot;</span>  <span class="c1"># Set the name attribute </span>
+<span class="n">G_1964</span> <span class="o">=</span> <span class="n">snapshot_dict</span><span class="p">[</span><span class="s2">&quot;subgraph_1964&quot;</span><span class="p">]</span>
+<span class="n">G_1964</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;1964&quot;</span>  <span class="c1"># Set the name attribute </span>
+<span class="n">G_1967</span> <span class="o">=</span> <span class="n">snapshot_dict</span><span class="p">[</span><span class="s2">&quot;subgraph_1967&quot;</span><span class="p">]</span>
+<span class="n">G_1967</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;1967&quot;</span>  <span class="c1"># Set the name attribute </span>
+<span class="n">G_1971</span> <span class="o">=</span> <span class="n">snapshot_dict</span><span class="p">[</span><span class="s2">&quot;subgraph_1971&quot;</span><span class="p">]</span>
+<span class="n">G_1971</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;1971&quot;</span>  <span class="c1"># Set the name attribute </span>
+<span class="n">G_1980</span> <span class="o">=</span> <span class="n">snapshot_dict</span><span class="p">[</span><span class="s2">&quot;subgraph_1980&quot;</span><span class="p">]</span>
+<span class="n">G_1980</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;1980&quot;</span>  <span class="c1"># Set the name attribute </span>
+<span class="n">G_1984</span> <span class="o">=</span> <span class="n">snapshot_dict</span><span class="p">[</span><span class="s2">&quot;subgraph_1984&quot;</span><span class="p">]</span>
+<span class="n">G_1984</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;1984&quot;</span>  <span class="c1"># Set the name attribute </span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_subgraph_with_shared_nodes</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a subgraph from G1 containing only nodes that are also present in G2.&quot;&quot;&quot;</span>
+    <span class="n">shared_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">G1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">G2</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>  <span class="c1"># Find the intersection of node sets</span>
+    <span class="n">subgraph</span> <span class="o">=</span> <span class="n">G1</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">shared_nodes</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># Create subgraph, important to copy </span>
+    <span class="k">return</span> <span class="n">subgraph</span>
+
+<span class="c1"># Create subgraphs for each time period pair:</span>
+<span class="n">G_1956_subgraph</span> <span class="o">=</span> <span class="n">create_subgraph_with_shared_nodes</span><span class="p">(</span><span class="n">G_1956</span><span class="p">,</span> <span class="n">G_1960</span><span class="p">)</span>
+<span class="n">G_1960_subgraph</span> <span class="o">=</span> <span class="n">create_subgraph_with_shared_nodes</span><span class="p">(</span><span class="n">G_1960</span><span class="p">,</span> <span class="n">G_1964</span><span class="p">)</span>
+<span class="n">G_1967_subgraph</span> <span class="o">=</span> <span class="n">create_subgraph_with_shared_nodes</span><span class="p">(</span><span class="n">G_1967</span><span class="p">,</span> <span class="n">G_1971</span><span class="p">)</span>
+<span class="n">G_1980_subgraph</span> <span class="o">=</span> <span class="n">create_subgraph_with_shared_nodes</span><span class="p">(</span><span class="n">G_1980</span><span class="p">,</span> <span class="n">G_1984</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;BMC_PPI_L3N-main/&quot;</span><span class="p">)</span>  <span class="c1"># Path to the directory of L3 project code</span>
+<span class="kn">import</span> <span class="nn">core</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="metrics-for-success">
+<h3>Metrics for Success<a class="headerlink" href="#metrics-for-success" title="Link to this heading">#</a></h3>
+<p>To assess the performance of our link prediction algorithms and test the central hypothesis, we are employing a suite of established metrics: accuracy, precision, and recall (sensitivity). Accuracy provides an overall measure of a model’s ability to correctly predict both the presence and absence of links. Precision quantifies the reliability of the predictions, indicating the proportion of predicted links that actually materialize in the network’s evolution. Recall reflects a model’s ability to discover true new links, revealing how well it captures the network’s underlying growth patterns.</p>
+<p>The calculation of these metrics involves several steps. First, we compare the lists of links predicted by our algorithms (Common Neighbors, Preferential Attachment, and L3) against the actual new links that appear in the subsequent network snapshot for each time period. From this comparison, we identify True Positives (correctly predicted links), False Positives (predicted links that did not form), True Negatives (correctly predicted absences of links), and False Negatives (actual new links missed by the predictions). This is a binary classification system combining the two classes True/False and Positive/Negative, which in the literature on link prediction is known as the confusion matrix.<a class="footnote-reference brackets" href="#id33" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>85<span class="fn-bracket">]</span></a> Finally, we calculate the values of accuracy, precision, and recall using standard formulas.<a class="footnote-reference brackets" href="#id34" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>86<span class="fn-bracket">]</span></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time period pairs and corresponding subgraphs</span>
+<span class="n">time_period_pairs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="n">G_1956</span><span class="p">,</span> <span class="n">G_1960</span><span class="p">,</span> <span class="n">G_1956_subgraph</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">G_1960</span><span class="p">,</span> <span class="n">G_1964</span><span class="p">,</span> <span class="n">G_1960_subgraph</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">G_1967</span><span class="p">,</span> <span class="n">G_1971</span><span class="p">,</span> <span class="n">G_1967_subgraph</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">G_1980</span><span class="p">,</span> <span class="n">G_1984</span><span class="p">,</span> <span class="n">G_1980_subgraph</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="c1"># Create neighborhood dictionaries</span>
+<span class="k">def</span> <span class="nf">create_neighborhood_dict</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="n">neighborhood_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">neighbors</span><span class="p">:</span>  <span class="c1"># Only add nodes with at least one neighbor </span>
+            <span class="n">neighborhood_dict</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">neighbors</span>
+    <span class="k">return</span> <span class="n">neighborhood_dict</span>
+
+<span class="c1"># Link prediction methods</span>
+<span class="k">def</span> <span class="nf">common_neighbors</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># Default threshold of at least one common neighbor</span>
+    <span class="k">for</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">non_edges</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">node1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">node2</span><span class="p">]):</span> 
+            <span class="n">common_neighbor_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">common_neighbors</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">common_neighbor_count</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">common_neighbor_count</span><span class="p">)</span>  <span class="c1"># Include the count for analysis</span>
+
+<span class="k">def</span> <span class="nf">preferential_attachment</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>  <span class="c1"># Add a default threshold of 0</span>
+  <span class="n">degrees</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">non_edges</span><span class="p">(</span><span class="n">G</span><span class="p">):</span> 
+    <span class="n">score</span> <span class="o">=</span> <span class="n">degrees</span><span class="p">[</span><span class="n">node1</span><span class="p">]</span> <span class="o">*</span> <span class="n">degrees</span><span class="p">[</span><span class="n">node2</span><span class="p">]</span> 
+    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>  <span class="c1"># Apply the threshold</span>
+      <span class="k">yield</span> <span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span> 
+
+
+<span class="k">def</span> <span class="nf">calculate_total_non_edges</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+    <span class="n">total_possible_edges</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># For undirected graphs</span>
+    <span class="n">existing_edges</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span>
+    <span class="n">total_non_edges</span> <span class="o">=</span> <span class="n">total_possible_edges</span> <span class="o">-</span> <span class="n">existing_edges</span>
+    <span class="k">return</span> <span class="n">total_non_edges</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_metrics</span><span class="p">(</span><span class="n">predicted_links</span><span class="p">,</span> <span class="n">actual_new_edges</span><span class="p">,</span> <span class="n">total_non_edges</span><span class="p">):</span>  <span class="c1"># Add total_non_edges</span>
+    <span class="n">TP</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">FP</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">FN</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="n">predicted_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">predicted_links</span><span class="p">)</span>
+    <span class="n">actual_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">actual_new_edges</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">predicted_set</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">actual_set</span><span class="p">:</span>
+            <span class="n">TP</span> <span class="o">+=</span> <span class="mi">1</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">FP</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">FN</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual_set</span><span class="p">)</span> <span class="o">-</span> <span class="n">TP</span>  
+
+    <span class="n">TN</span> <span class="o">=</span> <span class="n">total_non_edges</span> <span class="o">-</span> <span class="n">TP</span> <span class="o">-</span> <span class="n">FP</span> <span class="o">-</span> <span class="n">FN</span> <span class="c1"># Calculate True Negatives</span>
+
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">TN</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">TN</span> <span class="o">+</span> <span class="n">FP</span> <span class="o">+</span> <span class="n">FN</span><span class="p">)</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">TP</span> <span class="o">/</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">FP</span><span class="p">)</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="n">TP</span> <span class="o">/</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">FN</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">TP</span><span class="p">,</span> <span class="n">FP</span><span class="p">,</span> <span class="n">FN</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span>  <span class="c1"># Return all metrics</span>
+
+
+<span class="k">def</span> <span class="nf">store_prediction_results</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">time_period</span><span class="p">,</span> <span class="n">predicted_links</span><span class="p">,</span> <span class="n">actual_new_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Stores prediction results and calculates metrics in JSON format.&quot;&quot;&quot;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">method_name</span><span class="p">,</span>
+        <span class="s2">&quot;time_period&quot;</span><span class="p">:</span> <span class="n">time_period</span><span class="p">,</span>
+        <span class="s2">&quot;predicted_links&quot;</span><span class="p">:</span> <span class="n">predicted_links</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">actual_new_edges</span><span class="p">:</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;actual_new_edges&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">actual_new_edges</span>
+        <span class="n">total_non_edges</span> <span class="o">=</span> <span class="n">calculate_total_non_edges</span><span class="p">(</span><span class="n">G1</span><span class="p">)</span>
+
+        <span class="c1"># Calculate metrics (add total_non_edges as an argument)</span>
+        <span class="n">TP</span><span class="p">,</span> <span class="n">FP</span><span class="p">,</span> <span class="n">FN</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span> <span class="o">=</span> <span class="n">calculate_metrics</span><span class="p">(</span><span class="n">predicted_links</span><span class="p">,</span> <span class="n">actual_new_edges</span><span class="p">,</span> <span class="n">total_non_edges</span><span class="p">)</span>
+
+        <span class="c1"># Add metrics to the results</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;TP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">TP</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;FP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FP</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;FN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FN</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">accuracy</span> 
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;precision&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">precision</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;recall&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">recall</span> 
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">time_period</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">method_name</span> <span class="o">+</span> <span class="s2">&quot;_results.json&quot;</span> 
+    <span class="n">results_folder</span> <span class="o">=</span> <span class="s2">&quot;link-prediction-results&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">results_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Create the folder if needed</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_folder</span><span class="p">,</span> <span class="n">time_period</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">method_name</span> <span class="o">+</span> <span class="s2">&quot;_results.json&quot;</span><span class="p">)</span> 
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Running link prediction for each time period</span>
+<span class="k">for</span> <span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="p">,</span> <span class="n">subgraph</span> <span class="ow">in</span> <span class="n">time_period_pairs</span><span class="p">:</span>
+
+    <span class="c1"># Calculate new edges before proceeding</span>
+    <span class="n">edges_G1</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">G1</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+    <span class="n">edges_G2</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">G2</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+    <span class="n">new_edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">edges_G2</span> <span class="o">-</span> <span class="n">edges_G1</span><span class="p">)</span>  <span class="c1"># Convert back to list if needed for storage</span>
+
+    <span class="c1"># Common Neighbors</span>
+    <span class="n">predicted_links</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span> <span class="k">for</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">common_neighbors</span><span class="p">(</span><span class="n">subgraph</span><span class="p">)]</span>
+    <span class="n">store_prediction_results</span><span class="p">(</span><span class="s2">&quot;Common Neighbors&quot;</span><span class="p">,</span> <span class="n">G1</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">G2</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">predicted_links</span><span class="p">,</span> <span class="n">new_edges</span><span class="p">)</span>
+
+    <span class="c1"># Preferential Attachment</span>
+    <span class="n">predicted_links</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span> <span class="k">for</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">preferential_attachment</span><span class="p">(</span><span class="n">subgraph</span><span class="p">)]</span>
+    <span class="n">store_prediction_results</span><span class="p">(</span><span class="s2">&quot;Preferential Attachment&quot;</span><span class="p">,</span> <span class="n">G1</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">G2</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">predicted_links</span><span class="p">,</span> <span class="n">new_edges</span><span class="p">)</span>
+
+    <span class="c1"># L3E Calculation</span>
+    <span class="n">neighborhood_dict</span> <span class="o">=</span> <span class="n">create_neighborhood_dict</span><span class="p">(</span><span class="n">subgraph</span><span class="p">)</span>
+    <span class="n">sortedScores</span><span class="p">,</span> <span class="n">sortedPPIs</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">L3E</span><span class="o">.</span><span class="n">L3E</span><span class="p">(</span><span class="n">neighborhood_dict</span><span class="p">,</span> <span class="s2">&quot;f1Alt&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Combine links and scores into tuples</span>
+    <span class="n">link_and_scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sortedPPIs</span><span class="p">,</span> <span class="n">sortedScores</span><span class="p">))</span> 
+
+    <span class="c1"># Sort by scores (descending) </span>
+    <span class="n">link_and_scores</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+
+    <span class="c1"># Extract top 1000</span>
+    <span class="n">top_links</span><span class="p">,</span> <span class="n">top_scores</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">link_and_scores</span><span class="p">[:</span><span class="mi">750</span><span class="p">])</span>   
+
+    <span class="c1"># Convert back to lists if needed</span>
+    <span class="n">top_links</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">top_links</span><span class="p">)</span>
+    <span class="n">top_scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">top_scores</span><span class="p">)</span>
+
+    <span class="c1"># Store the L3E results (with scores)</span>
+    <span class="n">store_prediction_results</span><span class="p">(</span><span class="s2">&quot;L3E&quot;</span><span class="p">,</span> <span class="n">G1</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">G2</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">top_links</span><span class="p">,</span> <span class="n">new_edges</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_prediction_results</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">results_folder</span> <span class="o">=</span> <span class="s2">&quot;link-prediction-results&quot;</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span> 
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time_periods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;1956-1960&quot;</span><span class="p">,</span> <span class="s2">&quot;1960-1964&quot;</span><span class="p">,</span> <span class="s2">&quot;1967-1971&quot;</span><span class="p">,</span> <span class="s2">&quot;1980-1984&quot;</span><span class="p">]</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Common Neighbors&quot;</span><span class="p">,</span> <span class="s2">&quot;Preferential Attachment&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E&quot;</span><span class="p">]</span>
+
+<span class="n">all_results</span> <span class="o">=</span> <span class="p">{}</span> 
+<span class="k">for</span> <span class="n">time_period</span> <span class="ow">in</span> <span class="n">time_periods</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">time_period</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">method</span> <span class="o">+</span> <span class="s2">&quot;_results.json&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">load_prediction_results</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">all_results</span><span class="p">[(</span><span class="n">time_period</span><span class="p">,</span> <span class="n">method</span><span class="p">)]</span> <span class="o">=</span> <span class="n">data</span>  <span class="c1"># Store results for easy access</span>
+
+
+<span class="k">def</span> <span class="nf">plot_results</span><span class="p">(</span><span class="n">all_results</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the given metric across time periods for all methods.&quot;&quot;&quot;</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">method_data</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">time_period</span><span class="p">,</span> <span class="n">method</span><span class="p">),</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">all_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">method_data</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">metric_name</span><span class="p">])</span>  
+
+    <span class="k">for</span> <span class="n">method</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">method_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> 
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_periods</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">method</span><span class="p">)</span> 
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time Period&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">metric_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">())</span>  <span class="c1"># Capitalize for better label</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chart </span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">: Link Prediction </span><span class="si">{</span><span class="n">metric_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> Comparison&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">method_data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call the function for each metric</span>
+<span class="n">method_data_accuracy</span> <span class="o">=</span> <span class="n">plot_results</span><span class="p">(</span><span class="n">all_results</span><span class="p">,</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;13&quot;</span><span class="p">)</span>
+<span class="n">method_data_precision</span> <span class="o">=</span> <span class="n">plot_results</span><span class="p">(</span><span class="n">all_results</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;14&quot;</span><span class="p">)</span>
+<span class="n">method_data_recall</span> <span class="o">=</span> <span class="n">plot_results</span><span class="p">(</span><span class="n">all_results</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;15&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7a3fa1e8ef45d2094c73f2c347eb696fad30750da9957fe3421ac4df3c96189e.png" src="_images/7a3fa1e8ef45d2094c73f2c347eb696fad30750da9957fe3421ac4df3c96189e.png" />
+<img alt="_images/537d6a99f1ecb3cb18e5089f735d782b3b374375d5736f2cc6ce94ccd3b2bc52.png" src="_images/537d6a99f1ecb3cb18e5089f735d782b3b374375d5736f2cc6ce94ccd3b2bc52.png" />
+<img alt="_images/27f32b3bc5a0617ad6d840748a1c2ee3ae5839f3c34ee4af17b7c4b190fc6205.png" src="_images/27f32b3bc5a0617ad6d840748a1c2ee3ae5839f3c34ee4af17b7c4b190fc6205.png" />
+</div>
+</div>
+</section>
+<section id="interpretation-of-results">
+<h3>Interpretation of results<a class="headerlink" href="#interpretation-of-results" title="Link to this heading">#</a></h3>
+<p>Our link prediction results across the different time periods demonstrate consistently high accuracy scores. However, precision and recall metrics are markedly low. The potential implications of this are that the high accuracy is deceptive due to an imbalance between the number of potential links that form (few) and those that do not (many). Because our model predicts “non-edge” most of the time and this is true, it leads to high accuracy scores but fails to identify most of the new connections.</p>
+<p>The results could suggest that despite the dramatic physical separation imposed by the Berlin Wall, the underlying principles driving network growth might have remained consistent to some degree. However, the low precision and recall warrant a deeper investigation. The results indicate that our link prediction methods fail to pinpoint specific new links likely to form with high confidence. This does not suggest disproportionate change being introduced by the Berlin Wall but rather that our network model is not appropriate for the link prediction methods tested.</p>
+<p>Given this, we are not able to gain any noteworthy insight into our historical research question, but we do have a new starting point from which to think about how link prediction could be used to understand our system. All metrics results indicate that the methods are unreliable for this use case. However, an alternative model may still be able to provide understanding of the underlying system. For a further iteration, building on the limitations we have seen here, we could use the geographic approach we used in 3.2. and group nodes into larger geographic items such as postcode areas. We would then have edges between postcode areas and could see if our results are improved by using a less fine-grained network model.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id18" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">70</a><span class="fn-bracket">]</span></span>
+<p>Kumar, Ajay, Singh, Shashank Sheshar, Singh, Kuldeep, Biswas, Bhaskar, Link prediction techniques, applications, and performance: A survey, in: PhysicaA, 553, 2020, pg. 1-2.</p>
+</aside>
+<aside class="footnote brackets" id="id19" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">71</a><span class="fn-bracket">]</span></span>
+<p>Wu, Xiaomin, Wu, Jianshe, Li, Yafeng, Zhang, Qian, Link prediction of time-evolving network based on node ranking, in: Knowledge-Based Systems, 195, 2020, pg. 2.</p>
+</aside>
+<aside class="footnote brackets" id="id20" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">72</a><span class="fn-bracket">]</span></span>
+<p>For a good overview of link prediction methods please see the survey Kumar et al., Link prediction techniques, applications, and performance.</p>
+</aside>
+<aside class="footnote brackets" id="id21" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">73</a><span class="fn-bracket">]</span></span>
+<p>Kumar et al., pg. 5.</p>
+</aside>
+<aside class="footnote brackets" id="id22" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">74</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg. 5.</p>
+</aside>
+<aside class="footnote brackets" id="id23" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">75</a><span class="fn-bracket">]</span></span>
+<p>The case is made in this paper which tests TCP metrics compared to an alternative method derived specifically for PPI network link prediction, see: I.A. Kovács et al., Network-based prediction of protein interactions, in: Nature Communications 10, 2019, pg. 1.</p>
+</aside>
+<aside class="footnote brackets" id="id24" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">76</a><span class="fn-bracket">]</span></span>
+<p>Fenemore, pg. 226.</p>
+</aside>
+<aside class="footnote brackets" id="id25" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">77</a><span class="fn-bracket">]</span></span>
+<p>Christian Dirks, Christian Mentel, pg. 35-36.</p>
+</aside>
+<aside class="footnote brackets" id="id26" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">78</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg. 37.</p>
+</aside>
+<aside class="footnote brackets" id="id27" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">79</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Reinhardt, Öffentlicher Personenverkehr in zwei deutschen Staaten, pg, 643.</p>
+</aside>
+<aside class="footnote brackets" id="id28" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">80</a><span class="fn-bracket">]</span></span>
+<p>Fenemore, pg. 219-221.</p>
+</aside>
+<aside class="footnote brackets" id="id29" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">81</a><span class="fn-bracket">]</span></span>
+<p>I.A. Kovács et al., pg. 6.</p>
+</aside>
+<aside class="footnote brackets" id="id30" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">82</a><span class="fn-bracket">]</span></span>
+<p>Ho Yin Yuen, Jesper Jansson, Better Link Prediction for Protein-Protein Interaction Networks, in: IEEE 20th International Conference on BioInformatics and BioEngineering, 2020, pg. 55.</p>
+</aside>
+<aside class="footnote brackets" id="id31" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">83</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg. 53</p>
+</aside>
+<aside class="footnote brackets" id="id32" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">84</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg. 55.</p>
+</aside>
+<aside class="footnote brackets" id="id33" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">85</a><span class="fn-bracket">]</span></span>
+<p>I.A. Kovács et al., pg. 22</p>
+</aside>
+<aside class="footnote brackets" id="id34" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">86</a><span class="fn-bracket">]</span></span>
+<p>Formulas are defined here: I.A. Kovács et al., pg. 22. They are common to many domains such as Machine Learning, Information Retrieval.</p>
+</aside>
+</aside>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-link-prediction">Introduction to Link Prediction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introducing-our-historical-research-question">Introducing our historical research question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#link-prediction-implementation">3.3.3 Link prediction implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l3-link-prediction">L3 link prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-for-success">Metrics for Success</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-results">Interpretation of results</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
