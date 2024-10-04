@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -474,7 +474,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\noahb\AppData\Local\Temp\ipykernel_6476\36107111.py:3: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed in 3.11. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap()`` or ``pyplot.get_cmap()`` instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\noahb\AppData\Local\Temp\ipykernel_19820\36107111.py:3: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed in 3.11. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap()`` or ``pyplot.get_cmap()`` instead.
   cmap = plt.cm.get_cmap(&#39;tab10&#39;)
 </pre></div>
 </div>
@@ -611,6 +611,67 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">subgraphs_east</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1964</span><span class="p">,</span> <span class="mi">1967</span><span class="p">,</span> <span class="mi">1971</span><span class="p">,</span> <span class="mi">1976</span><span class="p">,</span> <span class="mi">1980</span><span class="p">,</span> <span class="mi">1982</span><span class="p">,</span> <span class="mi">1984</span><span class="p">]:</span>
+<span class="ne">---&gt; </span><span class="mi">10</span>         <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">update_graph_for_year</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:],</span> <span class="n">district_data</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>         <span class="n">pa_subgraphs_with_data</span><span class="p">[</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]]</span> <span class="o">=</span> <span class="n">updated_graph</span> 
+
+<span class="nn">Cell In[9], line 3,</span> in <span class="ni">update_graph_for_year</span><span class="nt">(graph, year, district_data)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">update_graph_for_year</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">district_data</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>         <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">assign_bezirk_attributes</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">district_data</span><span class="p">[</span><span class="n">year</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="k">return</span> <span class="n">updated_graph</span>
+
+<span class="nn">Cell In[8], line 6,</span> in <span class="ni">assign_bezirk_attributes</span><span class="nt">(G, dictionary)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">assign_bezirk_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="sd">     Assigns &#39;bezirk&#39;, &#39;area&#39;, &#39;population&#39; attributes to nodes in the graph for specific year.</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="sd"> </span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">6</span>     <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> 
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>         <span class="n">neighbourhood</span> <span class="o">=</span> <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">)</span>  <span class="c1"># Get neighborhood, handle missing attribute gracefully</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python312\Lib\site-packages\networkx\classes\graph.py:1648,</span> in <span class="ni">Graph.copy</span><span class="nt">(self, as_view)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1646</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+<span class="nn">   1647 G.add_nodes_from((n, d.copy()) for n, d</span> in <span class="ni">self._node.items</span><span class="nt">())</span>
+<span class="ne">-&gt; </span><span class="mi">1648</span> <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1649</span>     <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">datadict</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+<span class="nn">   1650     for u, nbrs</span> in <span class="ni">self._adj.items</span><span class="nt">()</span>
+<span class="nn">   1651     for v, datadict</span> in <span class="ni">nbrs.items</span><span class="nt">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1652</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1653</span> <span class="k">return</span> <span class="n">G</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python312\Lib\site-packages\networkx\classes\graph.py:1023,</span> in <span class="ni">Graph.add_edges_from</span><span class="nt">(self, ebunch_to_add, **attr)</span>
+<span class="g g-Whitespace">    </span><span class="mi">968</span> <span class="k">def</span> <span class="nf">add_edges_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ebunch_to_add</span><span class="p">,</span> <span class="o">**</span><span class="n">attr</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">969</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Add all the edges in ebunch_to_add.</span>
+<span class="g g-Whitespace">    </span><span class="mi">970</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">971</span><span class="sd">     Parameters</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1021</span><span class="sd">     &gt;&gt;&gt; G.add_edges_from(list((5, n) for n in G.nodes))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1022</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1023</span>     <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ebunch_to_add</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span>         <span class="n">ne</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1025</span>         <span class="k">if</span> <span class="n">ne</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python312\Lib\site-packages\networkx\classes\graph.py:1649,</span> in <span class="ni">&lt;genexpr&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1646</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+<span class="nn">   1647 G.add_nodes_from((n, d.copy()) for n, d</span> in <span class="ni">self._node.items</span><span class="nt">())</span>
+<span class="g g-Whitespace">   </span><span class="mi">1648</span> <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span>
+<span class="ne">-&gt; </span><span class="mi">1649</span>     <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">datadict</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+<span class="nn">   1650     for u, nbrs</span> in <span class="ni">self._adj.items</span><span class="nt">()</span>
+<span class="nn">   1651     for v, datadict</span> in <span class="ni">nbrs.items</span><span class="nt">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1652</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1653</span> <span class="k">return</span> <span class="n">G</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
 </div>
 <p>To assess the relationship between network development and existing infrastructure, we define a network utilisation score, which will be the fitness of the node. This score considers a node’s population density and the total number of nodes within its district (district node count). These factors represent the potential demand for network services within a particular area. We then divide this combined value by the node’s degree (number of connections). A higher degree, with population density and node count held constant, suggests a more extensive network already exists in that location, potentially indicating lower per-connection utilisation. Therefore, this revised utilisation score reflects the relative intensity of network usage within a node’s district. Our hypothesis proposes that nodes with a lower utilisation score (areas with higher potential demand and potentially less existing infrastructure) are more likely to experience an increase in degree (gain new connections) in subsequent network snapshots. This analysis aims to explore if areas with higher network utilisation are already well-served and less likely to see further expansion.</p>
 <div class="cell docutils container">
@@ -669,12 +730,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correlation for years 1964-1967: 0.043657186656731045
-Correlation for years 1967-1971: -0.019640912686584026
-Correlation for years 1971-1976: -0.0035231334432410393
-Correlation for years 1976-1980: 0.016563623841320645
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correlation for years 1964-1967: 0.043657186656731024
+Correlation for years 1967-1971: -0.019640912686584033
+Correlation for years 1971-1976: -0.003523133443241033
+Correlation for years 1976-1980: 0.016563623841320662
 Correlation for years 1980-1982: 0.017135444418461356
-Correlation for years 1982-1984: 0.0035103239880702078
+Correlation for years 1982-1984: 0.0035103239880702056
 </pre></div>
 </div>
 </div>
@@ -699,7 +760,7 @@ Correlation for years 1982-1984: 0.0035103239880702078
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/d907aebdd5d32f899259ab0a339de9d1856d76c5c727120e35c0fc5224be7b28.png" src="_images/d907aebdd5d32f899259ab0a339de9d1856d76c5c727120e35c0fc5224be7b28.png" />
+<img alt="_images/6db9917025df79191c2ef9c1934d2c9c705ef7e74d45755c2eed91019022c6d6.png" src="_images/6db9917025df79191c2ef9c1934d2c9c705ef7e74d45755c2eed91019022c6d6.png" />
 </div>
 </div>
 <p>Our results show no real correlation between our utilisation score and degree change as the network evolves. We actually see a slight but not significant positive correlation that would point to a general trend that higher utilisation scores tend to experience greater increases in degree. This goes against our expectations that areas with less network usage might see more further development. However, the correlations for all periods teeter around 0 (between 0.04 and -0.02). This indicates that there is no relationship between our utilisation score and degree change. The results indicate that other factors are stronger determinants of network growth.</p>
@@ -737,12 +798,12 @@ Correlation for years 1982-1984: 0.0035103239880702078
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12.2% of nodes appear in 4 snapshots
-17.3% of nodes appear in 2 snapshots
-21.9% of nodes appear in 1 snapshots
 18.3% of nodes appear in 7 snapshots
-7.2% of nodes appear in 6 snapshots
 7.5% of nodes appear in 5 snapshots
+17.3% of nodes appear in 2 snapshots
 15.7% of nodes appear in 3 snapshots
+21.9% of nodes appear in 1 snapshots
+7.2% of nodes appear in 6 snapshots
 </pre></div>
 </div>
 </div>
@@ -930,11 +991,11 @@ Correlation for years 1982-1984: 0.0035103239880702078
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\noahb\AppData\Local\Temp\ipykernel_6476\1980311921.py:3: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed in 3.11. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap()`` or ``pyplot.get_cmap()`` instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\noahb\AppData\Local\Temp\ipykernel_28020\1980311921.py:3: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed in 3.11. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap()`` or ``pyplot.get_cmap()`` instead.
   cmap = cm.get_cmap(&#39;tab10&#39;, len(unique_years))  # &#39;tab10&#39; is a good discrete colormap
 </pre></div>
 </div>
-<img alt="_images/b9110995dbcb7e4d80a312ce37795c3adec583675447579c5376d34e1f1558ca.png" src="_images/b9110995dbcb7e4d80a312ce37795c3adec583675447579c5376d34e1f1558ca.png" />
+<img alt="_images/a08524f7b6025838d762926b5d97569a4adc56d24d437eb1a181c119b1553c27.png" src="_images/a08524f7b6025838d762926b5d97569a4adc56d24d437eb1a181c119b1553c27.png" />
 </div>
 </div>
 <p>Our results show a moderately strong correlation (0.49) between change in weighted degree change and population change. This suggests a dynamic relationship where network expansion is linked to population increases in a district. The comparison to the weaker correlation of degree change and population change (0.22) indicates that there is a particular type of network expansion (one with higher weighted edges) that is highly correlated to population increase. This would point to the expansion of the S-Bahn holding particular importance, as these are the edges with the highest weights, along with the U-Bahn (of which East Berlin however, only had two lines at the time).</p>
