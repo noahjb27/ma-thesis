@@ -1,0 +1,1175 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Preferential attachment &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'preferential-attachement';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Conclusion" href="conclusion.html" />
+    <link rel="prev" title="Investigating growth in the model" href="investigating-growth.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="network-model.html">From source to dynamic network model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating-data-model.html">Creating the data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="investigating-growth.html">Investigating growth in the model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fpreferential-attachement.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/preferential-attachement.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Preferential attachment</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preferential-attachment-and-scale-free-distribution-characteristics-in-our-network">Preferential attachment and scale-free distribution characteristics in our network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proposing-our-hypothesis-and-introducing-node-fitness">Proposing our hypothesis and introducing node fitness</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-network-growth-over-time">Analysing Network Growth Over Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revising-our-hypothesis">Revising our hypothesis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-on-pa">Conclusion on PA</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="preferential-attachment">
+<h1>Preferential attachment<a class="headerlink" href="#preferential-attachment" title="Link to this heading">#</a></h1>
+<p>In our endeavour to understand how the public transportation system expanded, we now turn to the concepts of preferential attachment and node fitness. Preferential attachment has for a long time been a central concept to explain network growth. The concept postulates that new nodes in a growing network are more likely to connect to existing nodes that already have many connections. This acts as a driving force behind so called scale-free networks where a small number of nodes have a very high number of connections, while most of nodes have only a few connections.<a class="footnote-reference brackets" href="#id10" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>61<span class="fn-bracket">]</span></a></p>
+<p>Network scientists find this notion intriguing since real-world networks frequently exhibit a scale-free distribution of edges. This pertains to public transport systems, where it has been widely hypothesised that a 20/80 rule applies, meaning that around 20% of the stops bear approximately 80% of the overall network burden.<a class="footnote-reference brackets" href="#id11" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>62<span class="fn-bracket">]</span></a></p>
+<p>To understand scale-free distribution, we need to introduce the concept of degree, which is simply refers to the number of connections or edges a node has. The degree distribution is then a summary that describes how many nodes have a certain number of connections. There are different types of degree distributions, one of which is the scale-free distribution introduced earlier, which would include the 20/80 rule. An alternative degree distribution is a random distribution, which might look like a bell curve in that most nodes have an average number of connections, with a smaller number having very high or very low connections. In an L-space graph, a scale-free degree distribution indicates that a newly added node is more likely to be added to an existing already well-connected node. This type of small-worldness, observed in public transport networks is seen as an effective method because it allows for connectivity and clustering around central nodes and for increased travel distance to more spare areas, which is measured in path length.<a class="footnote-reference brackets" href="#id12" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>63<span class="fn-bracket">]</span></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loading necessary libraries, some must first be installed using pip</span>
+
+<span class="c1"># Data Handling </span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+
+<span class="c1"># Network Analysis</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+<span class="c1"># Statistics</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+
+<span class="c1"># Data Visualization</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+
+<span class="c1"># Data Loading and Connection</span>
+<span class="kn">import</span> <span class="nn">json</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load</span>
+<span class="n">subgraphs_east</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;subgraphs_east.npy&#39;</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="s1">&#39;TRUE&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pa_snapshots</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">subgraphs_east</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mi">1963</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span> <span class="o">&lt;</span> <span class="mi">1988</span><span class="p">:</span>
+        <span class="n">pa_snapshots</span><span class="p">[</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]]</span> <span class="o">=</span> <span class="n">graph</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="preferential-attachment-and-scale-free-distribution-characteristics-in-our-network">
+<h2>Preferential attachment and scale-free distribution characteristics in our network<a class="headerlink" href="#preferential-attachment-and-scale-free-distribution-characteristics-in-our-network" title="Link to this heading">#</a></h2>
+<p>We can investigate preferential attachment in our network by analysing the degree distribution across multiple snapshots. If preferential attachment is a factor, we expect the degree distribution to display characteristics of a scale-free distribution, specifically, we expect to see an increase in hubs over time. We will test this in our network by looking at the degree distribution across snapshots. We begin with a visualisation of the trend of degree distribution in our network snapshots.</p>
+<p>For this investigation, we will be constricting our analysis to just the period from 1964-1984 in East Berlin. We are doing this because we want to look at network expansion largely independent of significant external historical factors we observed in our first analysis section. The periods of reconstruction and the creation of the Berlin Wall do not allow for an observation of natural network evolution in terms of preferential attachment as we see excessive growth in the former and contraction in the latter. We also chose to focus on East Berlin because of the steady growth that was observed in the network nodes, which lends itself to this analysis. We thereby are avoiding the volatility of the source bias for West Berlin during this period.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_multiple_degree_distributions</span><span class="p">(</span><span class="n">graph_snapshots</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>  <span class="c1"># Slightly larger figure</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;tab10&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">graph_snapshots</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">degree</span><span class="p">()])</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph_snapshots</span><span class="p">))</span>  <span class="c1"># More direct normalization</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">))</span>  
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Degree&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Nodes&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Chart 9: Evolution of Degree Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Example Usage</span>
+<span class="n">plot_multiple_degree_distributions</span><span class="p">(</span><span class="n">pa_snapshots</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\noahb\AppData\Local\Temp\ipykernel_19820\36107111.py:3: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed in 3.11. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap()`` or ``pyplot.get_cmap()`` instead.
+  cmap = plt.cm.get_cmap(&#39;tab10&#39;)
+</pre></div>
+</div>
+<img alt="_images/177370586254da09f09bca884b3a53e5e51ea34a28937c86c80968bdebe809f4.png" src="_images/177370586254da09f09bca884b3a53e5e51ea34a28937c86c80968bdebe809f4.png" />
+</div>
+</div>
+<p>There is a clear increase in nodes with a higher degree. We see that the latter snapshots tend to have more higher degree nodes than earlier snapshots. We want to investigate this further by looking at 2 metrics. Firstly, we will calculate the total degree held by the top 5% of nodes in each of our network snapshots. Secondly, we will calculate the number of nodes that are hubs in our network; we can define hubs by the degree of the node being above a certain threshold, say 5.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_metrics</span><span class="p">(</span><span class="n">graph_snapshots</span><span class="p">,</span> <span class="n">top_x_percent</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">hub_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">graph_snapshots</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">degree</span><span class="p">()])</span>  <span class="c1"># Get an array of node degrees</span>
+        <span class="n">total_degree</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span>  <span class="c1"># Calculate the sum of all degrees</span>
+        <span class="n">top_x_degree</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_degree</span> <span class="o">*</span> <span class="n">top_x_percent</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># Find the sum of degrees for the top x% nodes </span>
+
+        <span class="c1"># Calculate the number of hubs (if a threshold is provided)</span>
+        <span class="n">num_hubs</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">d</span> <span class="o">&gt;=</span> <span class="n">hub_threshold</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">)</span> <span class="k">if</span> <span class="n">hub_threshold</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+            <span class="s1">&#39;top_x_degree&#39;</span><span class="p">:</span> <span class="n">top_x_degree</span><span class="p">,</span>
+            <span class="s1">&#39;num_hubs&#39;</span><span class="p">:</span> <span class="n">num_hubs</span>
+        <span class="p">})</span>
+    <span class="k">return</span> <span class="n">metrics</span>
+
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">calculate_metrics</span><span class="p">(</span><span class="n">pa_snapshots</span><span class="p">,</span> <span class="n">top_x_percent</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">hub_threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">metric</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">]</span>
+<span class="n">top_x_degrees</span> <span class="o">=</span> <span class="p">[</span><span class="n">metric</span><span class="p">[</span><span class="s1">&#39;top_x_degree&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">]</span>
+<span class="n">num_hubs</span> <span class="o">=</span> <span class="p">[</span><span class="n">metric</span><span class="p">[</span><span class="s1">&#39;num_hubs&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>  <span class="c1"># Adjust figure size as needed</span>
+
+<span class="c1"># Plot the top x% degree sum</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">top_x_degrees</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Top 5% Degree Sum&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the number of hubs</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">num_hubs</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Number of Hubs&#39;</span><span class="p">)</span>
+
+<span class="c1"># Customize the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Metric Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chart 10: Network Metrics over Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/55082bfea21ab352b4812b8f44daf6ee4eaef26a2a9c3d08ea508fac357a7e4d.png" src="_images/55082bfea21ab352b4812b8f44daf6ee4eaef26a2a9c3d08ea508fac357a7e4d.png" />
+</div>
+</div>
+<p>In our results, we see a consistent increase in the total degree held by the top 5% of nodes. This signals a concentration of activity over time. Our second metric clearly shows a substantial increase in the number of nodes emerging as hubs over time, this value has more than doubled in the twenty years observed. Both of these metrics align with our expectations that the public transportation system exhibits preferential attachment dynamics. Both the concentration of connections and the increasing formation of hubs suggests that newly added nodes might be preferentially connected to nodes that already have many substantial connections. This indicates scale-free characteristics in our system, as a few hubs increasingly have a disproportionate number of connections.</p>
+<p>While our observations are substantiated by the metrics, we have important considerations that must be addressed to contextualise these values. Firstly, the hub threshold of 5 was chosen because it means that at least three different lines must use a node to achieve a degree of 5. This is because a single line, will connect to a node with two edges, unless it is a terminal station. Thus, this node acts as a viable interchange station. We also know that other factors can play a significant role in explaining our evolving degree distribution. One of these factors could be the spatial layout of the transport system, specifically in regard to increasing population. This brings us to the next part of our analysis, in which we will use the idea of node fitness to test for alternative factors influencing hub creation.</p>
+</section>
+<section id="proposing-our-hypothesis-and-introducing-node-fitness">
+<h2>Proposing our hypothesis and introducing node fitness<a class="headerlink" href="#proposing-our-hypothesis-and-introducing-node-fitness" title="Link to this heading">#</a></h2>
+<p>The hypothesis that we will test is that “nodes in an area of lower population density are more likely to increase their connections”. This suggests that the public transportation network aimed to expand into underserved areas before population increase in these areas happens. The second part of this hypothesis that will be tested is that “there is a strong correlation between network growth in an area and population increases”.</p>
+<p>The historical background to our hypothesis is the established historical argument that transportation is not the product of the metropole but its producer. This assumption has existed since the early 1900s when national economist Carl Ballod argued that “It was not the urban expansion plan that primarily determined the structural expansion of the metropolis, but the route and speed of mass transportation”.<a class="footnote-reference brackets" href="#id13" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>64<span class="fn-bracket">]</span></a> More recently, Arvid Krüger has also argued that long-term spatial developments including population increase follow the development of traffic, not precede it. His work specifically looks at post-1990 Berlin and the increases in population in areas outside of the city. Arvid argued specifically that an area like Falkensee would not have had the population increase it did if there had not already been a S-Bahn connection servicing the area. <a class="footnote-reference brackets" href="#id14" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>65<span class="fn-bracket">]</span></a></p>
+<p>To truly explore this issue, we have to move beyond the concept of preferential attachment and include another theory that was developed in the late 1990s and early 2000s in network science, known as the fitness hypothesis.</p>
+<p>The fitness hypothesis adds another layer to preferential attachment. Here, nodes have intrinsic qualities or fitness which determines their connection probability.<a class="footnote-reference brackets" href="#id15" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>66<span class="fn-bracket">]</span></a> This is contrary to a basic understanding of preferential attachment in which all nodes are equally likely to attract new nodes, when excluding their existing degree.</p>
+<p>To test the applicability of the fitness model of network growth, we will be using the work of Garlaschelli and Loffredo as an example. This work investigated the World Trade Web and hypothesised that trade between countries could be better explained using GDP as the fitness of the node (country) than preferential attachment alone. To do this, they compared the predicted behaviour with the empirical one and found close agreement between them.<a class="footnote-reference brackets" href="#id16" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>67<span class="fn-bracket">]</span></a></p>
+</section>
+<section id="analysing-network-growth-over-time">
+<h2>Analysing Network Growth Over Time<a class="headerlink" href="#analysing-network-growth-over-time" title="Link to this heading">#</a></h2>
+<p>To begin with, we will introduce the external data we are using for this section. We have gathered administrative and population data for East Berlin for the time period of 1964 – 1984. This data includes the administrative districts in East Berlin at the end of each snapshot year, its area in square kilometres, its population and its population density.</p>
+<p>The sources for this information are yearly statistics (Statistische Jahrbücher), published by the Statistisches Landesamt Berlin from 1952 – 1990.<a class="footnote-reference brackets" href="#id17" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>68<span class="fn-bracket">]</span></a> These are West Berlin publications, which also published information for East Berlin, taken from the Statistische Jahrbücher of the DDR. As official state statistical information, the validity of the figures should be high, however, particularly for the population statistics, there may have been pressure to downplay any emigration in the context of the Cold War.<a class="footnote-reference brackets" href="#id18" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>69<span class="fn-bracket">]</span></a> This is another reason we have decided to focus on the period after the construction of the Berlin Wall, because we can be relatively certain that there were no major population losses at the time that were covered up in the available data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load from the JSON file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;data-external/district-data.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+    <span class="n">district_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">assign_bezirk_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assigns &#39;bezirk&#39;, &#39;area&#39;, &#39;population&#39; attributes to nodes in the graph for specific year.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> 
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="n">neighbourhood</span> <span class="o">=</span> <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">)</span>  <span class="c1"># Get neighborhood, handle missing attribute gracefully</span>
+
+        <span class="k">for</span> <span class="n">district</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">neighbourhood</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="c1"># Check if neighborhood is within the district</span>
+                <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;bezirk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">district</span>
+                <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;area&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;population&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;population_density&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;population_density&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">break</span>  <span class="c1"># Stop searching once a match is found</span>
+        
+    <span class="n">nodes_to_remove</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;nan&quot;</span><span class="p">:</span>
+            <span class="n">nodes_to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes_to_remove</span><span class="p">:</span>
+        <span class="n">updated_graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">updated_graph</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">update_graph_for_year</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">district_data</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">assign_bezirk_attributes</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">district_data</span><span class="p">[</span><span class="n">year</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">updated_graph</span>
+
+<span class="n">pa_subgraphs_with_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">subgraphs_east</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1964</span><span class="p">,</span> <span class="mi">1967</span><span class="p">,</span> <span class="mi">1971</span><span class="p">,</span> <span class="mi">1976</span><span class="p">,</span> <span class="mi">1980</span><span class="p">,</span> <span class="mi">1982</span><span class="p">,</span> <span class="mi">1984</span><span class="p">]:</span>
+        <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">update_graph_for_year</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:],</span> <span class="n">district_data</span><span class="p">)</span>
+        <span class="n">pa_subgraphs_with_data</span><span class="p">[</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]]</span> <span class="o">=</span> <span class="n">updated_graph</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">subgraphs_east</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1964</span><span class="p">,</span> <span class="mi">1967</span><span class="p">,</span> <span class="mi">1971</span><span class="p">,</span> <span class="mi">1976</span><span class="p">,</span> <span class="mi">1980</span><span class="p">,</span> <span class="mi">1982</span><span class="p">,</span> <span class="mi">1984</span><span class="p">]:</span>
+<span class="ne">---&gt; </span><span class="mi">10</span>         <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">update_graph_for_year</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:],</span> <span class="n">district_data</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>         <span class="n">pa_subgraphs_with_data</span><span class="p">[</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]]</span> <span class="o">=</span> <span class="n">updated_graph</span> 
+
+<span class="nn">Cell In[9], line 3,</span> in <span class="ni">update_graph_for_year</span><span class="nt">(graph, year, district_data)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">update_graph_for_year</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">district_data</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>         <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">assign_bezirk_attributes</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">district_data</span><span class="p">[</span><span class="n">year</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="k">return</span> <span class="n">updated_graph</span>
+
+<span class="nn">Cell In[8], line 6,</span> in <span class="ni">assign_bezirk_attributes</span><span class="nt">(G, dictionary)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">assign_bezirk_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="sd">     Assigns &#39;bezirk&#39;, &#39;area&#39;, &#39;population&#39; attributes to nodes in the graph for specific year.</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="sd"> </span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">6</span>     <span class="n">updated_graph</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> 
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>         <span class="n">neighbourhood</span> <span class="o">=</span> <span class="n">updated_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">)</span>  <span class="c1"># Get neighborhood, handle missing attribute gracefully</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python312\Lib\site-packages\networkx\classes\graph.py:1648,</span> in <span class="ni">Graph.copy</span><span class="nt">(self, as_view)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1646</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+<span class="nn">   1647 G.add_nodes_from((n, d.copy()) for n, d</span> in <span class="ni">self._node.items</span><span class="nt">())</span>
+<span class="ne">-&gt; </span><span class="mi">1648</span> <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1649</span>     <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">datadict</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+<span class="nn">   1650     for u, nbrs</span> in <span class="ni">self._adj.items</span><span class="nt">()</span>
+<span class="nn">   1651     for v, datadict</span> in <span class="ni">nbrs.items</span><span class="nt">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1652</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1653</span> <span class="k">return</span> <span class="n">G</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python312\Lib\site-packages\networkx\classes\graph.py:1023,</span> in <span class="ni">Graph.add_edges_from</span><span class="nt">(self, ebunch_to_add, **attr)</span>
+<span class="g g-Whitespace">    </span><span class="mi">968</span> <span class="k">def</span> <span class="nf">add_edges_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ebunch_to_add</span><span class="p">,</span> <span class="o">**</span><span class="n">attr</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">969</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Add all the edges in ebunch_to_add.</span>
+<span class="g g-Whitespace">    </span><span class="mi">970</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">971</span><span class="sd">     Parameters</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1021</span><span class="sd">     &gt;&gt;&gt; G.add_edges_from(list((5, n) for n in G.nodes))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1022</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1023</span>     <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ebunch_to_add</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span>         <span class="n">ne</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1025</span>         <span class="k">if</span> <span class="n">ne</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python312\Lib\site-packages\networkx\classes\graph.py:1649,</span> in <span class="ni">&lt;genexpr&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1646</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+<span class="nn">   1647 G.add_nodes_from((n, d.copy()) for n, d</span> in <span class="ni">self._node.items</span><span class="nt">())</span>
+<span class="g g-Whitespace">   </span><span class="mi">1648</span> <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span>
+<span class="ne">-&gt; </span><span class="mi">1649</span>     <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">datadict</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+<span class="nn">   1650     for u, nbrs</span> in <span class="ni">self._adj.items</span><span class="nt">()</span>
+<span class="nn">   1651     for v, datadict</span> in <span class="ni">nbrs.items</span><span class="nt">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1652</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1653</span> <span class="k">return</span> <span class="n">G</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<p>To assess the relationship between network development and existing infrastructure, we define a network utilisation score, which will be the fitness of the node. This score considers a node’s population density and the total number of nodes within its district (district node count). These factors represent the potential demand for network services within a particular area. We then divide this combined value by the node’s degree (number of connections). A higher degree, with population density and node count held constant, suggests a more extensive network already exists in that location, potentially indicating lower per-connection utilisation. Therefore, this revised utilisation score reflects the relative intensity of network usage within a node’s district. Our hypothesis proposes that nodes with a lower utilisation score (areas with higher potential demand and potentially less existing infrastructure) are more likely to experience an increase in degree (gain new connections) in subsequent network snapshots. This analysis aims to explore if areas with higher network utilisation are already well-served and less likely to see further expansion.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_utilisation</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="n">utilisation</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">bezirk_counts</span> <span class="o">=</span> <span class="p">{}</span>  
+
+    <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;bezirk&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;bezirk&#39;</span><span class="p">]):</span>
+            <span class="n">bezirk</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;bezirk&#39;</span><span class="p">]</span> 
+            <span class="n">bezirk_counts</span><span class="p">[</span><span class="n">bezirk</span><span class="p">]</span> <span class="o">=</span> <span class="n">bezirk_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;bezirk&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;bezirk&#39;</span><span class="p">]):</span>  <span class="c1"># Check for &#39;bezirk&#39; again</span>
+            <span class="n">bezirk_node_count</span> <span class="o">=</span> <span class="n">bezirk_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;bezirk&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nx</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">utilisation</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;population_density&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">bezirk_node_count</span><span class="p">))</span> <span class="o">/</span> <span class="n">nx</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">utilisation</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">utilisation</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">utilisation</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analysis</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pa_subgraphs_with_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">year1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pa_subgraphs_with_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">year2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pa_subgraphs_with_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">G1</span> <span class="o">=</span> <span class="n">pa_subgraphs_with_data</span><span class="p">[</span><span class="n">year1</span><span class="p">]</span>
+    <span class="n">G2</span> <span class="o">=</span> <span class="n">pa_subgraphs_with_data</span><span class="p">[</span><span class="n">year2</span><span class="p">]</span>
+
+    <span class="n">utilisation</span> <span class="o">=</span> <span class="n">calculate_utilisation</span><span class="p">(</span><span class="n">G1</span><span class="p">)</span>  <span class="c1"># Calculate utilisation</span>
+
+    <span class="n">matching_underutilisation</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Store utilisation for matching nodes </span>
+
+    <span class="n">degree_changes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G1</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G2</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>  <span class="c1"># Check if the node exists in the next snapshot</span>
+            <span class="n">degree_1</span> <span class="o">=</span> <span class="n">G1</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">degree_2</span> <span class="o">=</span> <span class="n">G2</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">degree_change</span> <span class="o">=</span> <span class="n">degree_2</span> <span class="o">-</span> <span class="n">degree_1</span>
+            <span class="n">matching_underutilisation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">utilisation</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>  <span class="c1"># Add underutilisation</span>
+            <span class="n">degree_changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">degree_change</span><span class="p">)</span>
+
+    <span class="c1"># Analysis of correlation </span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;utilisation&#39;</span><span class="p">:</span> <span class="n">matching_underutilisation</span><span class="p">,</span> <span class="s1">&#39;degree_change&#39;</span><span class="p">:</span> <span class="n">degree_changes</span><span class="p">})</span>  <span class="c1"># Updated list</span>
+    <span class="n">correlation</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;utilisation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;degree_change&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Correlation for years </span><span class="si">{</span><span class="n">year1</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">year2</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">,</span> <span class="n">correlation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correlation for years 1964-1967: 0.043657186656731024
+Correlation for years 1967-1971: -0.019640912686584033
+Correlation for years 1971-1976: -0.003523133443241033
+Correlation for years 1976-1980: 0.016563623841320662
+Correlation for years 1980-1982: 0.017135444418461356
+Correlation for years 1982-1984: 0.0035103239880702056
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the scatter plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;utilisation&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;degree_change&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Utilisation Score&quot;</span><span class="p">)</span>  <span class="c1"># Correct label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Change in Degree&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Chart 11: Correlation between Utilisation and Degree Change&quot;</span><span class="p">)</span>
+
+<span class="c1"># Adding a regression line</span>
+<span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;utilisation&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;degree_change&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">best_fit_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;utilisation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;utilisation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+<span class="n">best_fit_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">slope</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">intercept</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">best_fit_x</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">best_fit_x</span><span class="p">,</span> <span class="n">best_fit_y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>  <span class="c1"># Plot regression line in red</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6db9917025df79191c2ef9c1934d2c9c705ef7e74d45755c2eed91019022c6d6.png" src="_images/6db9917025df79191c2ef9c1934d2c9c705ef7e74d45755c2eed91019022c6d6.png" />
+</div>
+</div>
+<p>Our results show no real correlation between our utilisation score and degree change as the network evolves. We actually see a slight but not significant positive correlation that would point to a general trend that higher utilisation scores tend to experience greater increases in degree. This goes against our expectations that areas with less network usage might see more further development. However, the correlations for all periods teeter around 0 (between 0.04 and -0.02). This indicates that there is no relationship between our utilisation score and degree change. The results indicate that other factors are stronger determinants of network growth.</p>
+<p>A weakness of the approach may have been that the number of nodes that appeared from one snapshot to the next was simply not significant enough, especially since the amount of degree changes would have been even less. This leads to more random results. We have calculated that around 22% of nodes exist only in 1 snapshot, this figure is high, but it is not high enough for this to be the main cause of error in our utilisation score.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">analyze_node_persistence</span><span class="p">(</span><span class="n">pa_subgraphs_with_data</span><span class="p">):</span>
+    <span class="n">node_counts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">total_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># To keep track of unique nodes</span>
+
+    <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">pa_subgraphs_with_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">nodes_in_year</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+        <span class="n">total_nodes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodes_in_year</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes_in_year</span><span class="p">:</span>
+            <span class="n">node_counts</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">snapshot_appearance_counts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">persistence</span> <span class="ow">in</span> <span class="n">node_counts</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">snapshot_appearance_counts</span><span class="p">[</span><span class="n">persistence</span><span class="p">]</span> <span class="o">=</span> <span class="n">snapshot_appearance_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">persistence</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">total_snapshots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pa_subgraphs_with_data</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">snapshots_present</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">snapshot_appearance_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">total_nodes</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% of nodes appear in </span><span class="si">{</span><span class="n">snapshots_present</span><span class="si">}</span><span class="s2"> snapshots&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analyze_node_persistence</span><span class="p">(</span><span class="n">pa_subgraphs_with_data</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12.2% of nodes appear in 4 snapshots
+18.3% of nodes appear in 7 snapshots
+7.5% of nodes appear in 5 snapshots
+17.3% of nodes appear in 2 snapshots
+15.7% of nodes appear in 3 snapshots
+21.9% of nodes appear in 1 snapshots
+7.2% of nodes appear in 6 snapshots
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="revising-our-hypothesis">
+<h2>Revising our hypothesis<a class="headerlink" href="#revising-our-hypothesis" title="Link to this heading">#</a></h2>
+<p>The previous analysis, focusing on a complex utilisation metric, revealed weak correlations between network underutilisation and subsequent degree changes. This finding, while suggestive, highlights the complex interplay of factors influencing network development. To gain greater clarity, we now shift our attention to a potentially more direct question: Is the increase in a district’s network strength (measured by total degree) correlated with population growth over the same period?</p>
+<p>We want to see if there is a strong correlation between network degree change and population increase in the districts of East Berlin during the period under observation. We want to explore if network growth in a district is correlated to the increase of network strength (measured by total degree) in a network.</p>
+<p>If we discover a strong positive correlation, it strengthens the hypothesis that network expansion precedes and potentially facilitates population increases. This contrast with the earlier analysis underscores both the multifaceted nature of network development and the potential value of simpler models when exploring specific relationships within complex systems.</p>
+<p>In order to gain a degree of insight into causation, we are taking the population data of the district at the end of the year while the network data is from snapshots earlier in the year, often around April or May. This temporal lag leaves the possibility that if the correlation is strong, it may be that there was a causation effect on population increase, in line with our hypothesis. This though would be no implication of causation but would rather leave the possibility open for causation to be further investigated. Other influences on population growth such as housing policies and economic development are all tied together, and ascertaining any directionality of causation is impossible without further investigation of a wide range of sources in close reading as well.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_unique_bezirke</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="n">bezirke</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;bezirk&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;bezirk&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">bezirke</span><span class="p">)</span>  <span class="c1"># Convert to list for easier iteration</span>
+
+<span class="k">def</span> <span class="nf">calculate_bezirk_degree_strength</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="n">bezirk_degrees</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;bezirk&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">bezirk</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;bezirk&#39;</span><span class="p">]</span>
+            <span class="n">bezirk_degrees</span><span class="p">[</span><span class="n">bezirk</span><span class="p">]</span> <span class="o">=</span> <span class="n">bezirk_degrees</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">graph</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bezirk_degrees</span>
+
+<span class="k">def</span> <span class="nf">calculate_bezirk_weighted_degree_strength</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="n">bezirk_weighted_degrees</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;bezirk&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">bezirk</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;bezirk&#39;</span><span class="p">]</span>
+            <span class="n">total_weight</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>  <span class="c1"># Iterate over neighbors of the node</span>
+                <span class="n">total_weight</span> <span class="o">+=</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">node</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;weight&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Fetch weight or default to 1</span>
+
+            <span class="n">bezirk_weighted_degrees</span><span class="p">[</span><span class="n">bezirk</span><span class="p">]</span> <span class="o">=</span> <span class="n">bezirk_weighted_degrees</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">total_weight</span>
+    <span class="k">return</span> <span class="n">bezirk_weighted_degrees</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_population_changes_for_year</span><span class="p">(</span><span class="n">population_data</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+    <span class="n">population_changes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">changes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">available_years</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">population_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  <span class="c1"># Sort to ensure predictable order</span>
+
+    <span class="c1"># Find the correct previous year </span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">available_years</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">available_years</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
+                <span class="n">previous_year</span> <span class="o">=</span> <span class="n">available_years</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># Get the previous year from the list</span>
+                <span class="k">break</span>  <span class="c1"># Exit the loop once we find the previous year</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># If it&#39;s the first year, there&#39;s no previous data</span>
+                <span class="k">return</span> <span class="n">population_changes</span>  
+
+    <span class="n">current_year_data</span> <span class="o">=</span> <span class="n">population_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+    <span class="n">previous_year_data</span> <span class="o">=</span> <span class="n">population_data</span><span class="p">[</span><span class="n">previous_year</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">bezirk</span> <span class="ow">in</span> <span class="n">current_year_data</span><span class="p">:</span>  
+        <span class="n">previous_population</span> <span class="o">=</span> <span class="n">previous_year_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">])[</span><span class="mi">2</span><span class="p">]</span> 
+        <span class="n">current_population</span> <span class="o">=</span> <span class="n">current_year_data</span><span class="p">[</span><span class="n">bezirk</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">changes</span><span class="p">[</span><span class="n">bezirk</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_population</span> <span class="o">-</span> <span class="n">previous_population</span>  <span class="c1"># Store population change</span>
+
+        <span class="n">previous_area</span> <span class="o">=</span> <span class="n">previous_year_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Get area</span>
+        <span class="n">current_area</span> <span class="o">=</span> <span class="n">current_year_data</span><span class="p">[</span><span class="n">bezirk</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Ensure area was present in both years and is non-zero</span>
+        <span class="k">if</span> <span class="n">previous_area</span> <span class="ow">and</span> <span class="n">current_area</span> <span class="ow">and</span> <span class="n">previous_area</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">current_area</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">previous_density</span> <span class="o">=</span> <span class="n">previous_population</span> <span class="o">/</span> <span class="n">previous_area</span>
+            <span class="n">current_density</span> <span class="o">=</span> <span class="n">current_population</span> <span class="o">/</span> <span class="n">current_area</span>
+            <span class="n">changes</span><span class="p">[</span><span class="n">bezirk</span> <span class="o">+</span> <span class="s1">&#39;_density&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_density</span> <span class="o">-</span> <span class="n">previous_density</span>
+
+        <span class="c1"># Absolute values</span>
+        <span class="n">changes</span><span class="p">[</span><span class="n">bezirk</span> <span class="o">+</span> <span class="s1">&#39;_population_abs&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">current_population</span> 
+        <span class="n">changes</span><span class="p">[</span><span class="n">bezirk</span> <span class="o">+</span> <span class="s1">&#39;_density_abs&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">current_population</span> <span class="o">/</span> <span class="n">current_area</span>  <span class="c1"># Update with absolute density </span>
+        
+    <span class="k">return</span> <span class="n">changes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">analyze_correlation</span><span class="p">(</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">population_data</span><span class="p">):</span> 
+    <span class="n">all_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">previous_bezirk_degrees</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Store degrees from the previous year</span>
+
+    <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">snapshots</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">bezirke</span> <span class="o">=</span> <span class="n">get_unique_bezirke</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="n">bezirk_degrees</span> <span class="o">=</span> <span class="n">calculate_bezirk_degree_strength</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="n">bezirk_degrees_weighted</span> <span class="o">=</span> <span class="n">calculate_bezirk_weighted_degree_strength</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="n">population_changes</span> <span class="o">=</span> <span class="n">get_population_changes_for_year</span><span class="p">(</span><span class="n">population_data</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> 
+
+
+        <span class="k">for</span> <span class="n">bezirk</span> <span class="ow">in</span> <span class="n">bezirke</span><span class="p">:</span>
+
+            <span class="n">absolute_population</span> <span class="o">=</span> <span class="n">population_changes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span> <span class="o">+</span> <span class="s1">&#39;_population_abs&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> 
+            <span class="n">absolute_density</span> <span class="o">=</span> <span class="n">population_changes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span> <span class="o">+</span> <span class="s1">&#39;_density_abs&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Fetch absolute density</span>
+            
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                <span class="s1">&#39;bezirk&#39;</span><span class="p">:</span> <span class="n">bezirk</span><span class="p">,</span>
+                <span class="s1">&#39;degree_strength&#39;</span><span class="p">:</span> <span class="n">bezirk_degrees</span><span class="p">[</span><span class="n">bezirk</span><span class="p">],</span> 
+                <span class="s1">&#39;degree_strength_weighted&#39;</span><span class="p">:</span> <span class="n">bezirk_degrees_weighted</span><span class="p">[</span><span class="n">bezirk</span><span class="p">],</span>
+                <span class="s1">&#39;population_change&#39;</span><span class="p">:</span> <span class="n">population_changes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> 
+                <span class="s1">&#39;density_change&#39;</span><span class="p">:</span> <span class="n">population_changes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span> <span class="o">+</span> <span class="s1">&#39;_density&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="s1">&#39;population&#39;</span><span class="p">:</span> <span class="n">absolute_population</span><span class="p">,</span>
+                <span class="s1">&#39;density&#39;</span><span class="p">:</span> <span class="n">absolute_density</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Degree Change </span>
+            <span class="n">previous_degree</span> <span class="o">=</span> <span class="n">previous_bezirk_degrees</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;degree_change&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bezirk_degrees</span><span class="p">[</span><span class="n">bezirk</span><span class="p">]</span> <span class="o">-</span> <span class="n">previous_degree</span>
+
+            <span class="c1"># Weighted Degree Change</span>
+            <span class="n">previous_degree_weighted</span> <span class="o">=</span> <span class="n">previous_bezirk_degrees</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bezirk</span> <span class="o">+</span> <span class="s2">&quot;_weighted&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;degree_change_weighted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bezirk_degrees_weighted</span><span class="p">[</span><span class="n">bezirk</span><span class="p">]</span> <span class="o">-</span> <span class="n">previous_degree_weighted</span>
+
+            <span class="n">all_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="n">previous_bezirk_degrees</span> <span class="o">=</span> <span class="n">bezirk_degrees</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># Update for the next iteration</span>
+        <span class="n">previous_bezirk_degrees</span> <span class="o">=</span> <span class="p">{</span><span class="n">bezirk</span> <span class="o">+</span> <span class="s2">&quot;_weighted&quot;</span> <span class="p">:</span> <span class="n">degree</span> <span class="k">for</span> <span class="n">bezirk</span><span class="p">,</span> <span class="n">degree</span> <span class="ow">in</span> <span class="n">bezirk_degrees_weighted</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span> <span class="c1"># Store weighted degrees</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_data</span><span class="p">)</span> 
+
+    <span class="c1"># removing rows where districts are created for first time</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;density_change&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>  
+
+    
+    <span class="c1"># Calculate correlations and p-values</span>
+    <span class="n">correlations</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">feature1</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;degree_change&#39;</span><span class="p">,</span> <span class="s1">&#39;degree_change_weighted&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">feature2</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;population_change&#39;</span><span class="p">,</span> <span class="s1">&#39;density_change&#39;</span><span class="p">]:</span>
+            <span class="n">corr</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">feature1</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">feature2</span><span class="p">])</span>
+            <span class="n">correlations</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">feature1</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">feature2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">p_value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span><span class="p">,</span> <span class="n">correlations</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">,</span> <span class="n">correlations</span> <span class="o">=</span> <span class="n">analyze_correlation</span><span class="p">(</span><span class="n">pa_subgraphs_with_data</span><span class="p">,</span> <span class="n">district_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assign a color to each unique year </span>
+<span class="n">unique_years</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;tab10&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_years</span><span class="p">))</span>  <span class="c1"># &#39;tab10&#39; is a good discrete colormap</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_years</span><span class="p">)))</span>
+
+<span class="n">color_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">unique_years</span><span class="p">,</span> <span class="n">colors</span><span class="p">))</span>
+
+<span class="c1"># Map the year column to colors</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">color_dict</span><span class="p">)</span>
+
+<span class="c1"># Plot using the &#39;color&#39; column</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;degree_change_weighted&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;population_change&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Change in Weighted Degree&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Population Change&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chart 12: Correlation of Change in Weighted Degree and District Population Change&#39;</span><span class="p">)</span>
+<span class="c1"># Legend handles</span>
+<span class="n">handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">color_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">)</span> 
+
+<span class="c1"># Calculate regression line</span>
+<span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;degree_change_weighted&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;population_change&#39;</span><span class="p">])</span>
+
+<span class="c1"># Best-fit line coordinates</span>
+<span class="n">x_vals</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;degree_change_weighted&#39;</span><span class="p">]</span>
+<span class="n">best_fit_y</span> <span class="o">=</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">x_vals</span> <span class="o">+</span> <span class="n">intercept</span>
+
+<span class="c1"># Plot the regression line</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">best_fit_y</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Regression Line&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\noahb\AppData\Local\Temp\ipykernel_28020\1980311921.py:3: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed in 3.11. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap()`` or ``pyplot.get_cmap()`` instead.
+  cmap = cm.get_cmap(&#39;tab10&#39;, len(unique_years))  # &#39;tab10&#39; is a good discrete colormap
+</pre></div>
+</div>
+<img alt="_images/a08524f7b6025838d762926b5d97569a4adc56d24d437eb1a181c119b1553c27.png" src="_images/a08524f7b6025838d762926b5d97569a4adc56d24d437eb1a181c119b1553c27.png" />
+</div>
+</div>
+<p>Our results show a moderately strong correlation (0.49) between change in weighted degree change and population change. This suggests a dynamic relationship where network expansion is linked to population increases in a district. The comparison to the weaker correlation of degree change and population change (0.22) indicates that there is a particular type of network expansion (one with higher weighted edges) that is highly correlated to population increase. This would point to the expansion of the S-Bahn holding particular importance, as these are the edges with the highest weights, along with the U-Bahn (of which East Berlin however, only had two lines at the time).</p>
+</section>
+<section id="conclusion-on-pa">
+<h2>Conclusion on PA<a class="headerlink" href="#conclusion-on-pa" title="Link to this heading">#</a></h2>
+<p>Our analysis of the East Berlin public transportation network’s historical expansion has explored a multifaceted process of understanding change based on preferential attachment and node fitness. We confirmed the presence of preferential attachment dynamics within the network. The degree distribution showed a pattern consistent with a scale-free structure, where hubs emerged and increasingly gained connections over time. This supports the understanding that newly added nodes tend to preferentially attach to well-established nodes, mirroring observations in other real-world transport networks.</p>
+<p>Moving beyond preferential attachment, we investigated the fitness hypothesis using a defined utilisation score. Contrary to our initial hypothesis, nodes with lower initial utilisation were not more likely to gain new connections. This highlights the intricate factors shaping network growth, where population density and existing infrastructure might not be the sole determinants.</p>
+<p>We then attempted to circumvent the limitations and faults in the current network model by investigating change not on the node level but on the geographic district level. We explored the relationship between network expansion and population growth, which revealed a moderately strong correlation. Districts experiencing an increase in network strength, potentially due the expansion of higher-weighted S-Bahn and U-Bahn lines, often saw corresponding population increases. This correlation, coupled with the temporal lag between network data and population data, raises the possibility that network expansion played a role in facilitating population growth, supporting a central argument of urban historians. However, we must emphasise that correlation does not imply causation. Further historical research is needed to fully untangle the complex relationship between network expansion, population growth, and other factors like housing policies and economic development.</p>
+<p>Overall, our findings demonstrate the value of applying network science concepts to historical data. Concepts like preferential attachment and node fitness provide a quantitative framework to investigate processes of urban and infrastructural evolution. By blending these frameworks with nuanced historical analysis, we can move towards a more comprehensive understanding of how our transportation system and urban development intertwine over time. We are however constrained by our data collection and modelling process and have to be able to reflect on the strengths and weaknesses involved when analysing based on these.</p>
+<p>In the future, we will explore additional relating fitness indices that have the potential to act as influencing factors in network growth. We could plug in further geographically based socioeconomic data or even historical land-use data. We also encourage the blending of a qualitative approach to the research. It would have been beneficial to integrate qualitative historical evidence, such as urban planning policies, and personal accounts, to enrich our understanding of factors driving network development decisions.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">61</a><span class="fn-bracket">]</span></span>
+<p>Tom Snijders, Network Dynamics, in: Scott, John, Carrington, Peter (eds.), The SAGE Handbook of Social Network Analysis, London 2016, pg. 507.</p>
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">62</a><span class="fn-bracket">]</span></span>
+<p>Tanuja Shanmukhappa, Ivan Wang-Hei Ho, K.Tse Chi, pg. 51.</p>
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">63</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg 55.</p>
+</aside>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">64</a><span class="fn-bracket">]</span></span>
+<p>Carl Ballod, Schnellverkehr und Tarifreform, in: Jahrbuch für Gesetzgebung, Verwaltung und Volkswirtschaft im Deutschen Reiche, 28.</p>
+</aside>
+<aside class="footnote brackets" id="id14" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">65</a><span class="fn-bracket">]</span></span>
+<p>Arvid Krüger, Die Bahn als Treiber der Siedlungsentwicklung?, Kassel 2021, pg. 25.</p>
+</aside>
+<aside class="footnote brackets" id="id15" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">66</a><span class="fn-bracket">]</span></span>
+<p>Diego Garlaschelli, Maria I. Loffredo, Fitness-dependent topological properties of the world trade web, in: Physical review letters 93(18), 2004, pg. 1.</p>
+</aside>
+<aside class="footnote brackets" id="id16" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">67</a><span class="fn-bracket">]</span></span>
+<p>Ibid., pg. 3.</p>
+</aside>
+<aside class="footnote brackets" id="id17" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">68</a><span class="fn-bracket">]</span></span>
+<p>You can find all Statische Jahrbücher scanned and published by the Zentral- und Landesbibliothek Berlin <a class="reference external" href="https://digital.zlb.de/viewer/metadata/16308449/2/">https://digital.zlb.de/viewer/metadata/16308449/2/</a>.</p>
+</aside>
+<aside class="footnote brackets" id="id18" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">69</a><span class="fn-bracket">]</span></span>
+<p>M. Fenemore, Fighting the Cold War in Post-Blockade, Pre-Wall Berlin, Berlin 2019, pg. 221.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="investigating-growth.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Investigating growth in the model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="conclusion.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Conclusion</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preferential-attachment-and-scale-free-distribution-characteristics-in-our-network">Preferential attachment and scale-free distribution characteristics in our network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proposing-our-hypothesis-and-introducing-node-fitness">Proposing our hypothesis and introducing node fitness</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-network-growth-over-time">Analysing Network Growth Over Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revising-our-hypothesis">Revising our hypothesis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-on-pa">Conclusion on PA</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

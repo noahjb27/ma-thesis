@@ -1,0 +1,67 @@
+Traceback (most recent call last):
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\nbclient\client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\noahb\AppData\Local\Programs\Python\Python312\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# yeast
+import_funcs = [synthetic_PPI.parse_synthetic(root="../")]
+dss = ['synthetic']
+
+for i in range(len(dss)):
+    ds = dss[i]
+    ppi_df = import_funcs[i]
+    ppi = [list(arr) for arr in np.asarray(ppi_df[['nodeA', 'nodeB']])]
+    ppiNodes = ns.BRToNode(ppi)
+    unionNodes = ppiNodes
+    
+    samplePPIs = []
+    with open("./sampled_datasets/{}_sampledPPIs.json".format(ds), "r") as f:
+        samplePPIs = json.loads(f.read())
+    
+    candPPINums = []
+    for samplePPI in samplePPIs:
+        sampleNodes = list(ns.BRToNode(samplePPI))
+        candPPINums.append(len(sampleNodes)*(len(sampleNodes)-1)/2 - len(samplePPI))
+    sampledPPINum = int(len(ppi)*0.5)
+    
+    print("ds {}, num of nodes: {}, ppi: {}, mean cand ppi: {}, sampled ppi: {}".format(
+            ds, len(unionNodes), len(ppi), np.mean(candPPINums), sampledPPINum
+    ))
+------------------
+
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [1;32mIn[3], line 13[0m
+[0;32m     10[0m unionNodes [38;5;241m=[39m ppiNodes
+[0;32m     12[0m samplePPIs [38;5;241m=[39m []
+[1;32m---> 13[0m [38;5;28;01mwith[39;00m [38;5;28;43mopen[39;49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43m./sampled_datasets/[39;49m[38;5;132;43;01m{}[39;49;00m[38;5;124;43m_sampledPPIs.json[39;49m[38;5;124;43m"[39;49m[38;5;241;43m.[39;49m[43mformat[49m[43m([49m[43mds[49m[43m)[49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mr[39;49m[38;5;124;43m"[39;49m[43m)[49m [38;5;28;01mas[39;00m f:
+[0;32m     14[0m     samplePPIs [38;5;241m=[39m json[38;5;241m.[39mloads(f[38;5;241m.[39mread())
+[0;32m     16[0m candPPINums [38;5;241m=[39m []
+
+File [1;32m~\AppData\Local\Programs\Python\Python312\Lib\site-packages\IPython\core\interactiveshell.py:324[0m, in [0;36m_modified_open[1;34m(file, *args, **kwargs)[0m
+[0;32m    317[0m [38;5;28;01mif[39;00m file [38;5;129;01min[39;00m {[38;5;241m0[39m, [38;5;241m1[39m, [38;5;241m2[39m}:
+[0;32m    318[0m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
+[0;32m    319[0m         [38;5;124mf[39m[38;5;124m"[39m[38;5;124mIPython won[39m[38;5;124m'[39m[38;5;124mt let you open fd=[39m[38;5;132;01m{[39;00mfile[38;5;132;01m}[39;00m[38;5;124m by default [39m[38;5;124m"[39m
+[0;32m    320[0m         [38;5;124m"[39m[38;5;124mas it is likely to crash IPython. If you know what you are doing, [39m[38;5;124m"[39m
+[0;32m    321[0m         [38;5;124m"[39m[38;5;124myou can use builtins[39m[38;5;124m'[39m[38;5;124m open.[39m[38;5;124m"[39m
+[0;32m    322[0m     )
+[1;32m--> 324[0m [38;5;28;01mreturn[39;00m [43mio_open[49m[43m([49m[43mfile[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+[1;31mFileNotFoundError[0m: [Errno 2] No such file or directory: './sampled_datasets/synthetic_sampledPPIs.json'
+

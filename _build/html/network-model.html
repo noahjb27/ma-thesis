@@ -1,0 +1,676 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>From source to dynamic network model &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'network-model';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Creating the data model" href="creating-data-model.html" />
+    <link rel="prev" title="Introduction of project and historical context" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">From source to dynamic network model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating-data-model.html">Creating the data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="investigating-growth.html">Investigating growth in the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferential-attachement.html">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnetwork-model.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/network-model.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>From source to dynamic network model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-criticism">Source criticism</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geolocalisation">Geolocalisation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#incomplete-data">Incomplete data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time-window">Time window</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#incomplete-station-information">Incomplete station information</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-availability-of-information-of-stations">Changing availability of information of stations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#capacity-question">Capacity question</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frequency">Frequency</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domain-specific-challenges-to-data-collection-for-historical-network-construction">Domain specific challenges to data collection for historical network construction</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="from-source-to-dynamic-network-model">
+<h1>From source to dynamic network model<a class="headerlink" href="#from-source-to-dynamic-network-model" title="Link to this heading">#</a></h1>
+<section id="source-criticism">
+<h2>Source criticism<a class="headerlink" href="#source-criticism" title="Link to this heading">#</a></h2>
+<p>We will now focus on the description of how we go about constructing network models of the Berlin public transportation system from 1945-1989. Just as in any historical investigation, this must begin with the consideration of the sources. We must ask what sources we have available that could inform our understanding, in this case specifically to construct our network. In order to properly ascertain what knowledge can be extrapolated from our network, we must also have an understanding on what the sources’ purpose was and if this makes them reliable to inform our understanding of the system.</p>
+<p>The main set of sources that form the basis on which we build our network are the “Fahrplanbücher” (literally ‘timetable books’). These books were published by the Berlin transport authority (BVG) on an annual (early years) and biannual (post-1960) basis during the period under observation. All Fahrplanbücher were consulted at the BVG Archiv in Berlin Köpenick.<a class="footnote-reference brackets" href="#id10" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>38<span class="fn-bracket">]</span></a> The Fahrplanbücher provided comprehensive official listings of the entire transport system. They were intended to aid users of the system, which makes them ideal for a systematic overview, as they aimed to encompass line and key stations within a given year. The books feature a complete description of the lines operated by the BVG, including a timetable for each line and the key stops of each line. The information gathered from the Fahrplanbücher is:</p>
+<ol class="arabic simple">
+<li><p>Line-names,</p></li>
+<li><p>stations,</p></li>
+<li><p>frequency of service at 7:30 am (Monday – Friday),</p></li>
+<li><p>type of line (U-Bahn (subway), S-Bahn (city railway), Strassenbahn (tram), Bus or Fähre (ferry)) and</p></li>
+<li><p>year.</p></li>
+</ol>
+<p><img alt="Figure 1 - Fahrplan East Berlin 1961 example page" src="_images/Fig1.jpg" /><em>Figure 1 - Fahrplan East Berlin 1961 example page</em></p>
+<p>Where available other useful information is also gathered from this source, such as line length by distance (km) and time (min). The gathering of information from these sources was time intensive. It quickly became clear that an approach to use optical character recognition was impractical because of the changing and complex nature of how station names are arranged on the Fahrplan. As such, time intensive manual transcription of station names into a csv table was necessary.<a class="footnote-reference brackets" href="#id11" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>39<span class="fn-bracket">]</span></a></p>
+<p>Because of the time intensive nature of the transcription, only a selected range of years is modelled for this work, with the potential of extending this seamlessly in the future. The following years have been incorporated; 1946, 1951, 1956, 1960, 1961, 1964, 1967, 1971, 1976, 1980, 1982, 1984, 1989. In total, 13 Fahrplanbücher were consulted, with the goal of never having a gap of more than 5 years between snapshots. Certain periods, particularly around the early 1960s and 1980s have more snapshots since it was planned to have a particular, more fine-grained historical investigation into changes during these periods in the later sections of this work.</p>
+<p>This information allows us to construct a network of stations that is connected by lines for each year. The stations for a year become the node set for the static network and the service between two stations will be the edge set for the network. In addition, each station has a name, and the edges have additional information such as line, frequency, type and length. There are however limitations of the available information in the Fahrplanbücher, some of which can be overcome with additional information while others cannot.</p>
+<p>We must also realise that a Fahrplan (timetable) portrays an ideal state of the system. Common issues in transportation systems such as delays, construction and over-crowding are not reflected. However, the impact of this is limited because these are rather momentary challenges to the system and when compared to the 45-year scope of the current project have no real impact on our ability to see the network develop.</p>
+<section id="geolocalisation">
+<h3>Geolocalisation<a class="headerlink" href="#geolocalisation" title="Link to this heading">#</a></h3>
+<p>Most crucially for this project is that each station is also a physical space in Berlin with coordinates that can be collected as attributes of the respective station. The location of the station is not immediately clear from the station names available in the Fahrplan, as we are limited by the ability of semantic language to describe physical locations. For U-Bahn and S-Bahn stations, we can overcome this limitation with relative ease due to the wealth of published additional information on these larger structures and where the stations are currently or used to be. For tram and bus stations, geolocalisation presents a much greater challenge.</p>
+<p>While names such as “Hafenplatz” or “Stößenseebrücke” give strong clues on the approximate location of a station, others can be increasingly difficult to locate based on line name alone, such as a multitude of stations that are named “Berliner Strasse” (of which there are and have been many in Berlin). In general, station names which describe streets in the Fahrplanbücher will indicate that there is a station where the street in the station name intersects with the street that is being driven on. It is therefore necessary to have information which describes the route of each line and given this, we are then able to locate the intersection where the station is.</p>
+<p>We have two valuable sources that give us the route of the lines. In many cases (exclusively for West-Berlin), the Fahrplanbuch itself has an image showing the route a particular line takes. In addition to this, we can rely on the work done by Wolfgang Kramer.<a class="footnote-reference brackets" href="#id12" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>40<span class="fn-bracket">]</span></a> The other is the well maintained website (<a class="reference external" href="http://www.berliner-linienchronik.de">[www.berliner-linienchronik.de]{.ul}</a>) run by Fabian Sawall, who on the basis of a variety of sources, including the work of Wolfgang Kramer as well as transportation maps, the Fahrplanbücher, local reports and other BVG material has gathered the routes for all of the lines for most of the years during the period under observation. With this relatively complete information on routes, we are able to approximate the location of stations based on station names. The location of the stations is approximated. For example, when we know a street intersection around which a station is located, the middle of the intersection is chosen as location if no other information is available. This was determined to be the best approach as streets are relatively constant over the past 75 years, while the location of a bus station can vary greatly over the same period of time, therefore choosing the intersection is the most reliable option.</p>
+<p>Where there is Wikidata information that link to a station (available for all U-Bahn and S-Bahn stations and a moderate amount of tram stations) it was decided that the station name should be reconciled with this station and the coordinate location of the Wikidata entry will be used. The benefit of this is in the long-term potential for linking the data collection and modelling of this project to the semantic web.</p>
+<p>In this project, when no Wikidata entry was available for a station, a large degree of imprecision was introduced by the manual geolocalisation process. Efforts are made to correct inaccurate geolocalisation by measuring the geographic distance of every edge in kilometres. We then go through every edge that had a distance of more than 4.5 kilometres as it was at this point that the most edges were correct. This decision was also made because there is a point of diminishing returns that is then reached. Specifically, this means that as we correct ever smaller issues in geolocalisation, the impact of the correction on our future analysis will lessen. An improvement to the project workflow might have been to have different thresholds for correction for the different transport types. For example, we would no longer check U-Bahn and S-Bahn edges where the distance is more than 4.5 kilometres, but we would have a lower threshold for tram and bus edges.</p>
+<p>An alternative way, that would not involve checking edges purely based on the distance of the edge would be to visualise the network in Gephi using the Geo Layout plugin. With this plugin we would be able to visualise the network using the x and y coordinates we assigned. When this is done, errors in localisation become evident under close inspection as in figure 2 where we see that the node no longer follows the fairly linear path it was on before but deviates; given this we can assume that the localisation was wrong, and we can investigate the node further to correct this.</p>
+<p><img alt="Figure 2 - example of wrong localisation of node" src="_images/Fig2.png" /><em>Figure 2 - example of wrong localisation of node</em></p>
+<p>This is however a time intensive process for correction and was therefore not pursued on a consistent basis. The mention here is to remark on the possibilities to further improve the data available.</p>
+<p>In total, the effect of wrong geolocalisation in the project as is should be minimal. There may be an impact for processes such as investigating geographic-based centrality measures, however, with a fairly low threshold of distance and most of the stations being well geolocalised, the impact on such metrics should be minimal. Other measures such as, for example, those investigating connectivity will not be affected at all by incorrect geolocalisation.</p>
+</section>
+<section id="incomplete-data">
+<h3>Incomplete data<a class="headerlink" href="#incomplete-data" title="Link to this heading">#</a></h3>
+<p>There is other important information that we could use for our sources that is not available in the Fahrplanbücher. It is important that we understand this incompleteness and try to adjust by consulting other sources where possible and taking actions to mitigate the effect of incompleteness on our interpretation where the information is not available.</p>
+<section id="time-window">
+<h4>Time window<a class="headerlink" href="#time-window" title="Link to this heading">#</a></h4>
+<p>A major gap is that we are looking at a specific snapshot, but we do not know how long this snapshot was in place for, or even if it was in place at all. The sources we have change year to year. but we are only using intervals in our analysis. The implication is that there are steady changes between snapshots but in actuality we could be missing key components taking place between the years of our intervals. For example, since we have only collected data from 1946, followed by 1951 as the next snapshot, we will be missing specific information relating to the effects of the 1949 BVG strike. This strike was a response to currency reforms that left workers for the Reichsbahn, who worked in the West being paid in the weaker Ostmark. Another historical occurrence during this period that will not be reflected in the gathered data is the Berlin blockade, which lasted from June 1948 to May 1949. We know that during this period, public transportation was severely affected in part due to a lack of electricity to run the system.<a class="footnote-reference brackets" href="#id13" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>41<span class="fn-bracket">]</span></a> This is a real limitation of the investigation as it currently stands. However, the pipeline to extend the project with further snapshot data exists and further information can be seamlessly integrated into both the database and the analysis of the network.<a class="footnote-reference brackets" href="#id14" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>42<span class="fn-bracket">]</span></a> As it stands, events like the Berlin Blockade and BVG strike of 1949 likely caused temporary shutdowns and service disruptions. While we cannot pinpoint these disruptions in the yearly snapshots, knowing this instability existed has to make us cautious when interpreting metrics that assume continuous service.</p>
+<p>The necessity to start in 1946 rather than 1945 is founded in the historical information we have available. Information on the state of the public transportation system of Berlin in 1945 indicates that there was no stability during this year and, while at the end of the war some limited services did start running again, many, such as the S-Bahn, ran without a schedule. We know that most of the network had started again by February 1946, and this is also the first post-war Fahrplanbuch that we have available.<a class="footnote-reference brackets" href="#id15" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>43<span class="fn-bracket">]</span></a> Thus, it was necessary to make 1946 the start date for the investigation.</p>
+</section>
+<section id="incomplete-station-information">
+<h4>Incomplete station information<a class="headerlink" href="#incomplete-station-information" title="Link to this heading">#</a></h4>
+<p>Another issue with the sources available is that in most of the Fahrplanbücher (excluding the West-Berlin after 1975) only the “most important stations” are included for each (bus and tram) line. The exact definition of what constitutes a “most important station” is not fully clear, but by analysing all the tram lines, a few assumptions can be made about this. Firstly, it seems clear that stations where there is a possibility of transferring to a new line are regarded as important. Secondly, it is evident that stations where a lot of passengers would get-on/get-off are included, such as factory areas. Finally, naturally we always have the end stations of a line available. Ultimately, the incompleteness of stations does not have a drastic impact on our ability to model a network based on the information available. This is because we still expect that the connectivity of the network is fully portrayed in the information and that although some stations in between the start/end are missing, we can still track the full extent of every line. The limitation does however mean that there is a degree of bias involved in the data we have available.</p>
+<p><img alt="Figure 3 Fahrplanbuch comparison West Berlin 1971 (left) &amp; 1976 (right)" src="_images/Fig3.png" /><em>Figure 3 Fahrplanbuch comparison West Berlin 1971 (left) &amp; 1976 (right)</em></p>
+<p>Apart from the bias, we will also have to contend with the changes in the way that stations were recorded, particularly in West Berlin Fahrplanbücher. While in East Berlin we consistently only see the important stations being listed, in the West, this changes. After 1975, West Berlin Fahrplanbücher seem to include all stations serviced by a line. This will skew the number of stations in our data for this period.</p>
+<p>We also see that in the 1989 West Berlin Fahrplanbuch, serviced stations for bus routes start depending on the direction of the service. Some stations in a line are only served in one direction. To contend with this, we maintain that we will record the stations going only in one direction and that this direction will be the one first recorded for the line in the Fahrplanbücher. By looking at the start and end stations recorded, we will be able to see the direction of the service that has been recorded and in the future be able to extend the project by capturing the data for the service in the other direction.</p>
+</section>
+</section>
+<section id="changing-availability-of-information-of-stations">
+<h3>Changing availability of information of stations<a class="headerlink" href="#changing-availability-of-information-of-stations" title="Link to this heading">#</a></h3>
+<p>Another factor is that starting in the 1950s, East and West Berlin published separate Fahrplanbücher, and it is noticeable that there are differences in the number of stations listed, with West Berlin including consistently more throughout the period under observation. Particularly after 1975, the West Berlin Fahrplanbücher included every station on a line, and so while we no longer have the issue of missing stations, we are faced with the issue of changing amounts of information available over time and across systems.</p>
+</section>
+<section id="capacity-question">
+<h3>Capacity question<a class="headerlink" href="#capacity-question" title="Link to this heading">#</a></h3>
+<p>Other missing information concerns the capacity of the different lines. This information is beneficial as it is an attribute of the connections between stations and would help determine their relative importance. We have basic information on the different types of transportation vehicles and their capacity used at this time. For example, we have exact information on the number of S-Bahn trains and their various types used in Berlin at specific points in time, we also know their respective capacities. You can see this information in file data-external/Capacity-Transport Type.xlsx. What we do not know is how many wagons were used on varying S-Bahn lines to form a single train, which means we cannot combine the capacity of a train with its frequency to have an abstracted train line capacity. The information required to address this issue fully is probably not recorded, especially given that the number of wagons used in a train and the type of wagon used would have varied not only from line to line but also depending on the time of day and the day (workweek vs. weekend), to meet changing capacity needs.</p>
+<p>In total we estimate, given the incomplete data, that the average capacity of the different transportation types that made up the Berlin transportation is as shown in table 1.<a class="footnote-reference brackets" href="#id16" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>44<span class="fn-bracket">]</span></a></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Transportation Type</p></th>
+<th class="head"><p>Capacity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>S-Bahn</p></td>
+<td><p>1100</p></td>
+</tr>
+<tr class="row-odd"><td><p>U-Bahn (Großprofil)</p></td>
+<td><p>1000</p></td>
+</tr>
+<tr class="row-even"><td><p>U-Bahn (Kleinprofil)</p></td>
+<td><p>750</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tram</p></td>
+<td><p>195</p></td>
+</tr>
+<tr class="row-even"><td><p>Bus</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ferry</p></td>
+<td><p>300<a class="footnote-reference brackets" href="#id17" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>45<span class="fn-bracket">]</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Table 1: Average capacity of transportation types</p>
+<p>While the historical sources available do not allow us to determine precise capacities for every line, we estimate relative capacities to explore how this may impact NA.</p>
+</section>
+<section id="frequency">
+<h3>Frequency<a class="headerlink" href="#frequency" title="Link to this heading">#</a></h3>
+<p>For the frequency of service, we are currently taking the measure at 7:30 AM for weekdays. This was preferred over an average frequency across the day, so as to allow for the possibility for further frequency measures to be added to the model at a later date. The issue with using only one snapshot of frequency is that it can skew the importance of an edge away from a true reflection of the real-world importance. For example, it is possible that during the course of a day line A has 100 trams run through the line, and line B only 50, however, if line B has a higher frequency of service than line A at 7:30 its importance will be overstated in the network. The solution to this is naturally to include more frequency measures and the possibility for this is fully available given the current model.</p>
+<p>We also are dealing with another case of uncertainty in our data in regard to the frequency of travel for some S-Bahn lines. Because the S-Bahn was not run as part of the BVG, these services were often not included in the Fahrplanbücher. For this reason, we do not know the exact frequency of the service. We can rely on external sources which describe the consistency of the S-Bahn service running every 20 minutes.<a class="footnote-reference brackets" href="#id18" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>46<span class="fn-bracket">]</span></a> For this reason, when we do not know the frequency of an S-Bahn service we are assigning it the standard 20 minutes.</p>
+</section>
+</section>
+<section id="domain-specific-challenges-to-data-collection-for-historical-network-construction">
+<h2>Domain specific challenges to data collection for historical network construction<a class="headerlink" href="#domain-specific-challenges-to-data-collection-for-historical-network-construction" title="Link to this heading">#</a></h2>
+<p>Historical data, unlike most other subject areas dealing with NA, needs first to be recorded. Where biological networks can utilise first-rate existing databases, and computer traffic networks can collect information on usage real time in electronic form, historical data is subject to initial rounds of collection and abstraction, which have important consequences. Firstly, we are dealing with a large degree of incompleteness when trying to understand historical systems like a transportation system. Oftentimes there is no way of ascertaining information that was lost or never recorded. This is a difficulty that is less impactful in hard sciences where missing data may be collected in the future as methods improve and further tests of cells, atoms, etc. can be done. For our research, it may simply be the case that no one ever recorded information such as how many wagons made up the trains for the lines we are analysing, as it was not a relevant point of information to capture at the time.</p>
+<p>Another key point here is the significant benefit that the semantic web brings to this project, specifically Wikidata objects. Being able to reconcile our station names with Wikidata entries not only made the work of geolocalisation easier but it should also improve our results by making sure this project can be part of the interconnected network of knowledge being produced on public transportation in the future. For this reason, after geolocalisation has been further verified, we will be looking to extend the Wikidata records with further semantic web nodes for the tram and bus stations not already available.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">38</a><span class="fn-bracket">]</span></span>
+<p>Berliner Verkehrsgesellschaft, BVG Archiv, <a class="reference external" href="https://unternehmen.bvg.de/bvg-archiv/">https://unternehmen.bvg.de/bvg-archiv/</a>, 15 Januar 2024.</p>
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">39</a><span class="fn-bracket">]</span></span>
+<p>These csv files can be reviewed under their data-fahrplan/network-{year} folders in the file line_data_{year}.csv.</p>
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">40</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Kramer, Linienchronik der Berliner Straßenbahn 1945 – 1993, Berlin, 2001. - used a range of sources, particularly from newspapers but also archival materials to list all changes in routes for the tram in Berlin during the period.</p>
+</aside>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">41</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Reinhardt, Öffentlicher Personenverkehr im zerstörten Nachkriegsdeutschland, in: Reinhardt, Wolfgang (eds.), Geschichte des Öffentlichen Personenverkehrs von den Anfängen bis 2014, Wiesbaden 2015, pg. 469.</p>
+</aside>
+<aside class="footnote brackets" id="id14" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">42</a><span class="fn-bracket">]</span></span>
+<p>For example, see section 3.2.</p>
+</aside>
+<aside class="footnote brackets" id="id15" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">43</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Reinhardt, Öffentlicher Personenverkehr im zerstörten Nachkriegsdeutschland, pg. 466.</p>
+</aside>
+<aside class="footnote brackets" id="id16" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">44</a><span class="fn-bracket">]</span></span>
+<p>A detailed description of capacity sources can be found here: data-external/capacity-description.md</p>
+</aside>
+<aside class="footnote brackets" id="id17" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">45</a><span class="fn-bracket">]</span></span>
+<p>Due to limited data ferry capacity was taken from information regarding capacity of modern boats on the ferry lines of Berlin, see: <a class="reference external" href="http://Berlin.de">Berlin.de</a>, Fähre F10: Wannsee — Alt-Kladow, <a class="reference external" href="https://www.berlin.de/tourismus/dampferfahrten/faehren/1824948-1824660-faehre-f10-wannsee-altkladow.html">https://www.berlin.de/tourismus/dampferfahrten/faehren/1824948-1824660-faehre-f10-wannsee-altkladow.html</a> accessed 01 April 2024.</p>
+</aside>
+<aside class="footnote brackets" id="id18" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">46</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Reinhardt, Öffentlicher Personenverkehr in zwei deutschen Staaten, pg. 666.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction of project and historical context</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="creating-data-model.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Creating the data model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-criticism">Source criticism</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geolocalisation">Geolocalisation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#incomplete-data">Incomplete data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time-window">Time window</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#incomplete-station-information">Incomplete station information</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-availability-of-information-of-stations">Changing availability of information of stations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#capacity-question">Capacity question</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frequency">Frequency</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domain-specific-challenges-to-data-collection-for-historical-network-construction">Domain specific challenges to data collection for historical network construction</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

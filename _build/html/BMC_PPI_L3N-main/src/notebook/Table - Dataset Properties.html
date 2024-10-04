@@ -1,0 +1,740 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'BMC_PPI_L3N-main/src/notebook/Table - Dataset Properties';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="../../../_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../intro.html">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../network-model.html">From source to dynamic network model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating-data-model.html">Creating the data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../investigating-growth.html">Investigating growth in the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../preferential-attachement.html">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FBMC_PPI_L3N-main/src/notebook/Table - Dataset Properties.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/BMC_PPI_L3N-main/src/notebook/Table - Dataset Properties.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><no title></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+
+<span class="c1"># std</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rn</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="c1"># datasets</span>
+<span class="kn">import</span> <span class="nn">STRING</span>
+<span class="kn">import</span> <span class="nn">MINT</span>
+<span class="kn">import</span> <span class="nn">bioGRID</span>
+<span class="kn">import</span> <span class="nn">HuRI</span>
+<span class="kn">import</span> <span class="nn">synthetic_PPI</span>
+<span class="kn">import</span> <span class="nn">HI_II_14_src</span>
+<span class="kn">import</span> <span class="nn">IM24272_src</span>
+<span class="kn">import</span> <span class="nn">Lit_BM_13_src</span>
+<span class="kn">import</span> <span class="nn">Lit_NB_13_src</span>
+
+<span class="c1"># my lib</span>
+<span class="kn">import</span> <span class="nn">PPILinkPred</span> <span class="k">as</span> <span class="nn">pred</span>
+<span class="kn">import</span> <span class="nn">helper</span> <span class="k">as</span> <span class="nn">hr</span>
+<span class="kn">import</span> <span class="nn">genData_helper</span> <span class="k">as</span> <span class="nn">helper</span>
+<span class="kn">import</span> <span class="nn">traversalHelper</span> <span class="k">as</span> <span class="nn">tr</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ns</span><span class="p">:</span>
+    <span class="n">BRToRelat</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">Helper</span><span class="o">.</span><span class="n">binary_to_relation</span>
+    <span class="n">toDualBR</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">Helper</span><span class="o">.</span><span class="n">to_dual_binary_relation</span>
+    <span class="n">BRToNode</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">Helper</span><span class="o">.</span><span class="n">binary_relation_to_node</span>
+    <span class="n">arr_pStr</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">Helper</span><span class="o">.</span><span class="n">list_to_pathStrs</span>
+    <span class="n">pStr_arr</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">Helper</span><span class="o">.</span><span class="n">pathStrs_to_list</span>
+    <span class="n">br_str</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">Helper</span><span class="o">.</span><span class="n">br_to_pathStr</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># yeast</span>
+<span class="n">import_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">synthetic_PPI</span><span class="o">.</span><span class="n">parse_synthetic</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">)]</span>
+<span class="n">dss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;synthetic&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ppi_df</span> <span class="o">=</span> <span class="n">import_funcs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ppi</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ppi_df</span><span class="p">[[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="n">ppiNodes</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span>
+    <span class="n">unionNodes</span> <span class="o">=</span> <span class="n">ppiNodes</span>
+    
+    <span class="n">samplePPIs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./sampled_datasets/</span><span class="si">{}</span><span class="s2">_sampledPPIs.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ds</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">samplePPIs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    
+    <span class="n">candPPINums</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">samplePPI</span> <span class="ow">in</span> <span class="n">samplePPIs</span><span class="p">:</span>
+        <span class="n">sampleNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">samplePPI</span><span class="p">))</span>
+        <span class="n">candPPINums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleNodes</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleNodes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">samplePPI</span><span class="p">))</span>
+    <span class="n">sampledPPINum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ds </span><span class="si">{}</span><span class="s2">, num of nodes: </span><span class="si">{}</span><span class="s2">, ppi: </span><span class="si">{}</span><span class="s2">, mean cand ppi: </span><span class="si">{}</span><span class="s2">, sampled ppi: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unionNodes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ppi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">candPPINums</span><span class="p">),</span> <span class="n">sampledPPINum</span>
+    <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">13</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">unionNodes</span> <span class="o">=</span> <span class="n">ppiNodes</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">samplePPIs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./sampled_datasets/</span><span class="si">{}</span><span class="s2">_sampledPPIs.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ds</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">samplePPIs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">candPPINums</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python312\Lib\site-packages\IPython\core\interactiveshell.py:324,</span> in <span class="ni">_modified_open</span><span class="nt">(file, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">317</span> <span class="k">if</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}:</span>
+<span class="g g-Whitespace">    </span><span class="mi">318</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">319</span>         <span class="sa">f</span><span class="s2">&quot;IPython won&#39;t let you open fd=</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> by default &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">320</span>         <span class="s2">&quot;as it is likely to crash IPython. If you know what you are doing, &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">321</span>         <span class="s2">&quot;you can use builtins&#39; open.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">322</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">324</span> <span class="k">return</span> <span class="n">io_open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;./sampled_datasets/synthetic_sampledPPIs.json&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># yeast</span>
+<span class="n">import_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">HI_II_14_src</span><span class="o">.</span><span class="n">parse_HI_src</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">),</span> <span class="n">IM24272_src</span><span class="o">.</span><span class="n">parse_IM24272_src</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">),</span> 
+                <span class="n">Lit_BM_13_src</span><span class="o">.</span><span class="n">parse_Lit_BM_src</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">),</span> <span class="n">Lit_NB_13_src</span><span class="o">.</span><span class="n">parse_Lit_NB_src</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">)]</span>
+<span class="n">dss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;HI_14_src&#39;</span><span class="p">,</span> <span class="s2">&quot;IM24272_src&quot;</span><span class="p">,</span> <span class="s2">&quot;Lit_BM_src&quot;</span><span class="p">,</span> <span class="s2">&quot;Lit_NB_src&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ppi_df</span> <span class="o">=</span> <span class="n">import_funcs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ppi</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ppi_df</span><span class="p">[[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="n">ppiNodes</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span>
+    <span class="n">unionNodes</span> <span class="o">=</span> <span class="n">ppiNodes</span>
+    
+    <span class="n">samplePPIs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./sampled_datasets/</span><span class="si">{}</span><span class="s2">_sampledPPIs.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ds</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">samplePPIs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    
+    <span class="n">candPPINums</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">samplePPI</span> <span class="ow">in</span> <span class="n">samplePPIs</span><span class="p">:</span>
+        <span class="n">sampleNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">samplePPI</span><span class="p">))</span>
+        <span class="n">candPPINums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleNodes</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleNodes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">samplePPI</span><span class="p">))</span>
+    <span class="n">sampledPPINum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ds </span><span class="si">{}</span><span class="s2">, num of nodes: </span><span class="si">{}</span><span class="s2">, ppi: </span><span class="si">{}</span><span class="s2">, mean cand ppi: </span><span class="si">{}</span><span class="s2">, sampled ppi: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unionNodes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ppi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">candPPINums</span><span class="p">),</span> <span class="n">sampledPPINum</span>
+    <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ds HI_14_src, num of nodes: 4298, ppi: 13868, mean cand ppi: 5165263.5, sampled ppi: 6934
+ds IM24272_src, num of nodes: 5457, ppi: 28780, mean cand ppi: 10939287.2, sampled ppi: 14390
+ds Lit_BM_src, num of nodes: 5545, ppi: 11045, mean cand ppi: 8147585.2, sampled ppi: 5522
+ds Lit_NB_src, num of nodes: 3391, ppi: 4906, mean cand ppi: 2738996.0, sampled ppi: 2453
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># yeast</span>
+<span class="n">import_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">bioGRID</span><span class="o">.</span><span class="n">parse_bioGRID</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">),</span> <span class="n">STRING</span><span class="o">.</span><span class="n">parse_STRING</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">),</span> <span class="n">MINT</span><span class="o">.</span><span class="n">parse_MINT</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">)]</span>
+<span class="n">dss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bioGRID&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ggi_df</span><span class="p">,</span> <span class="n">ppi_df</span> <span class="o">=</span> <span class="n">import_funcs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ppi</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ppi_df</span><span class="p">[[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="n">ggi</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ggi_df</span><span class="p">[[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="n">ppiNodes</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span>
+    <span class="n">ggiNodes</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">ggi</span><span class="p">)</span>
+    <span class="n">unionNodes</span> <span class="o">=</span> <span class="n">ppiNodes</span><span class="o">|</span><span class="n">ggiNodes</span>
+    
+    <span class="n">samplePPIs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./sampled_datasets/</span><span class="si">{}</span><span class="s2">_sampledPPIs.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ds</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">samplePPIs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    
+    <span class="n">candPPINums</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">samplePPI</span> <span class="ow">in</span> <span class="n">samplePPIs</span><span class="p">:</span>
+        <span class="n">sampleNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">samplePPI</span><span class="p">))</span>
+        <span class="n">candPPINums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleNodes</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleNodes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">samplePPI</span><span class="p">))</span>
+    <span class="n">sampledPPINum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ds </span><span class="si">{}</span><span class="s2">, num of nodes: </span><span class="si">{}</span><span class="s2">, ppi: </span><span class="si">{}</span><span class="s2">, ggi: </span><span class="si">{}</span><span class="s2">, mean cand ppi: </span><span class="si">{}</span><span class="s2">, sampled ppi: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unionNodes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ppi</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ggi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">candPPINums</span><span class="p">),</span> <span class="n">sampledPPINum</span>
+    <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ds bioGRID, num of nodes: 7085, ppi: 113116, ggi: 441140, mean cand ppi: 20045849.4, sampled ppi: 56558
+ds STRING, num of nodes: 4673, ppi: 94529, ggi: 64094, mean cand ppi: 9212026.6, sampled ppi: 47264
+ds MINT, num of nodes: 4049, ppi: 16927, ggi: 248, mean cand ppi: 5980266.7, sampled ppi: 8463
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># human</span>
+<span class="n">import_funcs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">bioGRID</span><span class="o">.</span><span class="n">parse_bioGRID</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./data/BioGRID/BIOGRID-ORGANISM-Homo_sapiens-3.5.187.tab2.txt&#39;</span>
+        <span class="p">,</span> <span class="n">wFile_GGI</span><span class="o">=</span><span class="s1">&#39;./data/parsed/BioGRID_homo_GGI.pkl&#39;</span>
+        <span class="p">,</span> <span class="n">wFile_PPI</span><span class="o">=</span><span class="s1">&#39;./data/parsed/BioGRID_homo_PPI.pkl&#39;</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
+
+    <span class="p">,</span> <span class="n">STRING</span><span class="o">.</span><span class="n">parse_STRING</span><span class="p">(</span><span class="n">ppiFile</span><span class="o">=</span><span class="s1">&#39;./data/STRING/9606.protein.links.v11.0.txt&#39;</span>
+        <span class="p">,</span> <span class="n">typeFile</span><span class="o">=</span><span class="s1">&#39;./data/STRING/9606.protein.actions.v11.0.txt&#39;</span>
+        <span class="p">,</span> <span class="n">uniProtMap</span><span class="o">=</span><span class="s1">&#39;./data/UniProt/uniprot-taxonomy_9606_STRING.tab&#39;</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="s1">&#39;../&#39;</span>
+        <span class="p">,</span> <span class="n">wFile_GGI</span><span class="o">=</span><span class="s1">&#39;./data/parsed/STRING_homo_GGI.pkl&#39;</span><span class="p">,</span> <span class="n">wFile_PPI</span><span class="o">=</span><span class="s1">&#39;./data/parsed/STRING_homo_PPI.pkl&#39;</span><span class="p">)</span>
+
+    <span class="p">,</span> <span class="n">MINT</span><span class="o">.</span><span class="n">parse_MINT</span><span class="p">(</span><span class="n">ppiFile</span><span class="o">=</span><span class="s1">&#39;./data/MINT/species human&#39;</span><span class="p">,</span> <span class="n">uniProtMap</span><span class="o">=</span><span class="s2">&quot;./data/UniProt/uniprot-taxonomy_9606.tab&quot;</span>
+        <span class="p">,</span> <span class="n">wFile_GGI</span><span class="o">=</span><span class="s1">&#39;./data/parsed/MINT_homo_GGI.pkl&#39;</span><span class="p">,</span> <span class="n">wFile_PPI</span><span class="o">=</span><span class="s1">&#39;./data/parsed/MINT_homo_PPI.pkl&#39;</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">completePPIs_map</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span> <span class="k">for</span> <span class="n">ppi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">*</span><span class="n">import_funcs</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">1</span><span class="p">][[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="p">,</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span> <span class="k">for</span> <span class="n">ppi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">*</span><span class="n">import_funcs</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">1</span><span class="p">][[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="p">,</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span> <span class="k">for</span> <span class="n">ppi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">*</span><span class="n">import_funcs</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="mi">1</span><span class="p">][[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="p">,</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span> <span class="k">for</span> <span class="n">ppi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">HuRI</span><span class="o">.</span><span class="n">parse_HuRI</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;../&quot;</span><span class="p">)[[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+<span class="p">]</span>
+<span class="n">completeGGIs_map</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span> <span class="k">for</span> <span class="n">ppi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">*</span><span class="n">import_funcs</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">][[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="p">,</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span> <span class="k">for</span> <span class="n">ppi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">*</span><span class="n">import_funcs</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">0</span><span class="p">][[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="p">,</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span> <span class="k">for</span> <span class="n">ppi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">*</span><span class="n">import_funcs</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="mi">0</span><span class="p">][[</span><span class="s1">&#39;nodeA&#39;</span><span class="p">,</span> <span class="s1">&#39;nodeB&#39;</span><span class="p">]])]</span>
+    <span class="p">,</span> <span class="p">[]</span>
+<span class="p">]</span>
+<span class="n">dss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bioGRID_human&#39;</span><span class="p">,</span> <span class="s1">&#39;STRING_human&#39;</span><span class="p">,</span> <span class="s1">&#39;MINT_human&#39;</span><span class="p">,</span> <span class="s1">&#39;HuRI&#39;</span><span class="p">]</span>
+<span class="n">completePPIs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dss</span><span class="p">,</span> <span class="n">completePPIs_map</span><span class="p">))</span>
+<span class="n">completeGGIs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dss</span><span class="p">,</span> <span class="n">completeGGIs_map</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ppi</span> <span class="o">=</span> <span class="n">completePPIs</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span>
+    <span class="n">ggi</span> <span class="o">=</span> <span class="n">completeGGIs</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span>
+    <span class="n">ppiNodes</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span>
+    <span class="n">ggiNodes</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">ggi</span><span class="p">)</span>
+    <span class="n">unionNodes</span> <span class="o">=</span> <span class="n">ppiNodes</span><span class="o">|</span><span class="n">ggiNodes</span>
+    
+    <span class="n">samplePPIs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./sampled_datasets/</span><span class="si">{}</span><span class="s2">_sampledPPIs.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ds</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">samplePPIs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    
+    <span class="n">candPPINums</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">samplePPI</span> <span class="ow">in</span> <span class="n">samplePPIs</span><span class="p">:</span>
+        <span class="n">sampleNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ns</span><span class="o">.</span><span class="n">BRToNode</span><span class="p">(</span><span class="n">samplePPI</span><span class="p">))</span>
+        <span class="n">candPPINums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleNodes</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleNodes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">samplePPI</span><span class="p">))</span>
+    <span class="n">sampledPPINum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ppi</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ds </span><span class="si">{}</span><span class="s2">, num of nodes: </span><span class="si">{}</span><span class="s2">, ppi: </span><span class="si">{}</span><span class="s2">, ggi: </span><span class="si">{}</span><span class="s2">, mean cand ppi: </span><span class="si">{}</span><span class="s2">, sampled ppi: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unionNodes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ppi</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ggi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">candPPINums</span><span class="p">),</span> <span class="n">sampledPPINum</span>
+    <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ds bioGRID_human, num of nodes: 24760, ppi: 452684, ggi: 8768, mean cand ppi: 220833040.0, sampled ppi: 226342
+ds STRING_human, num of nodes: 15668, ppi: 308614, ggi: 404776, mean cand ppi: 88982499.1, sampled ppi: 154307
+ds MINT_human, num of nodes: 7534, ppi: 22324, ggi: 1439, mean cand ppi: 15493875.9, sampled ppi: 11162
+ds HuRI, num of nodes: 8109, ppi: 51127, ggi: 0, mean cand ppi: 21899033.2, sampled ppi: 25563
+</pre></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./BMC_PPI_L3N-main\src\notebook"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

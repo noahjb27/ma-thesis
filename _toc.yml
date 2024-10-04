@@ -1,0 +1,13 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book # says what kind of format two options are jb-book and j-article
+root: intro # landing page
+chapters: # need collection of chapters
+- file: network-model
+- file: creating-data-model
+- file: investigating-growth
+- file: preferential-attachement
+- file: link-rediction
+- file: conclusion
+- file: bib

@@ -1,0 +1,1164 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>init metadata &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'BMC_PPI_L3N-main/src/notebook/img_simulation/Draft 3 - L3 Simulation';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="../../../../_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../../intro.html">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../network-model.html">From source to dynamic network model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../creating-data-model.html">Creating the data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../investigating-growth.html">Investigating growth in the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../preferential-attachement.html">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FBMC_PPI_L3N-main/src/notebook/img_simulation/Draft 3 - L3 Simulation.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../_sources/BMC_PPI_L3N-main/src/notebook/img_simulation/Draft 3 - L3 Simulation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>init metadata</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">init metadata</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-edges">compatible edges</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-1">incompatible edges 1</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-2">incompatible edges 2</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-3">incompatible edges 3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-1-for-simple-l3">incompatible edges 1 for simple L3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-2-for-simple-l3">incompatible edges 2 for simple L3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-3-for-simple-l3">incompatible edges 3 for simple L3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-edge-for-simple-l3">compatible edge for simple L3</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">PPILinkPred</span> <span class="k">as</span> <span class="nn">ppiLPred</span>
+<span class="kn">import</span> <span class="nn">traversalHelper</span> <span class="k">as</span> <span class="nn">tr</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rand</span>
+<span class="kn">from</span> <span class="nn">statistics</span> <span class="kn">import</span> <span class="n">median</span>
+<span class="kn">from</span> <span class="nn">statistics</span> <span class="kn">import</span> <span class="n">mean</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">Manager</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">simulation</span> <span class="k">as</span> <span class="nn">sim</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">savgol_filter</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">PPILinkPred</span> <span class="k">as</span> <span class="nn">ppiLPred</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">traversalHelper</span> <span class="k">as</span> <span class="nn">tr</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;PPILinkPred&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="init-metadata">
+<h1>init metadata<a class="headerlink" href="#init-metadata" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;legend&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Times New Roman&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:olive&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L3E1_f1Alt&quot;</span><span class="p">:</span> <span class="s2">&quot;navy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L3E1_f2Alt&quot;</span><span class="p">:</span> <span class="s2">&quot;gold&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L3&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CN&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:green&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CRA&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:red&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CH2&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:brown&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Sim&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:purple&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rand&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:grey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;countP4&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span>
+<span class="p">}</span>
+
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;countP4&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1Alt&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2Alt&quot;</span><span class="p">]</span>
+<span class="n">methods_map</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;rand&quot;</span><span class="p">,</span> <span class="s2">&quot;countP4&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1Alt&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2Alt&quot;</span><span class="p">]</span>
+<span class="n">abbrev_map</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;rand&quot;</span><span class="p">,</span> <span class="s2">&quot;no. of $P_</span><span class="si">{4}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E</span><span class="se">\n</span><span class="s2">($f_</span><span class="si">{1}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E</span><span class="se">\n</span><span class="s2">($f_</span><span class="si">{2}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E</span><span class="se">\n</span><span class="s2">($f&#39;_</span><span class="si">{1}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E</span><span class="se">\n</span><span class="s2">($f&#39;_</span><span class="si">{2}</span><span class="s2">$)&quot;</span><span class="p">]</span>
+<span class="n">label_map</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">,</span> <span class="s2">&quot;rand&quot;</span><span class="p">,</span> <span class="s2">&quot;no. of $P_</span><span class="si">{4}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E($f_</span><span class="si">{1}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E($f_</span><span class="si">{2}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E</span><span class="se">\n</span><span class="s2">($f&#39;_</span><span class="si">{1}</span><span class="s2">$)&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E</span><span class="se">\n</span><span class="s2">($f&#39;_</span><span class="si">{2}</span><span class="s2">$)&quot;</span><span class="p">]</span>
+
+<span class="n">methods_names</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="n">methods_map</span><span class="p">))</span>
+<span class="n">abbrevs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">methods_map</span><span class="p">,</span> <span class="n">abbrev_map</span><span class="p">))</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">methods_map</span><span class="p">,</span> <span class="n">label_map</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_plots_outline</span><span class="p">(</span><span class="n">plots</span><span class="p">,</span> <span class="n">boundFunc</span><span class="p">):</span>
+    <span class="c1"># func can be: min, max, avg, median</span>
+    <span class="n">invertedArr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">plots</span><span class="p">))</span>
+    <span class="n">boundPlot</span> <span class="o">=</span> <span class="p">[</span><span class="n">boundFunc</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">invertedArr</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">boundPlot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">init_graph_map = {</span>
+<span class="sd">    &quot;cn_graph&quot;: init_graph.cn_graph,</span>
+<span class="sd">    &quot;ideal_L3_graph&quot;: init_graph.ideal_L3_graph,</span>
+<span class="sd">    &quot;simple_L3_graph&quot;: init_graph.simple_L3_graph</span>
+<span class="sd">}</span>
+
+<span class="sd">mod_graph_map = {</span>
+<span class="sd">    &quot;removeComp_idealL3&quot;: mod_graph.removeComp_idealL3,</span>
+<span class="sd">    &quot;addComp_simpleL3&quot;: mod_graph.addComp_simpleL3,</span>
+<span class="sd">    &quot;addIncompA&quot;: mod_graph.addIncompA,</span>
+<span class="sd">    &quot;addIncompB&quot;: mod_graph.addIncompB,</span>
+<span class="sd">    &quot;addIncompC&quot;: mod_graph.addIncompC</span>
+<span class="sd">    }</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plotting</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">alignedScores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">])):</span>
+            <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]]</span>
+
+        <span class="n">upperScores</span><span class="p">,</span> <span class="n">lowerScores</span><span class="p">,</span> <span class="n">medianScores</span> <span class="o">=</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">max</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">min</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">median</span><span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upperScores</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lowerScores</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">medianScores</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">upperScores</span><span class="p">))]</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mf">3.2</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Alt&quot;</span> <span class="ow">in</span> <span class="n">method</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="compatible-edges">
+<h1>compatible edges<a class="headerlink" href="#compatible-edges" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiments: 10 trials, 50 paths, sample until fulfilled</span>
+<span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1Alt&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2Alt&quot;</span><span class="p">]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulation</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">graphSize</span><span class="o">=</span><span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span><span class="o">=</span><span class="n">saturateRatio</span><span class="p">,</span>
+    <span class="n">graph_func</span><span class="o">=</span><span class="s2">&quot;ideal_L3_graph&quot;</span><span class="p">,</span> <span class="n">simulating</span><span class="o">=</span><span class="s2">&quot;removeComp_idealL3&quot;</span><span class="p">,</span> <span class="n">coreNo</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./simulation_out/compEdges.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D:\research offline repo\ppiLPred_BMC\notebook\simulation.py:255: RuntimeWarning: invalid value encountered in true_divide
+  scores[i] = (scores[i]-np.min(scores[i]))/(np.max(scores[i])-np.min(scores[i]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plotting_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+    <span class="n">alignedScores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">])):</span>
+            <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]]</span>
+        
+        <span class="n">upperScores</span><span class="p">,</span> <span class="n">lowerScores</span><span class="p">,</span> <span class="n">medianScores</span> <span class="o">=</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">max</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">min</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">median</span><span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">upperScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">lowerScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">medianScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">upperScores</span><span class="p">))]</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mf">3.2</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;CRA&quot;</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;countP4&quot;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">method</span><span class="p">])</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Normalized Scores&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of removed edges&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./simulation_out/compEdges.dat&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;commonNeighbor&#39;</span><span class="p">,</span> <span class="s1">&#39;CRA&#39;</span><span class="p">,</span> <span class="s1">&#39;L3Normalizing&#39;</span><span class="p">,</span> <span class="s1">&#39;Sim&#39;</span><span class="p">,</span> <span class="s1">&#39;CH2_L3&#39;</span><span class="p">,</span> <span class="s1">&#39;L3E1_f1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3E1_f2&#39;</span><span class="p">,</span> <span class="s1">&#39;countP4&#39;</span><span class="p">]</span>
+<span class="n">scores_alt</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span> <span class="n">scores_alt</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+<span class="n">plotting_scores</span><span class="p">(</span><span class="n">scores_alt</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./img_simulation/compEdge_line.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/c8bffcae726f3b3724a67b89ad8c02c60712eeebc440179c6a8163b85bf8d8a6.png" src="../../../../_images/c8bffcae726f3b3724a67b89ad8c02c60712eeebc440179c6a8163b85bf8d8a6.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 432x288 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate AUC</span>
+
+<span class="k">def</span> <span class="nf">AUC_plot</span><span class="p">(</span><span class="n">auc_map</span><span class="p">):</span>
+    <span class="n">mean_auc</span><span class="p">,</span> <span class="n">std_auc</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">auc_map</span><span class="p">:</span>
+        <span class="n">mean_auc</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">auc_map</span><span class="p">[</span><span class="n">method</span><span class="p">])</span>
+        <span class="n">std_auc</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">auc_map</span><span class="p">[</span><span class="n">method</span><span class="p">])</span>
+    
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">xtick</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">auc_map</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">keys</span><span class="p">())[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">([</span><span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">],</span> <span class="p">[</span><span class="n">mean_auc</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="p">[</span><span class="n">std_auc</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">colors</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xtick</span><span class="p">]</span>
+                      <span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+<span class="n">auc_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">])):</span>
+        <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]]</span>
+        <span class="n">smoothed_score</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">],</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">smoothed_score</span><span class="p">))]</span>
+        <span class="n">auc_map</span><span class="p">[</span><span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">auc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">smoothed_score</span><span class="p">))</span>
+    
+<span class="n">AUC_plot</span><span class="p">(</span><span class="n">auc_map</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./img_simulation/compEdge_AUC.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/45c83a7ca502456eb101cbceaa5549a04dd0eed3d84c5093b12d35ca317f76d6.png" src="../../../../_images/45c83a7ca502456eb101cbceaa5549a04dd0eed3d84c5093b12d35ca317f76d6.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 432x288 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plotting_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+    <span class="n">alignedScores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">])):</span>
+            <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]]</span>
+        
+        <span class="n">upperScores</span><span class="p">,</span> <span class="n">lowerScores</span><span class="p">,</span> <span class="n">medianScores</span> <span class="o">=</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">max</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">min</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">median</span><span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">upperScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">lowerScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">medianScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">upperScores</span><span class="p">))]</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;CRA&quot;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">method</span><span class="p">])</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Normalized Scores&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of removed edges&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./simulation_out/compEdges.dat&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;commonNeighbor&#39;</span><span class="p">,</span> <span class="s1">&#39;CRA&#39;</span><span class="p">,</span> <span class="s1">&#39;L3Normalizing&#39;</span><span class="p">,</span> <span class="s1">&#39;Sim&#39;</span><span class="p">,</span> <span class="s1">&#39;CH2_L3&#39;</span><span class="p">,</span> <span class="s1">&#39;L3E1_f1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3E1_f2&#39;</span><span class="p">,</span> <span class="s1">&#39;countP4&#39;</span><span class="p">]</span>
+<span class="n">scores_alt</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span> <span class="n">scores_alt</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+<span class="n">plotting_scores</span><span class="p">(</span><span class="n">scores_alt</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./img_simulation/compEdge_legend.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/7d678a3ac2fde401b890a82c9bf333a91037b1550843842a97e1ba2240316ca4.png" src="../../../../_images/7d678a3ac2fde401b890a82c9bf333a91037b1550843842a97e1ba2240316ca4.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 432x288 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="incompatible-edges-1">
+<h1>incompatible edges 1<a class="headerlink" href="#incompatible-edges-1" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiments: 10 trials, 50 paths, sample until fulfilled</span>
+<span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1Alt&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2Alt&quot;</span><span class="p">]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulation</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">graphSize</span><span class="o">=</span><span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">graph_func</span><span class="o">=</span><span class="s2">&quot;ideal_L3_graph&quot;</span><span class="p">,</span> <span class="n">simulating</span><span class="o">=</span><span class="s2">&quot;addIncompA&quot;</span><span class="p">,</span> <span class="n">coreNo</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges1.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">aligning_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+    <span class="n">alignedScores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">])):</span>
+            <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]]</span>
+        
+        <span class="n">upperScores</span><span class="p">,</span> <span class="n">lowerScores</span><span class="p">,</span> <span class="n">medianScores</span> <span class="o">=</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">max</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">min</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">median</span><span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">upperScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">lowerScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">medianScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">upperScores</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">alignedScores</span>
+
+<span class="k">def</span> <span class="nf">plotting_sns</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">alignedScores</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">alignedScores</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;CRA&quot;</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;countP4&quot;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+        
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./simulation_out/incompEdges1.dat&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">alignedScores</span> <span class="o">=</span> <span class="n">aligning_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="n">tmp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E&quot;</span><span class="p">]})</span>
+<span class="c1">#sns.set_style(&quot;white&quot;)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">tmp_df</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">despine</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mf">1.3</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">row_val</span><span class="p">),</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">row_val</span> <span class="o">==</span> <span class="s2">&quot;CN&quot;</span><span class="p">:</span> <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CN&#39;</span><span class="p">,</span> <span class="s1">&#39;CRA&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">row_val</span> <span class="o">==</span> <span class="s2">&quot;L3&quot;</span><span class="p">:</span> <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">row_val</span> <span class="o">==</span> <span class="s2">&quot;L3E&quot;</span><span class="p">:</span> <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;countP4&quot;</span><span class="p">]</span>
+    <span class="n">alignedScores_alt</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span> <span class="n">alignedScores_alt</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span> <span class="n">plotting_sns</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">alignedScores_alt</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Normalized scores&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of new incompatible edges&quot;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./img_simulation/incompEdge.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/ff6fc9067336aba5d60a087212507b613aa1f80fc6db1bf8c3ce2e1ec192babf.png" src="../../../../_images/ff6fc9067336aba5d60a087212507b613aa1f80fc6db1bf8c3ce2e1ec192babf.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 432x288 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="incompatible-edges-2">
+<h1>incompatible edges 2<a class="headerlink" href="#incompatible-edges-2" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiments: 10 trials, 50 paths, sample until fulfilled</span>
+<span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulation</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">graphSize</span><span class="o">=</span><span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">graph_func</span><span class="o">=</span><span class="s2">&quot;ideal_L3_graph&quot;</span><span class="p">,</span> <span class="n">simulating</span><span class="o">=</span><span class="s2">&quot;addIncompB&quot;</span><span class="p">,</span> <span class="n">coreNo</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges2.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotting</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges2.dat&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/502c68c5f7b5ecb4c1a6001ca21dd94f4b03fe756c43cb17a3537f06f506b590.png" src="../../../../_images/502c68c5f7b5ecb4c1a6001ca21dd94f4b03fe756c43cb17a3537f06f506b590.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="incompatible-edges-3">
+<h1>incompatible edges 3<a class="headerlink" href="#incompatible-edges-3" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiments: 10 trials, 50 paths, sample until fulfilled</span>
+<span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulation</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">graphSize</span><span class="o">=</span><span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">graph_func</span><span class="o">=</span><span class="s2">&quot;ideal_L3_graph&quot;</span><span class="p">,</span> <span class="n">simulating</span><span class="o">=</span><span class="s2">&quot;addIncompC&quot;</span><span class="p">,</span> <span class="n">coreNo</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges3.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotting</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges3.dat&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/66e6993e15c9debf4fa53f69f8d32c27dc5ff6773d398db1925e74f5a2fd7e5f.png" src="../../../../_images/66e6993e15c9debf4fa53f69f8d32c27dc5ff6773d398db1925e74f5a2fd7e5f.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="incompatible-edges-1-for-simple-l3">
+<h1>incompatible edges 1 for simple L3<a class="headerlink" href="#incompatible-edges-1-for-simple-l3" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiments: 10 trials, 50 paths, sample until fulfilled</span>
+<span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1Alt&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2Alt&quot;</span><span class="p">]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulation</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">graphSize</span><span class="o">=</span><span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">graph_func</span><span class="o">=</span><span class="s2">&quot;simple_L3_graph&quot;</span><span class="p">,</span> <span class="n">simulating</span><span class="o">=</span><span class="s2">&quot;addIncompA&quot;</span><span class="p">,</span> <span class="n">coreNo</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges_simpleL3.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">aligning_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+    <span class="n">alignedScores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">])):</span>
+            <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="n">trial</span><span class="p">]]</span>
+        
+        <span class="n">upperScores</span><span class="p">,</span> <span class="n">lowerScores</span><span class="p">,</span> <span class="n">medianScores</span> <span class="o">=</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">max</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="nb">min</span><span class="p">),</span> <span class="n">get_plots_outline</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">median</span><span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">methods_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">upperScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">lowerScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savgol_filter</span><span class="p">(</span><span class="n">medianScores</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">upperScores</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">alignedScores</span>
+
+<span class="k">def</span> <span class="nf">plotting_sns</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">alignedScores</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">alignedScores</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;lowerScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;upperScores&#39;</span><span class="p">]</span>
+            <span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;CRA&quot;</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;countP4&quot;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;baseX&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;medianScores&#39;</span><span class="p">]</span>
+                <span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">method</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+        
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./simulation_out/incompEdges_simpleL3.dat&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">alignedScores</span> <span class="o">=</span> <span class="n">aligning_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="n">tmp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E&quot;</span><span class="p">]})</span>
+<span class="c1">#sns.set_style(&quot;white&quot;)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">tmp_df</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">despine</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mf">1.3</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">row_val</span><span class="p">),</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">row_val</span> <span class="o">==</span> <span class="s2">&quot;CN&quot;</span><span class="p">:</span> <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CN&#39;</span><span class="p">,</span> <span class="s1">&#39;CRA&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">row_val</span> <span class="o">==</span> <span class="s2">&quot;L3&quot;</span><span class="p">:</span> <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;L3&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2&quot;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">row_val</span> <span class="o">==</span> <span class="s2">&quot;L3E&quot;</span><span class="p">:</span> <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">,</span> <span class="s2">&quot;countP4&quot;</span><span class="p">]</span>
+    <span class="n">alignedScores_alt</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span> <span class="n">alignedScores_alt</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">alignedScores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span> <span class="n">plotting_sns</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">alignedScores_alt</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Normalized scores&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of new incompatible edges&quot;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./img_simulation/incompEdge_simpleL3.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/f0c144c4a0e93f3970b97e94b7ddf23da2511c0c6a76b579be24a3032e2a2fe4.png" src="../../../../_images/f0c144c4a0e93f3970b97e94b7ddf23da2511c0c6a76b579be24a3032e2a2fe4.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 432x288 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="incompatible-edges-2-for-simple-l3">
+<h1>incompatible edges 2 for simple L3<a class="headerlink" href="#incompatible-edges-2-for-simple-l3" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiments: 10 trials, 50 paths, sample until fulfilled</span>
+<span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulation</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">graphSize</span><span class="o">=</span><span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">graph_func</span><span class="o">=</span><span class="s2">&quot;simple_L3_graph&quot;</span><span class="p">,</span> <span class="n">simulating</span><span class="o">=</span><span class="s2">&quot;addIncompB&quot;</span><span class="p">,</span> <span class="n">coreNo</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges2_simpleL3.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotting</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges2_simpleL3.dat&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/5e1884f5c1736e8fc0929e203415763803ccc3b8a654f659c2e12fa12aa06a71.png" src="../../../../_images/5e1884f5c1736e8fc0929e203415763803ccc3b8a654f659c2e12fa12aa06a71.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="incompatible-edges-3-for-simple-l3">
+<h1>incompatible edges 3 for simple L3<a class="headerlink" href="#incompatible-edges-3-for-simple-l3" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiments: 10 trials, 50 paths, sample until fulfilled</span>
+<span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulation</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">graphSize</span><span class="o">=</span><span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">graph_func</span><span class="o">=</span><span class="s2">&quot;simple_L3_graph&quot;</span><span class="p">,</span> <span class="n">simulating</span><span class="o">=</span><span class="s2">&quot;addIncompC&quot;</span><span class="p">,</span> <span class="n">coreNo</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges3_simpleL3.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotting</span><span class="p">(</span><span class="s2">&quot;./simulation_out/incompEdges3_simpleL3.dat&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/8b932609b002cd09bcefdea733122645afcce2a71bd653627ae656fba02433f5.png" src="../../../../_images/8b932609b002cd09bcefdea733122645afcce2a71bd653627ae656fba02433f5.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="compatible-edge-for-simple-l3">
+<h1>compatible edge for simple L3<a class="headerlink" href="#compatible-edge-for-simple-l3" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiments: 10 trials, 50 paths, sample until fulfilled</span>
+<span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;commonNeighbor&quot;</span><span class="p">,</span> <span class="s2">&quot;CRA&quot;</span><span class="p">,</span> <span class="s2">&quot;L3Normalizing&quot;</span><span class="p">,</span> <span class="s2">&quot;Sim&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2_L3&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f1&quot;</span><span class="p">,</span> <span class="s2">&quot;L3E1_f2&quot;</span><span class="p">]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulation</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">graphSize</span><span class="o">=</span><span class="n">graphSize</span><span class="p">,</span> <span class="n">saturateRatio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">graph_func</span><span class="o">=</span><span class="s2">&quot;simple_L3_graph&quot;</span><span class="p">,</span> <span class="n">simulating</span><span class="o">=</span><span class="s2">&quot;addComp_simpleL3&quot;</span><span class="p">,</span> <span class="n">coreNo</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./simulation_out/compEdge_simpleL3.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotting</span><span class="p">(</span><span class="s2">&quot;./simulation_out/compEdge_simpleL3.dat&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/95929442e6b4e784af38fb18ee139fa05b32412cfcd524d67861698a6ef74ade.png" src="../../../../_images/95929442e6b4e784af38fb18ee139fa05b32412cfcd524d67861698a6ef74ade.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./BMC_PPI_L3N-main\src\notebook\img_simulation"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">init metadata</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-edges">compatible edges</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-1">incompatible edges 1</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-2">incompatible edges 2</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-3">incompatible edges 3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-1-for-simple-l3">incompatible edges 1 for simple L3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-2-for-simple-l3">incompatible edges 2 for simple L3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#incompatible-edges-3-for-simple-l3">incompatible edges 3 for simple L3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-edge-for-simple-l3">compatible edge for simple L3</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

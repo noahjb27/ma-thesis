@@ -1,0 +1,1032 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Creating the data model &#8212; Exploring Change in Berlin&#39;s Public Transportation System using Network Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'creating-data-model';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Investigating growth in the model" href="investigating-growth.html" />
+    <link rel="prev" title="From source to dynamic network model" href="network-model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/MA-Thesis-Logo.png" class="logo__image only-light" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>
+    <script>document.write(`<img src="_static/MA-Thesis-Logo.png" class="logo__image only-dark" alt="Exploring Change in Berlin's Public Transportation System using Network Analysis - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction of project and historical context
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="network-model.html">From source to dynamic network model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Creating the data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="investigating-growth.html">Investigating growth in the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferential-attachement.html">Preferential attachment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bib.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcreating-data-model.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/creating-data-model.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Creating the data model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-and-reconciliation">Data Cleaning and Reconciliation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-integration">Database Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-enrichment">Data Enrichment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-model">Network Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#addressing-data-uncertainties">Addressing Data Uncertainties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-calculation">Weight Calculation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-model-criticism">Data model criticism</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-in-time">Distance in time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directionality">Directionality</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-on-datafication-abstraction">Conclusion on datafication/abstraction</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="creating-the-data-model">
+<h1>Creating the data model<a class="headerlink" href="#creating-the-data-model" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loading necessary libraries, some must first be installed using pip</span>
+
+<span class="c1"># System and File Management</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Data Handling </span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Geospatial Analysis</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
+<span class="kn">import</span> <span class="nn">haversine</span> 
+
+<span class="c1"># Network Analysis</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="c1"># Data Loading and Connection</span>
+<span class="kn">import</span> <span class="nn">json</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will now look into describing in more detail the process of transforming the collected data into a data model representing network snapshots of Berlin’s public transportation system.</p>
+<section id="data-cleaning-and-reconciliation">
+<h2>Data Cleaning and Reconciliation<a class="headerlink" href="#data-cleaning-and-reconciliation" title="Link to this heading">#</a></h2>
+<p>As mentioned previously, the information gathered from the Fahrplanbücher was transcribed by hand into a series of spreadsheets for each respective year. The raw spreadsheets were then processed using Python’s Pandas library, which allows for organising and manipulating the data in table-like structures called dataframes. This had to be done in separate steps. After extracting station name data, OpenRefine was used to reconcile station names with existing Wikidata objects. This reconciliation process aimed to standardise identification and enable potential future connections to the semantic web. We are specifically reconciling with Wikidata objects of the types Berlin S-Bahn station (Q110977521), Berlin U-Bahn station (Q110977120) and tram stop (Q2175765). We then follow the geolocalisation procedure mentioned earlier in section 2.1.1.</p>
+<p>Once all stations mentioned in the data for a year had been localised we proceed with the step of dividing the data into three linked tables. The three tables are (1) the list of stations, and station attributes (coordinates, type of station, Wikidata-identifiers, what lines these stations are in) (2) the list of lines, and the their attributes (year, type, length in minutes and km where possible, start and end stations) and (3) the list of stop-order, this table references the other two tables with their respective unique ids and includes a column called “stop-order” which is a numeric value starting at 1 for each new line and adding 1 for each station in that line. When a new line id is referenced the “stop-order” reverts back to 1 before increasing again. These tables are completed for each snapshot. Once all the data for all the snapshots has been completed we merge the tables together, the results can be found in the final-tables folder.</p>
+</section>
+<section id="database-integration">
+<h2>Database Integration<a class="headerlink" href="#database-integration" title="Link to this heading">#</a></h2>
+<p>To manage and analyse our data efficiently, we are integrating it into a custom-designed database. This database allows for powerful analysis and makes the data easier to share with other researchers in the future. The csv files could have been used to directly create our modelled network; however, it was decided that the project would benefit from uploading the csv files as three separate tables into a SQL database. The main benefit is that the relational data structure of the three linked tables is ideal for a relational database, in this case MySQL. We will be able to write queries that traverse the connections easily, such as “Find stations that were added between 1960 and 1965 and belonged to bus lines”. This would be cumbersome to do with multiple CSV files. The query efficiency is also improved in SQL databases as they are optimised to handle large datasets and complex queries. In addition, it is intended to make the data publicly available in the future to allow for reuse, collaboration and improvement. With standardised access mechanisms, a SQL database will be easier to work with in this regard than CSV files.</p>
+<p>In this geographically referenced database approach, the project also brings in a GIS component. By modelling the geographic data into a common frame of reference, namely decimal coordinates, we can hope to add data to the field of Historical GIS. We are here following the call of Jordi Marti Henneberg to produce locational-temporal databases as a justifiable, self-contained project with its own merit.<a class="footnote-reference brackets" href="#id6" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>47<span class="fn-bracket">]</span></a> The goal is to allow multiple disciplines and interests to be pursued using the data we have prepared in this project.</p>
+<p>Currently, we operate a local MySQL instance. Finalized CSV files are imported as individual tables within the database. We establish key referencing based on shared node and line IDs between tables. This structure enables us to query the database efficiently, extracting the necessary data for network generation. The process involves constructing a comprehensive dataframe containing all relevant information.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># code to open file with queried data</span>
+<span class="c1"># for use when no access to database possible</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;queried_data.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-enrichment">
+<h2>Data Enrichment<a class="headerlink" href="#data-enrichment" title="Link to this heading">#</a></h2>
+<p>The georeferenced nature of our network allows for integration of a variety of external geographic datasets. For example, we have already integrated Berlin district boundaries to assign each node its respective district. Additionally, we could incorporate historical demographic data, land-use maps, or infrastructure information. These integrations will enable us to analyse the transportation network in relation to urban development patterns, socioeconomic factors, and other relevant variables. In 3.2, we will explore how this enriched dataset along with demographic data can be used to address specific research questions about the evolution of Berlin’s transport system.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract_coords function</span>
+<span class="k">def</span> <span class="nf">extract_coords</span><span class="p">(</span><span class="n">coord_str</span><span class="p">):</span>
+    <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span>  <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">coord_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span> 
+    <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span>  <span class="c1"># Use Shapely&#39;s Point </span>
+
+<span class="c1"># Load station data and apply the `extract_coords` function to create geometries</span>
+<span class="n">stations_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;coordinate_location&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">extract_coords</span><span class="p">))</span>
+
+<span class="c1"># Load district GeoJSON data</span>
+<span class="n">districts_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;data-external/lor_ortsteile.geojson&quot;</span><span class="p">)</span>
+
+<span class="c1"># Read the GeoJSON file and extract ortsteil values</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data-external/lor_ortsteile.geojson&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">ortsteil_values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]:</span>
+    <span class="n">ortsteil_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;OTEIL&#39;</span><span class="p">])</span>
+
+<span class="c1"># Get unique values</span>
+<span class="n">unique_oteil_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ortsteil_values</span><span class="p">))</span>
+
+<span class="c1"># Create a dictionary mapping bezirk (district) to a list of its ortsteil (subdistricts)</span>
+<span class="n">bezirk_to_ortsteil</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]:</span>
+    <span class="n">oteil</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;OTEIL&#39;</span><span class="p">]</span>
+    <span class="n">bezirk</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;BEZIRK&#39;</span><span class="p">]</span>
+    <span class="n">bezirk_to_ortsteil</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">bezirk</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">oteil</span><span class="p">)</span> 
+
+<span class="c1"># Perform a spatial join between stations and districts </span>
+<span class="c1"># Keeps station points that fall within districts </span>
+<span class="n">result_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">sjoin</span><span class="p">(</span><span class="n">stations_gdf</span><span class="p">,</span> <span class="n">districts_gdf</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="s1">&#39;within&#39;</span><span class="p">)</span> 
+
+<span class="n">result_gdf</span> <span class="o">=</span> <span class="n">result_gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;index_right&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># dropping unnecessary columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">result_gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;gml_id&quot;</span><span class="p">,</span> <span class="s2">&quot;spatial_name&quot;</span><span class="p">,</span> <span class="s2">&quot;spatial_alias&quot;</span><span class="p">,</span> <span class="s2">&quot;spatial_type&quot;</span><span class="p">,</span> <span class="s2">&quot;FLAECHE_HA&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\noahb\AppData\Local\Temp\ipykernel_7980\408996106.py:32: UserWarning: CRS mismatch between the CRS of left geometries and the CRS of right geometries.
+Use `to_crs()` to reproject one of the input geometries to match the CRS of the other.
+
+Left CRS: None
+Right CRS: EPSG:4326
+
+  result_gdf = gpd.sjoin(stations_gdf, districts_gdf, how=&quot;left&quot;, predicate=&#39;within&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print all unique values in the column &#39;OTEIL&#39;</span>
+<span class="n">ortsteile</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;OTEIL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">ortsteile</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load districts in West Berlin</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;data-external/West-Berlin-Ortsteile.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+    <span class="n">West_Berlin_Ortsteile</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+    <span class="n">West_Berlin_Ortsteile</span> <span class="o">=</span> <span class="n">West_Berlin_Ortsteile</span><span class="p">[</span><span class="s2">&quot;West_Berlin&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ortsteile_ost</span> <span class="o">=</span> <span class="p">[</span><span class="n">ort</span> <span class="k">for</span> <span class="n">ort</span> <span class="ow">in</span> <span class="n">ortsteile</span> <span class="k">if</span> <span class="n">ort</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">West_Berlin_Ortsteile</span><span class="p">]</span> 
+<span class="c1"># print leftover Ortsteile to validate</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ortsteile_ost</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Mitte&#39;, &#39;Friedrichshain&#39;, &#39;Lichtenberg&#39;, &#39;Rummelsburg&#39;, &#39;Rosenthal&#39;, &#39;Niederschönhausen&#39;, &#39;Pankow&#39;, &#39;Prenzlauer Berg&#39;, &#39;Schöneberg&#39;, &#39;Neukölln&#39;, &#39;Alt-Treptow&#39;, &#39;Weißensee&#39;, &#39;Alt-Hohenschönhausen&#39;, &#39;Fennpfuhl&#39;, &#39;Friedrichsfelde&#39;, &#39;Karlshorst&#39;, &#39;Biesdorf&#39;, &#39;Kaulsdorf&#39;, &#39;Mahlsdorf&#39;, nan, &#39;Blankenfelde&#39;, &#39;Müggelheim&#39;, &#39;Köpenick&#39;, &#39;Konradshöhe&#39;, &#39;Oberschöneweide&#39;, &#39;Heinersdorf&#39;, &#39;Grünau&#39;, &#39;Schmöckwitz&#39;, &#39;Plänterwald&#39;, &#39;Baumschulenweg&#39;, &#39;Friedrichshagen&#39;, &#39;Niederschöneweide&#39;, &#39;Johannisthal&#39;, &#39;Adlershof&#39;, &#39;Buch&#39;, &#39;Karow&#39;, &#39;Blankenburg&#39;, &#39;Marzahn&#39;, &#39;Französisch Buchholz&#39;, &#39;Altglienicke&#39;, &#39;Lübars&#39;, &#39;Neu-Hohenschönhausen&#39;, &#39;Falkenberg&#39;, &#39;Wartenberg&#39;, &#39;Wilhelmsruh&#39;, &#39;Märkisches Viertel&#39;, &#39;Malchow&#39;, &#39;Stadtrandsiedlung Malchow&#39;, &#39;Hellersdorf&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new column &#39;east-west&#39; and assign values based on OTEIL</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;east-west&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;OTEIL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;west&#39;</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">West_Berlin_Ortsteile</span> <span class="k">else</span> <span class="s1">&#39;east&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="network-model">
+<h2>Network Model<a class="headerlink" href="#network-model" title="Link to this heading">#</a></h2>
+<p>We will employ an L-space graph model to represent Berlin’s public transportation network. This model is particularly well-suited because it accurately captures real-world service patterns: stations are connected by an edge if they are consecutive stops on the same line.<a class="footnote-reference brackets" href="#id7" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>48<span class="fn-bracket">]</span></a> There are other models that are used for public transportation systems; however, these add layers of abstraction that are not inherently beneficial for our investigation.</p>
+<p>Our model will also be a multi-layer L’ space graph, as we will incorporate different transportation types as distinct node and edge categories. One can think of each transportation system that is modelled as another layer in our network. This type of model for public transportation systems is much less common than L space graphs, which differ due to the presence of only one link type.<a class="footnote-reference brackets" href="#id8" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>49<span class="fn-bracket">]</span></a> This multi-layer approach provides a holistic view of the entire network.</p>
+<p>When constructing our L’ space graph we will be adding our node and edge attributes as well from the data available in the dataframe. These attributes are specifically the node type, labels, and years, as well as the edge types, labels, years and capacity. We will also be adding edge distance, calculated in a straight line in kilometres, although this metric is inherently flawed, particularly for tram and bus routes where the restriction to the road network means that the actual distance could be considerably longer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construction of initial L&#39; space graph</span>
+
+<span class="c1"># distinction between Klein- and Großprofil lines for u-bahn netzwerk</span>
+<span class="n">Kleinprofil</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A I&#39;</span><span class="p">,</span> <span class="s1">&#39;A II&#39;</span><span class="p">,</span> <span class="s1">&#39;A III&#39;</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;B I&#39;</span><span class="p">,</span> <span class="s1">&#39;B II&#39;</span><span class="p">,</span> <span class="s1">&#39;B III&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="p">}</span>
+<span class="n">Großprofil</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">&#39;9&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;C I&#39;</span><span class="p">,</span> <span class="s1">&#39;C II&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">create_network_graph</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="c1"># G used to save graph</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">MultiGraph</span><span class="p">()</span>
+
+    <span class="c1"># Add nodes for each stop_id with coordinates as attributes</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">stop_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;stop_id&quot;</span><span class="p">]</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;coordinate_location&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">year</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+        <span class="nb">type</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="n">east_west</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;east-west&quot;</span><span class="p">]</span>
+        <span class="n">neighbourhood</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;OTEIL&quot;</span><span class="p">]</span>
+        <span class="n">district</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;BEZIRK&quot;</span><span class="p">]</span>
+
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">coordinate_y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">coordinate_x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># adding nodes with attributes</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">stop_id</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">coordinate_x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">coordinate_y</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span> <span class="n">east_west</span><span class="o">=</span><span class="n">east_west</span><span class="p">,</span> <span class="n">neighbourhood</span><span class="o">=</span><span class="n">neighbourhood</span><span class="p">,</span> <span class="n">district</span><span class="o">=</span><span class="n">district</span><span class="p">)</span>
+
+    <span class="c1"># Add edges</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;line_id&quot;</span><span class="p">]):</span>
+        <span class="n">df_line</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;line_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">line</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;stop_order&quot;</span><span class="p">)</span>
+        <span class="n">line_name</span> <span class="o">=</span> <span class="n">df_line</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;line_name&quot;</span><span class="p">]</span>  <span class="c1"># get line name associated with line_id</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_line</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">df_line</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;stop_id&quot;</span><span class="p">]</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">df_line</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;stop_id&quot;</span><span class="p">]</span>
+            <span class="n">edge_type</span> <span class="o">=</span> <span class="n">df_line</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+            <span class="n">line_id</span> <span class="o">=</span> <span class="n">df_line</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;line_id&quot;</span><span class="p">]</span>
+            <span class="n">year</span> <span class="o">=</span> <span class="n">df_line</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+            <span class="n">frequency</span> <span class="o">=</span> <span class="n">df_line</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;frequency&quot;</span><span class="p">]</span>
+            <span class="n">east_west</span> <span class="o">=</span> <span class="n">df_line</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;east_west&quot;</span><span class="p">]</span>
+            
+            <span class="c1"># Create a dictionary with edge attributes, including &quot;type&quot;</span>
+            <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="n">line_id</span><span class="p">,</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">line_name</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">edge_type</span><span class="p">,</span>
+                <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">frequency</span><span class="p">,</span>
+                <span class="s2">&quot;east_west&quot;</span><span class="p">:</span> <span class="n">east_west</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Determine capacity based on &quot;type&quot; and &quot;line_name&quot;</span>
+            <span class="k">if</span> <span class="n">edge_type</span> <span class="o">==</span> <span class="s2">&quot;u-bahn&quot;</span> <span class="ow">and</span> <span class="n">line_name</span> <span class="ow">in</span> <span class="n">Kleinprofil</span><span class="p">:</span> <span class="c1"># different for Großprofil and Kleinprofil lines</span>
+                <span class="n">edge_attributes</span><span class="p">[</span><span class="s2">&quot;capacity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">750</span>
+            <span class="k">elif</span> <span class="n">edge_type</span> <span class="o">==</span> <span class="s2">&quot;u-bahn&quot;</span> <span class="ow">and</span> <span class="n">line_name</span> <span class="ow">in</span> <span class="n">Großprofil</span><span class="p">:</span> <span class="c1"># different for Großprofil and Kleinprofil lines</span>
+                <span class="n">edge_attributes</span><span class="p">[</span><span class="s2">&quot;capacity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span>
+            <span class="k">elif</span> <span class="n">edge_type</span> <span class="o">==</span> <span class="s2">&quot;s-bahn&quot;</span><span class="p">:</span>
+                <span class="n">edge_attributes</span><span class="p">[</span><span class="s2">&quot;capacity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1100</span>
+            <span class="k">elif</span> <span class="n">edge_type</span> <span class="o">==</span> <span class="s2">&quot;strassenbahn&quot;</span><span class="p">:</span>
+                <span class="n">edge_attributes</span><span class="p">[</span><span class="s2">&quot;capacity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">195</span>
+            <span class="k">elif</span> <span class="n">edge_type</span> <span class="o">==</span> <span class="s2">&quot;bus&quot;</span> <span class="ow">or</span> <span class="n">edge_type</span> <span class="o">==</span> <span class="s2">&quot;bus (Umlandlinie)&quot;</span><span class="p">:</span>
+                <span class="n">edge_attributes</span><span class="p">[</span><span class="s2">&quot;capacity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+            <span class="k">elif</span> <span class="n">edge_type</span> <span class="o">==</span> <span class="s2">&quot;FÃ¤hre&quot;</span><span class="p">:</span>
+                <span class="n">edge_attributes</span><span class="p">[</span><span class="s2">&quot;capacity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+            
+            <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">**</span><span class="n">edge_attributes</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">G</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># function to add distances between nodes connected by edge </span>
+<span class="c1"># useful for calculation of total line distance and sanity check</span>
+<span class="k">def</span> <span class="nf">add_distance_attribute</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">u_coord</span> <span class="o">=</span> <span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+        <span class="n">v_coord</span> <span class="o">=</span> <span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">haversine</span><span class="o">.</span><span class="n">haversine</span><span class="p">(</span><span class="n">u_coord</span><span class="p">,</span> <span class="n">v_coord</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;km&quot;</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;edge_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+
+
+    <span class="k">return</span> <span class="n">graph</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Update the frequency where type is &quot;s-bahn&quot; and frequency is 0</span>
+<span class="c1"># handling missing information regarding s-bahn lines</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;s-bahn&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;frequency&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;frequency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create network graph</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">create_network_graph</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_graph_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+    <span class="c1">#set node labels to stop names</span>
+    <span class="n">stop_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;stop_id&quot;</span><span class="p">]:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;stop_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()}</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">set_node_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">stop_names</span><span class="p">,</span> <span class="s2">&quot;node_label&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">G</span>
+
+<span class="c1"># add node labels</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">add_graph_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">add_distance_attribute</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our network snapshots have now been created. However, there’s some uncertainty about whether stations appearing in multiple snapshots truly represent the same physical location. Minor variations in station names, localisation inaccuracies, or slight real-world shifts in station position over time can create this issue.</p>
+<p>To ensure that we can accurately analyse how a station’s role in the network has changed, we can merge nodes that represent the same station across different years into a single node. This approach is in line with TVG modelling of networks. It is common practice to have an “underlying graph”, which flattens the time dimension and indicates all nodes that have relations at some time in T.<a class="footnote-reference brackets" href="#id9" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>50<span class="fn-bracket">]</span></a> We will first approach this by shortening the decimal coordinates of the nodes to three decimal places and then grouping across snapshots using just the locational data and type of node. Merging nodes across snapshots also allows us to take a look into the persistence of nodes, this will provide further insights into the stability of the system we are investigating. We are not merging edges across time periods because the frequency values will be specific to a snapshot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Combine nodes based on x, y, type and save to dictionary, add year and node labels as attributes</span>
+<span class="n">combined_nodes</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">])</span> 
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">combined_nodes</span><span class="p">:</span>
+        <span class="n">combined_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;node_labels&#39;</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span> <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span> <span class="s2">&quot;east_west&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span> <span class="s2">&quot;postcode&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span> <span class="s2">&quot;neighbourhood&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span> <span class="s2">&quot;district&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">()}</span>
+    <span class="n">combined_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;node_labels&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;node_label&#39;</span><span class="p">])</span>
+    <span class="n">combined_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;year&#39;</span><span class="p">])</span>
+    <span class="n">combined_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;east_west&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;east_west&#39;</span><span class="p">])</span>
+    <span class="n">combined_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">])</span>
+    <span class="n">combined_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;district&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;district&#39;</span><span class="p">])</span>
+
+<span class="c1"># Create a new graph with combined nodes</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">MultiGraph</span><span class="p">()</span>
+<span class="c1"># using MultiGraph to have parrallel edges for each year &amp; line because they all have their own frequencies</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">combined_nodes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">H</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">key</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">node_labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;node_labels&#39;</span><span class="p">]),</span> <span class="n">years</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]),</span> <span class="n">east_west</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;east_west&quot;</span><span class="p">],</span> <span class="n">neighbourhood</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;neighbourhood&quot;</span><span class="p">],</span> <span class="n">district</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;district&quot;</span><span class="p">])</span>
+
+<span class="c1"># Add edges to the new graph </span>
+<span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">edge_attrs</span> <span class="o">=</span> <span class="n">edge</span>
+    <span class="n">key1</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+    <span class="n">key2</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">key1</span> <span class="ow">in</span> <span class="n">combined_nodes</span> <span class="ow">and</span> <span class="n">key2</span> <span class="ow">in</span> <span class="n">combined_nodes</span><span class="p">:</span>
+        <span class="n">H</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">key1</span><span class="p">,</span> <span class="n">key2</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">edge_attrs</span><span class="p">),</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">edge_attrs</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="n">add_distance_attribute</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">H</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="s1">&#39;east_west&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">H</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s1">&#39;east_west&#39;</span><span class="p">]:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="s1">&#39;east_west&#39;</span><span class="p">]</span>  <span class="c1"># &#39;east&#39; or &#39;west&#39;</span>
+        <span class="n">d</span><span class="p">[</span><span class="s2">&quot;traverses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="s2">&quot;traverses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;east_west&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="addressing-data-uncertainties">
+<h2>Addressing Data Uncertainties<a class="headerlink" href="#addressing-data-uncertainties" title="Link to this heading">#</a></h2>
+<p>In theory, we should be left with the same number of edges but fewer nodes. We see however, that there are now fewer edges in our network. The most probable reason for this is that, if multiple nodes in G share these rounded attributes, they’ll be merged into a single node in H. Consequently, edges that existed between these nodes in G will disappear in H, as they would become self-loops. With the following code we see that the number of self-loops is double of the number of edges we lost, establishing this was the cause of the loss of edges.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>19514
+26867
+4031
+26763
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check for self-loops that are created by removing specificity in coordinates</span>
+<span class="n">self_loops_G</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">selfloop_edges</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
+<span class="n">self_loops_H</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">selfloop_edges</span><span class="p">(</span><span class="n">H</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">self_loops_G</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">self_loops_H</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+313
+</pre></div>
+</div>
+</div>
+</div>
+<p>The impact of this is negligible when considering the total amount of edges in our network. The fault originally lies in the localisation of the stations being incorrect. While few edges were lost, ensuring accurate analysis requires us to track down these self-loops, as they indicate potential errors that could skew results about a station’s connectivity over time.</p>
+</section>
+<section id="weight-calculation">
+<h2>Weight Calculation<a class="headerlink" href="#weight-calculation" title="Link to this heading">#</a></h2>
+<p>We now turn to the issue of assigning a unitary weight to our edges. In transportation networks, edge weights help us understand the relative importance of routes. Higher weights might indicate higher passenger traffic or greater strategic value to the network. Other public transportation networks have assigned edge weight based on the capacity of the vehicle, the distance between nodes or the number of overlapping services.<a class="footnote-reference brackets" href="#id10" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>51<span class="fn-bracket">]</span></a> Our project has two values that can be used to measure weight, these being capacity and frequency. There is no set way in the literature on public transportation system network modelling to calculate an edge weight, so we will test two different figures. The first is the value of passengers-per-hour. This value provides a figure for the number of passengers that could be transported in an hour. To calculate this, we calculate the number of services per hour given the frequency and then multiply this number by the capacity of the transportation type. The assumption here is that the frequency is set for an hour. Based on the available data, this is however not the case, as frequency changes occur at random times. This is therefore a very inaccurate description, given that the frequency might have changed a minute before or after our 7:30 mark.</p>
+<p>Because of the imprecision involved in calculating raw passenger-per-hour figures, we will use normalisation to aid our analysis. Normalising our capacity and frequency values puts them on a consistent scale (0 to 1). This lets us easily compare the relative importance of different edges within our network. For example, if one route has a normalised capacity of 0.8 and another has 0.2, we understand the first route has four times the capacity of the second. Normalisation will help us identify potential bottlenecks and key routes within the network, regardless of potentially imprecise absolute capacity figures. In order to maintain flexibility, we will keep the original capacity and frequency values and assign two further attributes to our edges: normalised capacity and normalised frequency. From these two values we will calculate a weight which will be more relative in nature. We do this by adding the two normalised values, as neither of the two values should be given increased importance over the other. A main benefit for normalisation of edge weights for our analysis is that because we are normalising based on the min and max values throughout all snapshots together, we will be able to compare our weights across snapshots. For example, we will be able to track changes in average edge weights for our snapshots to see if the average edge weight changed during the period under observation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creating weight for edges based on frequency and capacity</span>
+<span class="c1"># passengers-per-hour = service frequency per hour * capacity of a vehicle</span>
+<span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># Using keys will distinguish parallel edges</span>
+    <span class="n">frequency</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;frequency&#39;</span><span class="p">])</span>
+    <span class="n">capacity</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;capacity&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">frequency</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">services_per_hour</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">/</span> <span class="n">frequency</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">services_per_hour</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">services_per_hour</span> <span class="o">*</span> <span class="n">capacity</span>
+    <span class="n">H</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;passengers-per-hour&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculating improved weight score using normalised frequency and capacity measures</span>
+<span class="c1"># weight = norm_capacity + norm_frequency</span>
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">min_value</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">value</span> <span class="o">-</span> <span class="n">min_value</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_value</span> <span class="o">-</span> <span class="n">min_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+
+<span class="n">capacities</span> <span class="o">=</span> <span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;capacity&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
+<span class="n">frequencies</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;frequency&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
+
+<span class="n">normalized_capacities</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">capacities</span><span class="p">)</span>
+<span class="n">normalized_frequencies</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span>  
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+    <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;normalised_capacity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalized_capacities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;normalised_frequency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalized_frequencies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;normalised_capacity&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;normalised_frequency&#39;</span><span class="p">]</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-model-criticism">
+<h2>Data model criticism<a class="headerlink" href="#data-model-criticism" title="Link to this heading">#</a></h2>
+<p>Although we have chosen a model that reflects the real-world structure and behaviour of the public transportation system, we are still dealing with an abstraction in which elements of the real-world transportation system are lost. It is important that we highlight these and are certain of and clear about their consequences.</p>
+<section id="distance-in-time">
+<h3>Distance in time<a class="headerlink" href="#distance-in-time" title="Link to this heading">#</a></h3>
+<p>The distance of one station to another in terms of travel time of service is a common data attribute of edges that are often modelled for public transportation data. The information is available in the Fahrplanbücher but it was not included in our model. The main reason for this was that it was not considered feasible given that our network has over 25,000 edges. The importance of this figure was considered not vital to the exploration of how the public transportation system evolved over such a large time scale. Previous work which includes this information does not investigate evolving public transportation networks, but rather the temporality of a transport network at one state, and for this type of analysis the figure would have been vital.</p>
+<p>The more distanced perspective in our project did lend itself better to capturing the overall travel time of the line, rather than the travel time between stops. Capturing this information from the sources was much less time intensive. However, the network model we have selected does not have a suitable place to store this information as the lines do not exist as entities themselves, but only as attributes of the edges. A different network model based on this captured data would be able to potentially analyse the total travel times of all lines in different snapshots and thereby gain another perspective into how the system changed.</p>
+</section>
+<section id="directionality">
+<h3>Directionality<a class="headerlink" href="#directionality" title="Link to this heading">#</a></h3>
+<p>Directionality presents a limitation in our undirected network model. The model does not inherently capture the direction of travel on lines, limiting analysis of directional passenger flows and how those might have shifted over time due to evolving patterns of urban development. The complexity of adding directionality to our network would have been negligible to the benefits it would have brought to the analysis of the potential of dynamic NA to historical research at this stage. Still, we need to be aware that we have an incomplete picture of the network as currently modelled. There are two important aspects that this undirected model does not capture. Firstly, there are two frequency values for the service at 7:30, these are for most of the times the same but are sometimes different depending on the direction the service sets out from. Secondly, in our 1989 Fahrplanbuch for West Berlin, bus stations differed depending on direction. Meaning that some stops were only serviced for a specific direction. In our model we have only captured the stations in one direction. To capture this and allow for future incorporation of the missing information, we have applied a standard rule for how the data was captured. We always capture the information from the first table (which shows one line direction) in our Fahrplanbuch and in our database we have for each line a start and end station, which allows us to infer directionality, even though at this stage we are treating it as undirected. This allows for the possibility to differentiate between lines based on direction, and thereby including the second frequency value and the stations serviced in the other direction.</p>
+</section>
+</section>
+<section id="conclusion-on-datafication-abstraction">
+<h2>Conclusion on datafication/abstraction<a class="headerlink" href="#conclusion-on-datafication-abstraction" title="Link to this heading">#</a></h2>
+<p>The process of transforming historical records of Berlin’s public transportation system into a network model involves careful datafication and necessary abstractions. With this network model we attempt to limit the abstraction so as not to remove the object of analysis unnecessarily far out of its context, which makes it harder for our analysis to inform our understanding of the system. Still, we need to critically reflect on what was gained and lost in this process to understand the analytical possibilities and limitations.</p>
+<p>By transforming the available information into a L’-space graph model we keep an understandable structure that reflects the real-world structure of the transportation system, with stations as nodes and lines as edges. This makes the network visually and mathematically comprehensible. Capturing different transportation types within one multilayer model allows us to analyse the overall network behaviour, including interactions between trams, buses, U-Bahn, and S-Bahn lines. We provided substantial node and edge attributes (like type, label, year, capacity, frequency and weight), enabling us to track changes over time and identify patterns based on specific characteristics. Additionally, the geographically referenced database we have created and are querying aligns with the goals of historical GIS, providing a foundation for locational-temporal analysis that could be of interest to multiple disciplines.</p>
+<p>There is substantial information that is not captured in our network model. One such aspect is directionality, the model does not inherently capture the direction of travel on lines, limiting analysis of directional flows and the potential to introduce temporality within network snapshots. Another limitation is our use of a single frequency snapshot (7:30 AM), which risks misrepresenting the true importance of lines with varying service levels throughout the day. We know from the inspection of the sources that frequency changed rapidly throughout the day for some lines. The changes often occurred during four periods; the morning peak frequency, the midday frequency, the afternoon peak frequency and the evening frequency. An extension of the project could easily incorporate further frequency values for other times of the day, bringing an element of temporality into our analysis. The current focus on Berlin’s transport network excludes connections to the surrounding regional train system, potentially understating the network’s overall reach. This has only a very limited impact on the network in the West, which would not have been connected to the regional network for most of the period under observation. If we were to extend our analysis into the post-1989 era, we may have had to include the regional train system in our network in order to maintain our closed-world assumption. Critically, incomplete records, particularly for tram and bus stops, result in a simplified network that might not account for all transfer points or local routes. Because this issue arises from the information in the sources available to us, the only possibility of completing the records would be if other sources had this information, which so far has not been the case in the associated research.</p>
+<p>There are multiple analytical possibilities with the network model we have created. Primarily, we will explore network evolution by tracking changes in network structure over time, including the addition/removal of stations and lines, and the development of the multi-modal system. As part of this, we will calculate various centrality measures to identify critical stations or lines based on different criteria (e.g., connectivity, betweenness). We will also be investigating the impact of historical disruptions on network robustness, potentially highlighting vulnerable areas. While limited by imprecision, the normalised capacity and frequency attributes allow us to explore relative capacity differences across the network, paying specific attention to how these change during the period under observation for both East and West Berlin.</p>
+<p>There are analytical limitations that we will have to contend with for the time being. Specifically, the incomplete capacity data makes it difficult to perform precise analyses focused on absolute passenger capacities. Our single-frequency snapshots also limit our understanding of how service levels fluctuate throughout the day or week, however with our focus on evolution this will not have an impact on our ability to investigate change over longer periods. The network model also does not capture individual passenger journeys, making it unsuitable for analysing route choices or granular travel patterns.</p>
+<p>In conclusion, the datafication of historical records into a network model offers the potential for valuable insights into the evolution and structure of Berlin’s public transportation system. Acknowledging the inherent abstractions and limitations, this model provides a robust foundation for diverse analyses within the constraints of available data. The next section will begin this analysis by describing the changes in the network using simple NA metrics. We also hold the promise that future work could focus on expanding data sources to address limitations and enrich the model’s capabilities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Saving network:</span>
+<span class="c1"># need to convert list attribute values to json strings to save</span>
+<span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  <span class="c1"># Include lists</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>  <span class="c1"># Convert items to strings</span>
+
+<span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> 
+            <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span> 
+
+<span class="n">nx</span><span class="o">.</span><span class="n">write_graphml</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="s2">&quot;base-graph.graphml&quot;</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">write_gexf</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="s2">&quot;base-graph.gexf&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">47</a><span class="fn-bracket">]</span></span>
+<p>Jordi Marti-Henneberg, Geographical Information Systems and the Study of History, in: The Journal of Interdisciplinary History 42, 2011, pg. 11.</p>
+</aside>
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">48</a><span class="fn-bracket">]</span></span>
+<p>Nam Huynh, Johan Barthelmy, A comparative study of topological analysis and temporal network analysis of a public transport system, in: International Journal of Transportation Science and Technology, 2022, pg.393</p>
+</aside>
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">49</a><span class="fn-bracket">]</span></span>
+<p>C. von Ferber et al., Network harness: Metropolis public transport, in: Physica A: Statistical Mechanics and Its Applications, 380 2007, pg. 586</p>
+</aside>
+<aside class="footnote brackets" id="id9" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">50</a><span class="fn-bracket">]</span></span>
+<p>A. Casteigts et al, pg. 350.</p>
+</aside>
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">51</a><span class="fn-bracket">]</span></span>
+<p>Tanuja Shanmukhappa, Ivan Wang-Hei Ho, K.Tse Chi, Recent development in public transport network analysis from the complex network perspective, in: IEEE Circuits and Systems Magazine 19, no. 4, 2019, pg. 55.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="network-model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">From source to dynamic network model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="investigating-growth.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Investigating growth in the model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-and-reconciliation">Data Cleaning and Reconciliation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-integration">Database Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-enrichment">Data Enrichment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-model">Network Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#addressing-data-uncertainties">Addressing Data Uncertainties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-calculation">Weight Calculation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-model-criticism">Data model criticism</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-in-time">Distance in time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directionality">Directionality</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-on-datafication-abstraction">Conclusion on datafication/abstraction</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Noah Baumann
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
