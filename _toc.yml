@@ -8,6 +8,6 @@ chapters: # need collection of chapters
 - file: creating-data-model
 - file: investigating-growth
 - file: preferential-attachement
-- file: link-rediction
+- file: link-prediction
 - file: conclusion
 - file: bib
